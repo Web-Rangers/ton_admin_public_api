@@ -1,4 +1,4 @@
-export default class BlocksStorageImpl {
+class BlocksStorageImpl {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
     shardchainBlocks = {}; // shardId {string} + shardBlockNumber {number} -> isProcessed {boolean}
 
@@ -82,3 +82,6 @@ export default class BlocksStorageImpl {
     }
 
 }
+
+
+module.exports = {BlocksStorageImpl}

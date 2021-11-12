@@ -1,3 +1,2 @@
-import BlocksStorageImpl from './blocks_storage_impl'
-
-export {BlocksStorageImpl}
+const {BlocksStorageImpl} = require('./blocks_storage_impl')
+module.exports={BlocksStorageImpl}

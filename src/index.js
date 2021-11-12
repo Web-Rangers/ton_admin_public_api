@@ -1,5 +1,5 @@
-import TonWeb,{BlockSubscribe} from 'tonweb'
-import {BlocksStorageImpl} from './helpers'
+const TonWeb = require('tonweb')
+const {BlocksStorageImpl} = require('./helpers')
 
 let tnw = new TonWeb()
 
@@ -9,7 +9,7 @@ async function init(){
         console.log('TX ' + shortTx.account);
     }
     const storage = new BlocksStorageImpl();
-    let blcs = new BlockSubscribe(tnw.provider,storage,onTransaction)
+    let blcs = new TonWeb.BlockSubscribe(tnw.provider,storage,onTransaction)
     await blcs.start()
     // let transactions = await 
     tnw.getTransactions("Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r").then(val =>{
