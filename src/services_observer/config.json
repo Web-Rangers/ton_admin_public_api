@@ -1,0 +1,103 @@
+[
+    {
+        "service_name": "ton.org",
+        "pages":[
+            {
+                "name": "home",
+                "url":"https://ton.org/",
+                "type":"page"
+            },
+            {
+                "name": "coin",
+                "url":"https://ton.org/coin",
+                "type":"page"
+            },
+            {
+                "name": "primer",
+                "url":"https://ton.org/primer.pdf",
+                "type":"file"
+            },
+            {
+                "name": "whitepaper",
+                "url":"https://ton.org/whitepaper.pdf",
+                "type":"file"
+            },
+            {
+                "name": "wallets",
+                "url":"https://ton.org/wallets",
+                "type":"page"
+            },
+            {
+                "name": "bridge ETH",
+                "url":"https://ton.org/bridge/",
+                "type":"page"
+            },
+            {
+                "name": "bridge BSC",
+                "url":"https://ton.org/bridge/bsc",
+                "type":"page"
+            },
+            {
+                "name": "brand-assets",
+                "url":"https://ton.org/brand-assets",
+                "type":"page"
+            },
+            {
+                "name": "docs",
+                "url":"https://ton.org/docs/#/",
+                "type":"page"
+            },
+            {
+                "name": "mining",
+                "url": "https://ton.org/mining",
+                "type": "page"
+            },
+            {
+                "name": "validator",
+                "url": "https://ton.org/validator",
+                "type": "page"
+            }     
+        ]
+    },
+    {
+        "service_name":"ton.sh",
+        "pages":[
+            {
+                "name": "home",
+                "url":"https://ton.sh/",
+                "type":"page"
+            },
+            {
+                "name": "explorer",
+                "url":"https://ton.sh/explorer",
+                "type":"page"
+            },
+            {
+                "name": "api",
+                "url":"https://ton.sh/api",
+                "type":"page"
+            },
+            {
+                "name": "something address",
+                "url":"https://ton.sh/address/Ef_dJMSh8riPi3BTUTtcxsWjG8RLKnLctNjAM4rw8NN-xWdr",
+                "type":"page"
+            },
+            {
+                "name": "something block",
+                "url":"https://ton.sh/block/-1/16050750",
+                "type":"page"
+            }  
+                
+        ]
+    },
+    {
+        "service_name":"toncenter.com",
+        "pages":[
+            {
+                "name": "api",
+                "url":"https://toncenter.com/api/v2/",
+                "type":"page"
+            }               
+        ]
+    }
+]
