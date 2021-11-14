@@ -34,11 +34,12 @@ class BSCBridge{
             else{
                 let addr = iterator.out_msgs[0].destination.toLowerCase()
                 if (this.bsc_out[addr]){
-                    let timeout = this.bsc_out[addr].reverse().find(x=>x.timeout)
-                    if (Boolean(timeout))
-                        console.log(timeout);
-                        clearTimeout(timeout.timeout)
-                        timeout.timeout = undefined
+                    console.log('ton del');
+                    // let timeout = this.bsc_out[addr].reverse().find(x=>x.timeout)
+                    // if (Boolean(timeout))
+                    //     console.log(timeout);
+                    //     clearTimeout(timeout.timeout)
+                    //     timeout.timeout = undefined
                 }
             }
         }
@@ -64,11 +65,12 @@ class BSCBridge{
         let in_transactions = transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b').map((trans)=>{
             let from = trans.from.toLowerCase()
             if (this.ton_out[from]){
-                let timeout = this.ton_out[from].reverse().find(x=>x.timeout) 
-                if (Boolean(timeout))
-                    console.log(timeout);
-                    clearTimeout(timeout.timeout)
-                    timeout.timeout = undefined
+                console.log('bsc del');
+                // let timeout = this.ton_out[from].reverse().find(x=>x.timeout) 
+                // if (Boolean(timeout))
+                //     console.log(timeout);
+                //     clearTimeout(timeout.timeout)
+                //     timeout.timeout = undefined
             }
             return trans.from
         }) 
