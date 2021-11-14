@@ -1,31 +1,31 @@
 const TonWeb = require('tonweb')
 const Web3 = require('web3');
-const web3 = new Web3(Web3.givenProvider || 'wss://speedy-nodes-nyc.moralis.io/b6e921da0c20b0b94b5a8f61/bsc/mainnet/ws');
+const web3 = new Web3(Web3.givenProvider || 'ws://81.30.157.98:8546');
 const axios = require('axios')
 
-class BSCBridge{
+class ETHBridge{
     //now tonnetwork_bridge_adress : Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r
-    //now bsc_bridge_adress : 0x76A797A59Ba2C17726896976B7B3747BfD1d220f
+    //now eth_bridge_adress : 0x76A797A59Ba2C17726896976B7B3747BfD1d220f
     
-    constructor(tonnetwork_bridge_adress='Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r', bsc_bridge_adress='0x76A797A59Ba2C17726896976B7B3747BfD1d220f'){
-        this.tonnetwork_bridge_adress = tonnetwork_bridge_adress
-        this.bsc_bridge_adress = bsc_bridge_adress
+    constructor(tonnetwork_bridge_address='Ef_dJMSh8riPi3BTUTtcxsWjG8RLKnLctNjAM4rw8NN-xWdr', eth_bridge_address='0x582d872a1b094fc48f5de31d3b73f2d9be47def1'){
+        this.tonnetwork_bridge_address = tonnetwork_bridge_address
+        this.eth_bridge_address = eth_bridge_address
         this.ton_web = new TonWeb()
         
         let json = require('./contract_json.json')
-        this.bsc_contract = new web3.eth.Contract(json,bsc_bridge_adress)
+        this.eth_contract = new web3.eth.Contract(json,eth_bridge_address)
     }
     // get transaction list from TON network
     async get_ton_network_transactions(limit = 20, lt = undefined, txhash = undefined, to_lt = undefined) {
-       return await this.ton_web.getTransactions(this.tonnetwork_bridge_adress,limit,lt,txhash,to_lt)
+       return await this.ton_web.getTransactions(this.tonnetwork_bridge_address,limit,lt,txhash,to_lt)
     }
-    async get_bsc_network_transactions(offset,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
-        //return await this.bsc_contract.methods.getFullOracleSet().call()
-        let transactions = await axios.get(bsc_adress,{
+    async get_eth_network_transactions(offset,startblock=0,apikey = '7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
+        //return await this.eth_contract.methods.getFullOracleSet().call()
+        let transactions = await axios.get(eth_address,{
             params:{
                 'module':'account',
                 'action':'txlist',
-                'address': this.bsc_bridge_adress,
+                'address': this.eth_bridge_address,
                 'startblock':startblock,
                 'endblock':99999999,
                 'page':1,
@@ -46,4 +46,4 @@ class BSCBridge{
     }
 }
 
-module.exports = {BSCBridge}
+module.exports = {ETHBridge}
