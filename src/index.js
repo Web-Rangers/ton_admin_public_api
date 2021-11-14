@@ -1,19 +1,13 @@
+
+
+const {BSCBridge} = require('./bridge')
+const express = require('express')
+const server = express()
 const TonWeb = require('tonweb')
-const {BlocksStorageImpl} = require('./helpers')
-
-let tnw = new TonWeb()
-
 
 async function init(){
-    const onTransaction = async (shortTx) => {
-        console.log('TX ' + shortTx.account);
-    }
-    const storage = new BlocksStorageImpl();
-    let blcs = new TonWeb.BlockSubscribe(tnw.provider,storage,onTransaction)
-    await blcs.start()
-    // let transactions = await 
-    tnw.getTransactions("Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r").then(val =>{
-        console.log(val);
-    })
+    let bsc_bridge = new BSCBridge('Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r','0x76A797A59Ba2C17726896976B7B3747BfD1d220f')
 }
 init()
+
+server.listen(()=>{})
