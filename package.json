@@ -11,7 +11,10 @@
     "axios": "^0.24.0",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
+    "socket.io": "^4.3.2",
+    "socket.io-client": "^4.3.2",
     "tonweb": "^0.0.22",
+    "uuidv4": "^6.2.12",
     "web3": "^1.6.0"
   }
 }
