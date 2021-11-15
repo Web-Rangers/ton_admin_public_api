@@ -99,5 +99,15 @@
                 "type":"page"
             }               
         ]
+    },
+    {
+        "service_name":"ton.cx",
+        "pages":[
+            {
+                "name": "main",
+                "url":"https://ton.cx/",
+                "type":"page"
+            }               
+        ]
     }
 ]
