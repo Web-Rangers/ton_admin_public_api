@@ -1,10 +1,11 @@
 const { Telegraf } = require('telegraf')
+const dotenv = require('dotenv').config()
 const fs = require('fs');
 
 class TonBridgeStatusBot{
 
     constructor(){
-        this.bot = new Telegraf('2109902394:AAETQesPOOSj3xHIHQqoqAumcbQm3P-4Q1E')
+        this.bot = new Telegraf(dotenv.parsed.BOT_TOKEN)
         this.bot.command('/start', this.writeNewChatId)
         this.bot.launch()
     }
