@@ -9,11 +9,10 @@ class Observer {
         for (const service of result_services) {
             for (const page of service.pages) {
                 
-                 
                 var start = new Date();
                 let response = await axios.get(page.url, {
                     validateStatus: function (status) {
-                      return status < 1000; // Resolve only if the status code is less than 500
+                      return status < 1000; // Resolve only if the status code is less than 1000
                     }
                   })
                 var end = new Date();

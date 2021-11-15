@@ -1,18 +1,16 @@
 var config = require('./config.json');
+const dotenv = require('dotenv').config()
 var Observer = require('./Observer');
 
 const WebSocket = require('ws');
 
 
-const wsServer = new WebSocket.Server({ port: 3000 });
+const wsServer = new WebSocket.Server({ port: dotenv.parsed.WS_PORT || 3000 });
 
 let observer = new Observer(config)
-var clients = []
 wsServer.on('connection', function(ws) {
 
-    var id = Math.random();
-    clients[id] = ws;
-    console.log("новое соединение " + id);
+    console.log("новое соединение");
   
     ws.on('message', function(message) {});
 
@@ -21,8 +19,7 @@ wsServer.on('connection', function(ws) {
       });
   
     ws.on('close', function() {
-      console.log('соединение закрыто ' + id);
-      delete clients[id];
+      console.log('соединение закрыто');
     });
   
   });
@@ -30,6 +27,6 @@ setInterval(async() => {
     for (const wsClient of wsServer.clients) {
         wsClient.send(JSON.stringify(await observer.checkServices()))
     }
-}, 10000);
+}, dotenv.parsed.WS_INTERVAL || 30000);
 
 
