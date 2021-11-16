@@ -4,29 +4,39 @@ var Observer = require('./Observer');
 
 const WebSocket = require('ws');
 
+async function main(){
+  const wsServer = new WebSocket.Server({ port: dotenv.parsed.WS_PORT || 3000 });
 
-const wsServer = new WebSocket.Server({ port: dotenv.parsed.WS_PORT || 3000 });
+  let observer = new Observer(config)
 
-let observer = new Observer(config)
-wsServer.on('connection', function(ws) {
+  let lastData = await observer.checkServices();
 
-    console.log("новое соединение");
-  
-    ws.on('message', function(message) {});
+  wsServer.on('connection', function(ws) {
 
-    ws.on("error", (err) => {
-        console.log(err.stack);
+      console.log("новое соединение");
+
+      ws.send(lastData);
+    
+      ws.on('message', function(message) {});
+
+      ws.on("error", (err) => {
+          console.log(err.stack);
+        });
+    
+      ws.on('close', function() {
+        console.log('соединение закрыто');
       });
-  
-    ws.on('close', function() {
-      console.log('соединение закрыто');
-    });
-  
+    
   });
-setInterval(async() => {
-    for (const wsClient of wsServer.clients) {
-        wsClient.send(JSON.stringify(await observer.checkServices()))
-    }
-}, dotenv.parsed.WS_INTERVAL || 30000);
 
-
+  setInterval(async () => {
+    console.log("fetching data...");
+    let data = JSON.stringify(await observer.checkServices())
+    console.log("data fetched");
+    lastData = data;
+      for (const wsClient of wsServer.clients) {
+          wsClient.send(data)
+      }
+  }, dotenv.parsed.WS_INTERVAL || 30000);
+}
+main();
