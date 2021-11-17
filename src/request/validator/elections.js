@@ -1,8 +1,10 @@
-let rpc_status = require('../json_rpc_status')
+let jrpc = require('../../data/json_rpc_status')
+
 
 function get_elections_data() {
-    return {'id': rpc_status.status.startNextElection,'start':rpc_status.status.startElection,
-            'end': rpc_status.status.endElection, 'next': rpc_status.status.startNextElection}
+    console.log(jrpc.status);
+    return {'id': jrpc.electionId,'start':jrpc.startElection,
+            'end': jrpc.endElection, 'next': jrpc.startNextElection}
 }
 
 module.exports = {get_elections_data}
