@@ -73,7 +73,6 @@ class BlocksStorageImpl_ {
         else{
             this.day_accounts[shortTx.account]=timestamp
         }
-        console.log(this.day_accounts);
     }
     clear_accounts(){
         for (let kv in this.day_accounts) {

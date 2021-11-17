@@ -7,10 +7,9 @@ let status = {
     endValidation: 0,
     startNextElection: 0,
     services:[],
+    offers:[],
+    complains:[],
     liteservers:[],
-    config_votings:[],
-    slashing:[],
-    validator_elections:{},
     blocks:[]
 }
 
