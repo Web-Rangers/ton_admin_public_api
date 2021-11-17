@@ -3,7 +3,7 @@ const {auth_service} = require('../../request')
 const {get_complaints, get_elections_data} = require('../../request/validator')
 class StatusRequester{
     start(){
-        this.status_interval= setInterval(async () => {let status = await metrics_service.get_status(); if (!status){await this.login(); };console.log(get_elections_data())}, 1000);
+        this.status_interval= setInterval(async () => {let status = await metrics_service.get_status(); if (!status){await this.login(); }}, 1000);
     }
     async login(){
         await auth_service.login()
