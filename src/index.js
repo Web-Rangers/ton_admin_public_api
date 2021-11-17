@@ -11,6 +11,6 @@ async function init(){
     status_requester.start()
     await block_monitor.start()
     start_server()
-    //start_wsserver()
+    start_wsserver()
 }
 init()
