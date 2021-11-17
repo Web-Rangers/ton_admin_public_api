@@ -1,4 +1,4 @@
-const {sendJRPC} = require('../jrpc')
+const {sendJRPC} = require('../../helpers/jsonrpc')
 
 async function get_validators() {
     let validators = await sendJRPC('/','status') 
