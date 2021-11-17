@@ -1,8 +1,13 @@
-class BlocksStorageImpl {
+
+class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
     shardchainBlocks = {}; // shardId {string} + shardBlockNumber {number} -> isProcessed {boolean}
 
     constructor() {
+        this.on_transaction = this.on_transaction.bind(this)
+        this.day_blocks = []
+        
+        this.day_accounts = {}
     }
 
     /**
@@ -15,7 +20,6 @@ class BlocksStorageImpl {
         for (const {shardId, shardBlockNumber} of shardBlockNumbers) {
             if (this.shardchainBlocks[shardId + '_' + shardBlockNumber] !== undefined) continue;
             // INSERT INTO shardchainBlocks VALUES (shardId, shardBlockNumber, FALSE)
-            console.log('insert shard ' + shardId + ' ' + shardBlockNumber);
             this.shardchainBlocks[shardId + '_' + shardBlockNumber] = false;
         }
     }
@@ -27,7 +31,7 @@ class BlocksStorageImpl {
      * @param   shardBlockNumbers {[{shardId: string, shardBlockNumber: number}]}
      */
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
-        console.log('mc processed ' + mcBlockNumber);
+        this.day_blocks.push(mcBlockNumber)
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
         if (this.masterchainBlocks[mcBlockNumber] !== undefined) throw new Error('mc already exists ' + mcBlockNumber);
         this.masterchainBlocks[mcBlockNumber] = true;
@@ -55,14 +59,30 @@ class BlocksStorageImpl {
      * @param   prevShardBlocks    {[{shardId: string, shardBlockNumber: number}]}
      */
     async setBlockProcessed(shardId, shardBlockNumber, prevShardBlocks) {
-        console.log('shard processed ' + shardId + ' ' + shardBlockNumber);
         // UPDATE shardchainBlocks SET processed = TRUE WHERE shardId = ? && shardBlockNumber = ?
         if (this.shardchainBlocks[shardId + '_' + shardBlockNumber] === undefined) throw new Error('shard not exists ' + shardId + '_' + shardBlockNumber);
         this.shardchainBlocks[shardId + '_' + shardBlockNumber] = true;
 
         await this.insertShardBlocks(prevShardBlocks);
     }
-
+    on_transaction(shortTx){
+        var timestamp = new Date().getTime()/1000;
+        if (!this.day_accounts[shortTx.account]){
+            this.day_accounts[shortTx.account]=timestamp;
+        }
+        else{
+            this.day_accounts[shortTx.account]=timestamp
+        }
+        console.log(this.day_accounts);
+    }
+    clear_accounts(){
+        for (let kv in this.day_accounts) {
+            let [key,value] = kv 
+            if (((new Date().getTime()-value)/(1000*60*60*24)>=1)){
+                delete this.day_accounts[key]
+            }
+        }
+    }
     /**
      * Get any unprocesed shard block number (order is not important)
      * @return {Promise<{shardId: string, shardBlockNumber: number}>}
@@ -82,5 +102,5 @@ class BlocksStorageImpl {
     }
 
 }
-
+const BlocksStorageImpl = new BlocksStorageImpl_()
 module.exports = {BlocksStorageImpl}

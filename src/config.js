@@ -10,4 +10,4 @@ let config = {
     PORT:process.env.PORT
 };
 
-module.exports= config;
+module.exports = config;

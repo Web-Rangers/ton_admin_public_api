@@ -58,7 +58,7 @@ class ETHBridge{
         }
         return transactions
     }
-    async calc_eth_network_transactions(offset=10,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
+    async calc_eth_network_transactions(offset=20,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
         //return await this.eth_contract.methods.getFullOracleSet().call()
         let transactions = await axios.get(eth_address,{
             params:{
@@ -73,17 +73,19 @@ class ETHBridge{
                 'apikey':apikey
             }
         }) 
-        for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
-            let from = trans.from.toLowerCase()
-            if (this.ton_out[from]&&!this.eth_timeouts.includes(trans.utime)){
-                this.eth_timeouts.push(trans.utime)
-                this.ton_out[from].shift()
+        if (transactions.data.result){
+            for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
+                let from = trans.from.toLowerCase()
+                if (this.ton_out[from]&&!this.eth_timeouts.includes(trans.utime)){
+                    this.eth_timeouts.push(trans.utime)
+                    this.ton_out[from].shift()
+                }
             }
-        }
-        let eth_out = transactions.data.result.filter(trans => trans.input.substring(0,10) == '0xe057fbff')
-        for (const trans of eth_out) {
-            let parse = web3.eth.abi.decodeParameters(['uint256', 'int8', 'bytes32'],'0x' + trans.input.slice(10))
-            this.add_eth_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
+            let eth_out = transactions.data.result.filter(trans => trans.input.substring(0,10) == '0xe057fbff')
+            for (const trans of eth_out) {
+                let parse = web3.eth.abi.decodeParameters(['uint256', 'int8', 'bytes32'],'0x' + trans.input.slice(10))
+                this.add_eth_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
+            }
         }
         return transactions  
     }

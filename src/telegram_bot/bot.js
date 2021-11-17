@@ -1,5 +1,5 @@
 const { Telegraf } = require('telegraf')
-const config = require('../config')
+let config = require('../config')
 const fs = require('fs');
 
 class TonBridgeStatusBot{
