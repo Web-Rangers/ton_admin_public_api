@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config()
 const WebSocket = require('ws');
 var ServicesObserver = require('./services_observer/ServicesObserver');
 var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
+let {get_elections_data} = require('./request/validator/index')
 
 module.exports = async function start_wsserver()
 {
@@ -12,7 +13,8 @@ module.exports = async function start_wsserver()
  
     let lastData = JSON.stringify({
         services: await servicesObserver.checkServices(), 
-        liteservers: liteserversObserver.liteservers
+        liteservers: liteserversObserver.liteservers,
+        elections: get_elections_data()
     });
 
     wsServer.on('connection', function(ws) {
@@ -40,7 +42,8 @@ module.exports = async function start_wsserver()
     
         lastData = JSON.stringify({
           services: await servicesObserver.checkServices(), 
-          liteservers: liteserversObserver.liteservers
+          liteservers: liteserversObserver.liteservers,
+          elections: get_elections_data()
         });
     
         console.log("data fetched!");
