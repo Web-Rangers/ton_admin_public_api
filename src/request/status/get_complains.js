@@ -1,7 +1,7 @@
 const {sendJRPC} = require('../jsonrpc')
 let jrpc = require('../../data/json_rpc_status')
 
-async function get_complaints() {
+async function get_complaints_list() {
     let response = await sendJRPC('/','cl')
     if (response&&!response.data.error){
         let result = Object.values(response.data.result)
@@ -12,9 +12,9 @@ async function get_complaints() {
             }
             jrpc.status.complains = result
         }
-        return {'validators': result.data.result}
+        return result
     }
     return undefined
 }
     
-module.exports = {get_complaints}
+module.exports = {get_complaints_list}

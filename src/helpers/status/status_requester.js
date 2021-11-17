@@ -4,7 +4,7 @@ class StatusRequester{
     start(){
         this.status_interval= setInterval(async () => {
             let status = await interval_service.get_status(); 
-            let complains = await interval_service.get_complaints()
+            let complains = await interval_service.get_complaints_list()
             console.log(complains);
             let offers = await interval_service.get_offers_list()
             console.log(offers);

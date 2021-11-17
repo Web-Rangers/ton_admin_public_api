@@ -1,10 +1,12 @@
 
 let express = require('express');
-const bridge_router = express.Router();
-let {} = require('../controller')
+const metric_router = express.Router();
+let {MetricController} = require('../controller')
 let {api_callback} = require('../callback')
 
-bridge_router.get('/validators',api_callback(BridgeController.get_eth_bridge_status))
-bridge_router.get('/tsp',api_callback(BridgeController.get_bsc_bridge_status))
+metric_router.get('/validators',api_callback(MetricController.get_validators))
+metric_router.get('/tps',api_callback(MetricController.get_tps))
+metric_router.get('/offers',api_callback(MetricController.get_offers))
+metric_router.get('/elections',api_callback(MetricController.get_elections_data))
 
-module.exports = {bridge_router}
+module.exports = {metric_router}
