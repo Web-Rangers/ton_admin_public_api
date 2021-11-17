@@ -1,10 +1,11 @@
 const dotenv = require('dotenv')
 dotenv.config();
 console.log(process.env)
-const config = {
+let config = {
     API_URL: process.env.API_URL,
     NODE_URL: process.env.NODE_URL,
-    TOKEN:process.env.TOKEN,
+    TOKEN:'',
+    PASSWRD: process.env.PASSWRD,
     BOT_TOKEN:process.env.BOTTOKEN,
     PORT:process.env.PORT
 };

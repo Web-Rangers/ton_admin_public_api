@@ -1,13 +1,8 @@
 
 const {BSCBridge, ETHBridge} = require('./helpers/bridge')
 const TonWeb = require('tonweb')
-const {get_status} = require('./request/status')
-const config = require('./config')
+const {login} = require('./request/login')
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-const axios = require('axios')
-axios.default.defaults.baseURL = config.API_URL
-axios.default.defaults.headers.post['Content-Type'] = 'application/json';
-axios.default.defaults.headers.common['Authorization'] = "token " + config.TOKEN
 const start_server = require('./server')
 
 async function init(){
@@ -27,6 +22,5 @@ async function init(){
     //     else console.log('alive');
     // }, 1000);
     // console.log(bsc_bridge.transactions_out);
-    get_status().then(()=>{})
 }
 init()

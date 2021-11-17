@@ -1,11 +1,7 @@
-const {sendJRPC} = require('../../helpers/jsonrpc')
+let rpc_status = require('../json_rpc_status')
 
-async function get_validators() {
-    let validators = await sendJRPC('/','status') 
-    let result = validators.data.result
-    console.log(validators.data);
-    return {'total':result.totalValidators,'active':result.onlineValidators}
-    
+function get_validators() {
+    return {'total':rpc_status.status.totalValidators,'active':rpc_status.status.onlineValidators}
 }
 
 module.exports = {get_validators}
