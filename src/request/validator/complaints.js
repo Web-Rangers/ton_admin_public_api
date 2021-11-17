@@ -1,15 +1,16 @@
 const {sendJRPC} = require('../jsonrpc')
 
 async function get_complaints() {
-    console.log('------------------------------------');
-    let result = await sendJRPC('/','cl') 
+    let data = await sendJRPC('/','cl')
+    let result = Object.values(data.data.result)
     console.log(result)
-    let answer = []
-    result.data.result.forEach(element => {
-        answer.push({'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 'approvedPercent': approvedPercent, 'isPassed': element.isPassed})
-    });
-    console.log(answer);
-    return answer
+    if (result){
+        for(element in result){
+            element = {'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
+            'approvedPercent': approvedPercent, 'isPassed': element.isPassed}
+        }
+    }
+    return result
 }
     
 module.exports = {get_complaints}
