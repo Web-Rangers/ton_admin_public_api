@@ -1,9 +1,8 @@
-const {sendJRPC} = require('../../helpers/jsonrpc')
+let rpc_status = require('../json_rpc_status')
 
-async function get_elections_data() {
-    let status = await sendJRPC('/','status')
-    let result = status.data.result
-    return { 'id': result.startNextElection,'start':result.startElection, 'end': result.endElection, 'next': result.startNextElection }
+function get_elections_data() {
+    return {'id': rpc_status.status.startNextElection,'start':rpc_status.status.startElection,
+            'end': rpc_status.status.endElection, 'next': rpc_status.status.startNextElection}
 }
 
 module.exports = {get_elections_data}
