@@ -23,6 +23,9 @@ class BlocksMonitor{
         let values = Object.values(BlocksStorageImpl.day_accounts)
         return {'count':values.length,'min_acc_date':Math.min(values)}
     }
+    get_blocks_rate(){
+        return BlocksStorageImpl.day_blocks
+    }
     async start(){
         await this.subscribe()
         this.interval = setInterval(async () => {
