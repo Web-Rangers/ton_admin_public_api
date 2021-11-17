@@ -1,12 +1,12 @@
 
 const {BSCBridge, ETHBridge} = require('./helpers/bridge')
 const TonWeb = require('tonweb')
-const {get_validators} = require('./helpers/validator')
 const config = require('./config')
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const axios = require('axios')
 axios.default.defaults.baseURL = config.API_URL
 axios.default.defaults.headers.post['Content-Type'] = 'application/json';
+axios.default.defaults.headers.common['Authorization'] = "token " + config.TOKEN
 const bot = require('./telegram_bot/bot')
 
 async function init(){
@@ -25,7 +25,6 @@ async function init(){
             
     //     else console.log('alive');
     // }, 1000);
-    await get_validators()
     // console.log(bsc_bridge.transactions_out);
 }
 init()
