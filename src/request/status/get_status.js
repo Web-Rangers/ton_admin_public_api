@@ -5,7 +5,7 @@ async function get_status() {
     let result = await sendJRPC('/','status') 
     if (result&&!result.data.error){
         jrpc.status = {...result.data.result} 
-        return jrpc.status
+        return result.data.result
     }
     return undefined
     

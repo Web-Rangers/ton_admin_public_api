@@ -16,6 +16,8 @@ module.exports = async function start_wsserver()
         services: await servicesObserver.checkServices(), 
         liteservers: liteserversObserver.liteservers,
         elections: metrics_service.get_elections_data(),
+        complaints: metrics_service.get_complaints(),
+        blocks_rate:metrics_service.get_blocks_rate(),
         bridge:{
             eth:get_eth_status(),
             bsc:get_bsc_status(),
@@ -49,7 +51,8 @@ module.exports = async function start_wsserver()
           services: await servicesObserver.checkServices(), 
           liteservers: liteserversObserver.liteservers,
           elections: metrics_service.get_elections_data(),
-          complaints: metrics_service.get_complaint(),
+          complaints: metrics_service.get_complaints(),
+          blocks_rate:metrics_service.get_blocks_rate(),
           bridge:{
             eth:get_eth_status(),
             bsc:get_bsc_status(),
@@ -61,5 +64,5 @@ module.exports = async function start_wsserver()
             wsClient.send(lastData) 
         }
         console.log("data sended");
-      }, dotenv.parsed.WS_INTERVAL || 15000)
+      }, dotenv.parsed.WS_INTERVAL || 1000)
 }
