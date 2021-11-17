@@ -1,3 +1,3 @@
-const sendJRPC = require('./send_jrpc')
+const {sendJRPC} = require('./send_jrpc')
 
-module.exports = sendJRPC
+module.exports = {sendJRPC}
