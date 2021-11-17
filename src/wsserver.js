@@ -3,6 +3,7 @@ const WebSocket = require('ws');
 var ServicesObserver = require('./services_observer/ServicesObserver');
 var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
 let {get_elections_data} = require('./request/validator/index')
+let {get_bsc_status, get_eth_status} = require('./request/bridge/index')
 
 module.exports = async function start_wsserver()
 {
@@ -14,7 +15,11 @@ module.exports = async function start_wsserver()
     let lastData = JSON.stringify({
         services: await servicesObserver.checkServices(), 
         liteservers: liteserversObserver.liteservers,
-        elections: get_elections_data()
+        elections: get_elections_data(),
+        bridge:{
+            eth:get_eth_status(),
+            bsc:get_bsc_status(),
+        }
     });
 
     wsServer.on('connection', function(ws) {
@@ -43,13 +48,17 @@ module.exports = async function start_wsserver()
         lastData = JSON.stringify({
           services: await servicesObserver.checkServices(), 
           liteservers: liteserversObserver.liteservers,
-          elections: get_elections_data()
+          elections: get_elections_data(),
+          bridge:{
+            eth:get_eth_status(),
+            bsc:get_bsc_status(),
+        }
         });
     
         console.log("data fetched!");
         for (const wsClient of wsServer.clients) {
-            wsClient.send(lastData)
-            console.log("data sended");
+            wsClient.send(lastData) 
         }
+        console.log("data sended");
       }, dotenv.parsed.WS_INTERVAL || 30000)
 }
