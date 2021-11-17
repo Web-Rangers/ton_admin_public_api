@@ -1,8 +1,14 @@
 
 const {BSCBridge, ETHBridge} = require('./helpers/bridge')
 const TonWeb = require('tonweb')
-
-const bot = require('./telegram_bot/bot')
+const {get_status} = require('./request/status')
+const config = require('./config')
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+const axios = require('axios')
+axios.default.defaults.baseURL = config.API_URL
+axios.default.defaults.headers.post['Content-Type'] = 'application/json';
+axios.default.defaults.headers.common['Authorization'] = "token " + config.TOKEN
+const start_server = require('./server')
 
 async function init(){
     let bsc_bridge = new BSCBridge('Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r','0x76A797A59Ba2C17726896976B7B3747BfD1d220f')
@@ -21,5 +27,7 @@ async function init(){
     //     else console.log('alive');
     // }, 1000);
     // console.log(bsc_bridge.transactions_out);
+    get_status().then(()=>{})
+    
 }
 init()

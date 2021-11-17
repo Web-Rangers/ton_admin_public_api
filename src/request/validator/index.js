@@ -1,3 +1,3 @@
-const {get_validators} = require('./validator')
+const {get_validators} = require('./status')
 
 module.exports= {get_validators}
