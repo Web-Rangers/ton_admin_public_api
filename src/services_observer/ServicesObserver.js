@@ -1,5 +1,5 @@
 const axios = require('axios');
-class Observer {
+class ServicesObserver {
     constructor(services) {
       this.services = services;
     }
@@ -32,4 +32,4 @@ class Observer {
         return result_services
     }
   }
-  module.exports = Observer;
+  module.exports = ServicesObserver;

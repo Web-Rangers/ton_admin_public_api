@@ -1,6 +1,6 @@
 var config = require('./config.json');
 const dotenv = require('dotenv').config()
-var Observer = require('./Observer');
+var Observer = require('./ServicesObserver');
 
 const WebSocket = require('ws');
 
@@ -13,7 +13,7 @@ async function main(){
 
   wsServer.on('connection', function(ws) {
 
-      console.log("новое соединение");
+      console.log("New connection!");
 
       ws.send(lastData);
     
@@ -24,7 +24,7 @@ async function main(){
         });
     
       ws.on('close', function() {
-        console.log('соединение закрыто');
+        console.log('Connection closed');
       });
     
   });
