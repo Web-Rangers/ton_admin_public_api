@@ -1,19 +1,19 @@
-const https = require('https')
-const axios = require('axios')
-const fs = require('fs')
+let https = require('https')
+let axios = require('axios')
+let config = require('../../config')
 
 async function sendJRPC (url, data, params = {}){
-    const httpsAgent = new https.Agent({
-        rejectUnauthorized: false, // (NOTE: this will disable client verification)
-        requestCert: true,
-    })
-    return axios.post(
-        url,
-        JSON.stringify({jsonrpc: "2.0", id: 0, method: data, params: params}, {httpsAgent}
-        
-        ),
-        
-    )
+
+    let headers = {
+        'Content-Type': 'application/json'
+    }
+
+    if (config.TOKEN.length>0){
+        headers['Authorization'] = "token " + config.TOKEN
+    }
+    return axios.post(config.API_URL+url,
+        JSON.stringify({jsonrpc: "2.0", id: 0, method: data, params: params}),
+        {headers:headers})
 };
 
 module.exports = {sendJRPC}

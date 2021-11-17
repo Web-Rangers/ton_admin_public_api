@@ -1,6 +1,6 @@
 let status = {
     electionId: 0,
-    tpsAvg: [ ],
+    tpsAvg: [],
     totalValidators: 0,
     onlineValidators: 0,
     shardsNumber: 0,
