@@ -1,4 +1,4 @@
-const {sendJRPC} = require('../../helpers/jsonrpc')
+const {sendJRPC} = require('../jsonrpc')
 let config = require('../../config')
 
 async function login() {

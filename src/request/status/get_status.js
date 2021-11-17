@@ -1,9 +1,9 @@
-const {sendJRPC} = require('../../helpers/jsonrpc')
-let {status} = require('../json_rpc_status')
+const {sendJRPC} = require('../jsonrpc')
+let {status} = require('../../data/json_rpc_status')
 
 async function get_status() {
     let result = await sendJRPC('/','status') 
-    if (result&&!result.error){
+    if (result&&!result.data.error){
         status = {...result.data.result} 
         console.log(result);
         return status
