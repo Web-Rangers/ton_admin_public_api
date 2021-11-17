@@ -2,6 +2,7 @@ var config = require('./config.json');
 const dotenv = require('dotenv').config()
 var ServicesObserver = require('./ServicesObserver');
 var LiteserverObserver = require('../liteservers_observer/LiteserversObserver');
+const {get_elections_data} = require('../request/validator')
 
 const WebSocket = require('ws');
 
@@ -44,7 +45,7 @@ async function main(){
 
     console.log("data fetched!");
 
-    lastData = JSON.stringify({services: services, liteservers: liteservers});
+    lastData = JSON.stringify({services: services, liteservers: liteservers, elections: get_elections_data()});
     for (const wsClient of wsServer.clients) {
         wsClient.send(lastData)
     }
