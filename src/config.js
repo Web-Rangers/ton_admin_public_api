@@ -5,7 +5,8 @@ const config = {
     API_URL: process.env.API_URL,
     NODE_URL: process.env.NODE_URL,
     TOKEN:process.env.TOKEN,
-    BOTTOKEN:process.env.BOTTOKEN
+    BOT_TOKEN:process.env.BOTTOKEN,
+    PORT:process.env.PORT
 };
 
 module.exports= config;

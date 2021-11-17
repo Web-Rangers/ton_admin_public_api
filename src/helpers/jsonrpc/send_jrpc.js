@@ -16,4 +16,4 @@ async function sendJRPC (url, data, params = {}){
     )
 };
 
-module.exports = {sendJRPC}
+module.exports = sendJRPC

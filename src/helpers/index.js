@@ -1,2 +1,3 @@
-const {BlocksStorageImpl} = require('./blocks_storage_impl')
-module.exports={BlocksStorageImpl}
+const sendJRPC = require('./jsonrpc')
+
+module.exports = {sendJRPC}
