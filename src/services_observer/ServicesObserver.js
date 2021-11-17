@@ -1,7 +1,8 @@
 const axios = require('axios');
+var config = require('./config.json');
 class ServicesObserver {
-    constructor(services) {
-      this.services = services;
+    constructor() {
+      this.services = config;
     }
 
     async checkServices(){
@@ -14,7 +15,7 @@ class ServicesObserver {
                     validateStatus: function (status) {
                       return status < 1000; // Resolve only if the status code is less than 1000
                     }
-                  })
+                })
                 var end = new Date();
                
                 

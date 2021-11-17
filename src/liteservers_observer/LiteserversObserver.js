@@ -2,10 +2,18 @@ const axios = require('axios');
 var tcpp = require('tcp-ping');
 
 class LiteserverObserver {
-    constructor() 
+    constructor(config) 
     {
-      this.config;
+      this.config = config;
       this.liteservers;
+    }
+
+    static async build (config_url) {
+        let config =  await axios.get(config_url)
+        let observer = new LiteserverObserver(config)
+        observer.liteservers = observer.get_liteservers(observer.config)
+        await observer.check_liteservers()
+        return observer;
     }
 
      hex2dotted(ip)
@@ -29,12 +37,12 @@ class LiteserverObserver {
         return ip_arr;
     }
 
-    async  configure(config_url)
-    {
-        this.config =  await axios.get(config_url)
-        this.liteservers = this.get_liteservers(this.config)
-        await this.check_liteservers()
-    }
+    // async  configure(config_url)
+    // {
+    //     this.config =  await axios.get(config_url)
+    //     this.liteservers = this.get_liteservers(this.config)
+    //     await this.check_liteservers()
+    // }
 
     async  check_liteservers() 
     {
