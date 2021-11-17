@@ -22,6 +22,5 @@ async function init(){
     //     else console.log('alive');
     // }, 1000);
     // console.log(bsc_bridge.transactions_out);
-    console.log(await login());
 }
 init()
