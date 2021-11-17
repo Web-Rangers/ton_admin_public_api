@@ -1,15 +1,20 @@
 var config = require('./config.json');
 const dotenv = require('dotenv').config()
-var Observer = require('./ServicesObserver');
+var ServicesObserver = require('./ServicesObserver');
+var LiteserverObserver = require('../liteservers_observer/LiteserversObserver');
 
 const WebSocket = require('ws');
 
 async function main(){
   const wsServer = new WebSocket.Server({ port: dotenv.parsed.WS_PORT || 3000 });
 
-  let observer = new Observer(config)
-
-  let lastData = await observer.checkServices();
+  let servicesObserver = new ServicesObserver(config)
+  let liteserversObserver = new LiteserverObserver()
+  liteserversObserver.configure(dotenv.parsed.LITESERVER_CONFIG_URL)
+  
+  let services = await servicesObserver.checkServices()
+  let liteservers = liteserversObserver.liteservers
+  let lastData = JSON.stringify({services: services, liteservers: liteservers});
 
   wsServer.on('connection', function(ws) {
 
@@ -30,13 +35,19 @@ async function main(){
   });
 
   setInterval(async () => {
+
     console.log("fetching data...");
-    let data = JSON.stringify(await observer.checkServices())
-    console.log("data fetched");
-    lastData = data;
-      for (const wsClient of wsServer.clients) {
-          wsClient.send(data)
-      }
-  }, dotenv.parsed.WS_INTERVAL || 30000);
+
+    await liteserversObserver.check_liteservers()
+    services = await servicesObserver.checkServices();
+    liteservers = liteserversObserver.liteservers;
+
+    console.log("data fetched!");
+
+    lastData = JSON.stringify({services: services, liteservers: liteservers});
+    for (const wsClient of wsServer.clients) {
+        wsClient.send(lastData)
+    }
+  }, dotenv.parsed.WS_INTERVAL || 30000)
 }
 main();
