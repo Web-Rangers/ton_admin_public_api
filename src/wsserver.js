@@ -43,7 +43,6 @@ module.exports = async function start_wsserver()
     });
 
     setInterval(async () => {
-
         console.log("fetching data...");
     
         await liteserversObserver.check_liteservers()
@@ -62,9 +61,12 @@ module.exports = async function start_wsserver()
         });
     
         console.log("data fetched!");
+    }, dotenv.parsed.WS_INTERVAL || 15000)
+
+    setInterval(async () => {
         for (const wsClient of wsServer.clients) {
             wsClient.send(lastData) 
         }
         console.log("data sended");
-      }, dotenv.parsed.WS_INTERVAL || 15000)
+    }, dotenv.parsed.WS_SEND_INTERVAL || 15000)
 }
