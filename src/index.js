@@ -8,10 +8,9 @@ const start_wsserver = require('./wsserver')
 
 async function init(){
     bridges_monitor.start()
-    // status_requester.start()
+    status_requester.start()
     await block_monitor.start()
     start_server()
     start_wsserver()
-
 }
 init()
