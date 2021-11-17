@@ -27,9 +27,11 @@ class DHTserverObserver {
     get_dhtservers(config) {
         let ip_arr = []
         let hexString
-        for (const dhtserver of config.data.dht) {
-            hexString = dhtserver.ip.toString(16);
-            ip_arr.push({ip: this.hex2dotted(hexString), port: dhtserver.port, time:0})
+        for (const dhtserver of config.data.dht.static_nodes.nodes) {
+            for (const address of dhtserver.addr_list.addrs) {
+                hexString = address.ip.toString(16);
+                ip_arr.push({ip: this.hex2dotted(hexString), port: address.port, time:0})
+            }
         }
         return ip_arr;
     }

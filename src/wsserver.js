@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config()
 const WebSocket = require('ws');
 var ServicesObserver = require('./services_observer/ServicesObserver');
 var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
+var DHTserversObserver = require('./dhtservers_Observer/DHTserversObserver');
 let {get_elections_data} = require('./request/validator/index')
 let {get_bsc_status, get_eth_status} = require('./request/bridge/index')
 
@@ -11,10 +12,12 @@ module.exports = async function start_wsserver()
 
     let servicesObserver = new ServicesObserver()
     let liteserversObserver = await LiteserverObserver.build(dotenv.parsed.LITESERVER_CONFIG_URL)
+    let dhtserversObserver = await DHTserversObserver.build(dotenv.parsed.LITESERVER_CONFIG_URL)
  
     let lastData = JSON.stringify({
         services: await servicesObserver.checkServices(), 
         liteservers: liteserversObserver.liteservers,
+        dhtservers: dhtserversObserver.dhtservers,
         elections: get_elections_data(),
         bridge:{
             eth:get_eth_status(),
@@ -44,10 +47,12 @@ module.exports = async function start_wsserver()
         console.log("fetching data...");
     
         await liteserversObserver.check_liteservers()
+        await dhtserversObserver.check_dhtservers()
     
         lastData = JSON.stringify({
           services: await servicesObserver.checkServices(), 
           liteservers: liteserversObserver.liteservers,
+          dhtservers: dhtserversObserver.dhtservers,
           elections: get_elections_data(),
           bridge:{
             eth:get_eth_status(),
