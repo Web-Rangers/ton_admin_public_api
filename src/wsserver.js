@@ -2,7 +2,7 @@ const dotenv = require('dotenv').config()
 const WebSocket = require('ws');
 var ServicesObserver = require('./services_observer/ServicesObserver');
 var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
-let {metrics_service} = require('./request')
+let {metrics_service, interval_service} = require('./request')
 let {get_bsc_status, get_eth_status} = require('./request/bridge/index')
 
 module.exports = async function start_wsserver()
@@ -17,6 +17,8 @@ module.exports = async function start_wsserver()
         liteservers: liteserversObserver.liteservers,
         elections: metrics_service.get_elections_data(),
         complaints: metrics_service.get_complaints(),
+        validators: metrics_service.get_validators(),
+        offers: metrics_service.get_offers(),
         bridge:{
             eth:get_eth_status(),
             bsc:get_bsc_status(),
@@ -51,6 +53,8 @@ module.exports = async function start_wsserver()
           liteservers: liteserversObserver.liteservers,
           elections: metrics_service.get_elections_data(),
           complaints: metrics_service.get_complaints(),
+          validators: metrics_service.get_validators(),
+          offers: metrics_service.get_offers(),
           bridge:{
             eth:get_eth_status(),
             bsc:get_bsc_status(),
