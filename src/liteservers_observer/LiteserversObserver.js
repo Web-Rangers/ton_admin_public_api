@@ -16,7 +16,7 @@ class LiteserverObserver {
         return observer;
     }
 
-     hex2dotted(ip)
+    hex2dotted(ip)
     {
         ip = parseInt(ip, 16)
         let brackets = []
@@ -26,7 +26,7 @@ class LiteserverObserver {
         return brackets.join(".")
     }
 
-     get_liteservers(config)
+    get_liteservers(config)
      {
         let ip_arr = []
         let hexString
@@ -44,11 +44,11 @@ class LiteserverObserver {
     //     await this.check_liteservers()
     // }
 
-    async  check_liteservers() 
+    async check_liteservers() 
     {
         for (const server of this.liteservers) 
         {
-            tcpp.ping({ address: server.ip, port:server.port}, function(err, data) {
+            tcpp.ping({ address: server.ip, port:server.port, attempts:1}, function(err, data) {
                 server.time = data.avg
             });
         }

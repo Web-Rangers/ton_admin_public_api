@@ -44,4 +44,4 @@ let status = {
     startNextElection: 0
 }
 
-module.exports = {status}
+module.exports.status = status

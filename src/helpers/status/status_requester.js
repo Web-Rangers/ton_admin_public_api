@@ -1,9 +1,9 @@
 const {metrics_service} = require('../../request')
 const {auth_service} = require('../../request')
-const {status} = require('../../')
+const {get_complaints} = require('../../request/validator')
 class StatusRequester{
     start(){
-        this.status_interval= setInterval(async () => {let res = await metrics_service.get_status(); console.log(status); if (!res){await this.login()}}, 1000);
+        this.status_interval= setInterval(async () => {let status = await metrics_service.get_status(); if (!status){await this.login(); }; await get_complaints()}, 1000);
     }
     async login(){
         await auth_service.login()
@@ -12,6 +12,6 @@ class StatusRequester{
         clearInterval(this.status_interval)
     }
 }
-const status_requester = new StatusRequester()
+let status_requester = new StatusRequester()
 
 module.exports = {status_requester}
