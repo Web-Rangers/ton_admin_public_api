@@ -63,7 +63,7 @@ class BSCBridge{
         }
         return transactions
     }
-    async calc_bsc_network_transactions(offset=20,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
+    async calc_bsc_network_transactions(offset=100,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
         let transactions = await axios.get(bsc_adress,{
             params:{
                 'module':'account',
