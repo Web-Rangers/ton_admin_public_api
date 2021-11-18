@@ -6,7 +6,7 @@ class BlocksStorageImpl_ {
     constructor() {
         this.on_transaction = this.on_transaction.bind(this)
         this.day_blocks = []
-        
+        this.last_block = 0
         this.day_accounts = {}
     }
 
@@ -32,6 +32,7 @@ class BlocksStorageImpl_ {
      */
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
         this.day_blocks.push(mcBlockNumber)
+        this.last_block = mcBlockNumber
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
         if (this.masterchainBlocks[mcBlockNumber] !== undefined) throw new Error('mc already exists ' + mcBlockNumber);
         this.masterchainBlocks[mcBlockNumber] = true;
@@ -73,7 +74,6 @@ class BlocksStorageImpl_ {
         else{
             this.day_accounts[shortTx.account]=timestamp
         }
-        console.log(this.day_accounts);
     }
     clear_accounts(){
         for (let kv in this.day_accounts) {

@@ -58,7 +58,7 @@ class ETHBridge{
         }
         return transactions
     }
-    async calc_eth_network_transactions(offset=20,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
+    async calc_eth_network_transactions(offset=100,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
         //return await this.eth_contract.methods.getFullOracleSet().call()
         let transactions = await axios.get(eth_address,{
             params:{

@@ -19,9 +19,11 @@ class BlocksMonitor{
             this.started = false
         }   
     }
+    get_last_block(){
+        return BlocksStorageImpl.last_block
+    }
     get_accouts_status(){
-        let values = Object.values(BlocksStorageImpl.day_accounts)
-        return {'count':values.length,'min_acc_date':Math.min(values)}
+        return BlocksStorageImpl.day_accounts
     }
     get_blocks_rate(){
         return BlocksStorageImpl.day_blocks

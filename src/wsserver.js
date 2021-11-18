@@ -3,8 +3,7 @@ const WebSocket = require('ws');
 var ServicesObserver = require('./services_observer/ServicesObserver');
 var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
 var DHTserversObserver = require('./dhtservers_Observer/DHTserversObserver');
-let {get_elections_data} = require('./request/validator/index')
-let {get_bsc_status, get_eth_status} = require('./request/bridge/index')
+let {metrics_service,bridge_service, interval_service} = require('./request')
 
 module.exports = async function start_wsserver()
 {
@@ -18,10 +17,14 @@ module.exports = async function start_wsserver()
         services: await servicesObserver.checkServices(), 
         liteservers: liteserversObserver.liteservers,
         dhtservers: dhtserversObserver.dhtservers,
-        elections: get_elections_data(),
+        elections: metrics_service.get_elections_data(),
+        complaints: metrics_service.get_complaints(),
+        blocks_rate:metrics_service.get_blocks_rate(),
+        validators: metrics_service.get_validators(),
+        offers: metrics_service.get_offers(),
         bridge:{
-            eth:get_eth_status(),
-            bsc:get_bsc_status(),
+            eth:bridge_service.get_eth_status(),
+            bsc:bridge_service.get_bsc_status(),
         }
     });
 
@@ -43,7 +46,6 @@ module.exports = async function start_wsserver()
     });
 
     setInterval(async () => {
-
         console.log("fetching data...");
     
         await liteserversObserver.check_liteservers()
@@ -53,17 +55,24 @@ module.exports = async function start_wsserver()
           services: await servicesObserver.checkServices(), 
           liteservers: liteserversObserver.liteservers,
           dhtservers: dhtserversObserver.dhtservers,
-          elections: get_elections_data(),
+          elections: metrics_service.get_elections_data(),
+          complaints: metrics_service.get_complaints(),
+          blocks_rate:metrics_service.get_blocks_rate(),
+          validators: metrics_service.get_validators(),
+          offers: metrics_service.get_offers(),
           bridge:{
-            eth:get_eth_status(),
-            bsc:get_bsc_status(),
+            eth:bridge_service.get_eth_status(),
+            bsc:bridge_service.get_bsc_status(),
         }
         });
     
         console.log("data fetched!");
+    }, dotenv.parsed.WS_INTERVAL || 15000)
+
+    setInterval(async () => {
         for (const wsClient of wsServer.clients) {
             wsClient.send(lastData) 
         }
         console.log("data sended");
-      }, dotenv.parsed.WS_INTERVAL || 30000)
+    }, dotenv.parsed.WS_SEND_INTERVAL || 15000)
 }
