@@ -1,4 +1,4 @@
-const {bridges_monitor} = require('../../helpers/bridge/bridge_monitor')
+const {bridges_monitor} = require('../../../helpers/bridge/bridge_monitor')
 
 function get_eth_bridge_transactions() {
     return bridges_monitor.get_eth_bridge_transactions()

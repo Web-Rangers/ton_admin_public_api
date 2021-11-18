@@ -1,5 +1,5 @@
 
-const {block_monitor} = require('../../helpers/blocks')
+const {block_monitor} = require('../../../helpers/blocks')
 
 async function get_accounts_data() {
     return block_monitor.get_accouts_status()

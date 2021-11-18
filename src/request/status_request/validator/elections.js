@@ -1,4 +1,4 @@
-let jrpc = require('../../data/json_rpc_status')
+let jrpc = require('../../../data/json_rpc_status')
 
 
 function get_elections_data() {

@@ -1,6 +1,6 @@
 let https = require('https')
 let axios = require('axios')
-let config = require('../../config')
+let config = require('../../../config')
 
 async function sendJRPC(url, data, params = {}){
 

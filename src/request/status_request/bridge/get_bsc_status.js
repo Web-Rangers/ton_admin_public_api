@@ -1,4 +1,4 @@
-const {bridges_monitor} = require('../../helpers/bridge/bridge_monitor')
+const {bridges_monitor} = require('../../../helpers/bridge/bridge_monitor')
 
 function get_bsc_status() {
     return bridges_monitor.get_bsc_bridge_status()
