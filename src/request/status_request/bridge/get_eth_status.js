@@ -1,7 +1,8 @@
-const {bridges_monitor} = require('../../../helpers/bridge/bridge_monitor')
+const {status} = require('../../../data/json_rpc_status')
 
 function get_eth_status() {
-    return bridges_monitor.get_eth_bridge_status()
+    let {eth} = {...status.get_status().bridge}
+    return eth
 }
 
 module.exports = {get_eth_status}

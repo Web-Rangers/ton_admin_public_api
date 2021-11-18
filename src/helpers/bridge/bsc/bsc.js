@@ -6,6 +6,7 @@ const axios = require('axios')
 const CHECKEDPERIOD = 15
 
 
+
 class BSCBridge{
     //now tonnetwork_bridge_adress : Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r
     //now bsc_bridge_adress : 0x76A797A59Ba2C17726896976B7B3747BfD1d220f
@@ -98,14 +99,17 @@ class BSCBridge{
         for (const iterator of Object.entries(this.ton_out)) {
             let [key,val] = iterator
             let ton_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            
             if (ton_check) return false
              
         }
         for (const iterator of Object.entries(this.bsc_out)) {
             let [key,val] = iterator
             let bsc_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            
             if (bsc_check) return false
         }
+        
         return true
     }
 }

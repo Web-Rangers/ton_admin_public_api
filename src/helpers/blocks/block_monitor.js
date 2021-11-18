@@ -9,7 +9,7 @@ class BlocksMonitor{
         this.ton_web = new TonWeb()
         this.blockSubscribe = new this.ton_web.BlockSubscribe(this.ton_web.provider, BlocksStorageImpl, BlocksStorageImpl.on_transaction);
     }
-    async subscribe(){
+    async start_fetching(){
         this.started = true
        
         try {
@@ -28,14 +28,7 @@ class BlocksMonitor{
     get_blocks_rate(){
         return BlocksStorageImpl.day_blocks
     }
-    async start(){
-        await this.subscribe()
-        this.interval = setInterval(async () => {
-            if(!this.started){
-              await this.subscribe()  
-            }
-        }, 10000);
-    }
+
 }
 
 const block_monitor = new BlocksMonitor()
