@@ -54,4 +54,6 @@ class LiteserverObserver {
         }
     }
   }
-  module.exports = LiteserverObserver;
+
+  const liteservers_observer = new LiteserverObserver(dotenv.parsed.LITESERVER_CONFIG_URL)
+  module.exports = {liteservers_observer}
