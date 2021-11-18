@@ -1,4 +1,4 @@
-const {metrics_service} = require('../../request')
+const {metrics_service, server_service} = require('../../request')
 
 const build_metrics_controller = function() {
     return ({
@@ -7,7 +7,8 @@ const build_metrics_controller = function() {
         get_offers,
         get_elections_data,
         get_blocks_rate,
-        get_accounts_data
+        get_accounts_data,
+        get_liteservers
     })
     async function get_tps({params}) {
         return {status:200,message:{tps:metrics_service.get_tps()}}
@@ -26,6 +27,9 @@ const build_metrics_controller = function() {
     }
     async function get_accounts_data({params}) {
         return {status:200,message:{accounts:metrics_service.get_accounts_data()}}
+    }
+    async function get_liteservers({params}) {
+        return {status:200,message:{accounts:server_service.get_liteservers()}}
     }
 }
 
