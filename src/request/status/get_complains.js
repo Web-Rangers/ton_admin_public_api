@@ -8,7 +8,7 @@ async function get_complaints_list() {
         if (result){
             for(element in result){
                 element = {'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
-                'approvedPercent': approvedPercent, 'isPassed': element.isPassed}
+                'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}
             }
             jrpc.status.complains = result
         }
