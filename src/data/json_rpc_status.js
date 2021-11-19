@@ -14,10 +14,7 @@ class Status{
             endElection: 0,
             services:[],
             offers:[],
-            blocks_rate:{
-                last_block:0,blocks_rate:[]
-            },
-            complains:[],
+            last_block:0,
             validators:[],
             complaints:[],
             liteservers:[],
@@ -34,10 +31,23 @@ class Status{
         let change = false
         for (let kw of Object.entries(data)) {
             let [key,val] = kw
-            if (this.status[key]&&this.status[key]!=val){
-                change = true
-                this.status[key]= val  
-            }    
+            if(this.status[key]){
+                if (Object.keys(val).length>0){
+                    for (let vkw of Object.entries(val)) {
+                        let [vkey,vval] = vkw
+                        this.status[key][vkey] = vval
+                    }
+                    change = true
+                }
+                else{
+                    if(this.status[key]!=val){
+                        change = true
+                    }
+                    if (this.status[key]){
+                        this.status[key] = val  
+                    } 
+                }
+            }     
         }
         if (change)
             emitter.emit('data_change',this.status)

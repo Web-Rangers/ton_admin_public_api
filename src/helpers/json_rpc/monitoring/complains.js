@@ -1,5 +1,5 @@
 const {sendJRPC} = require('../send_jrpc')
-let {status} = require('../../../data/json_rpc_status')
+let {status,emitter} = require('../../../data/json_rpc_status')
 
 async function get_complaints_list() {
     let response = await sendJRPC('/','cl')
@@ -10,7 +10,8 @@ async function get_complaints_list() {
                 element = {'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
                 'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}
             }
-            status.update_status({complains:result})
+            status.status.complaints=result
+            emitter.emit('data_change',status.status)
         }
         return result
     }
