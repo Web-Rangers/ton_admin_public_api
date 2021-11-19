@@ -1,3 +1,4 @@
+const {status} = require('../../data/json_rpc_status')
 
 class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
@@ -5,8 +6,7 @@ class BlocksStorageImpl_ {
 
     constructor() {
         this.on_transaction = this.on_transaction.bind(this)
-        this.day_blocks = []
-        this.last_block = 0
+        this.insertBlocks = this.insertBlocks.bind(this)
         this.day_accounts = {}
     }
 
@@ -31,8 +31,9 @@ class BlocksStorageImpl_ {
      * @param   shardBlockNumbers {[{shardId: string, shardBlockNumber: number}]}
      */
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
-        this.day_blocks.push(mcBlockNumber)
-        this.last_block = mcBlockNumber
+        // this.day_blocks.push(mcBlockNumber)
+        status.status.last_block = mcBlockNumber
+        
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
         if (this.masterchainBlocks[mcBlockNumber] !== undefined) throw new Error('mc already exists ' + mcBlockNumber);
         this.masterchainBlocks[mcBlockNumber] = true;
