@@ -1,5 +1,6 @@
 const axios = require('axios');
 var config = require('./config.json');
+const {status} = require('../../data/json_rpc_status')
 class ServicesObserver {
     constructor() {
       this.services = config;
@@ -30,7 +31,8 @@ class ServicesObserver {
                 }
             }
         }
-        return result_services
+        status.update_status({services:result_services})
     }
   }
-  module.exports = ServicesObserver;
+  const service_monitor = new ServicesObserver()
+  module.exports = {service_monitor};

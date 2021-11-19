@@ -12,7 +12,7 @@ class LiteServerObserver {
 
     static async build (config_url) {
         let config =  await axios.get(config_url)
-        let observer = new LiteserverObserver(config)
+        let observer = new LiteServerObserver(config)
         observer.liteservers = observer.get_liteservers(observer.config)
         await observer.check_liteservers()
         return observer;
@@ -41,14 +41,16 @@ class LiteServerObserver {
 
     async check_liteservers() 
     {
+        let servers = []
         for (const server of this.liteservers) 
         {
             tcpp.ping({ address: server.ip, port:server.port, attempts:1}, function(err, data) {
                 server.time = data.avg
-                
+                servers.push(server)
+                status.update_status({liteservers:servers})
             });
         }
-        status.update_status({liteservers:this.liteservers})
+        
     }
 }
 
