@@ -11,3 +11,5 @@ class ObserverMonitor{
         await this.lite.check_liteservers()
     }
 }
+const servers_monitor = new ObserverMonitor()
+module.exports = {servers_monitor}

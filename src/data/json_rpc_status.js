@@ -1,5 +1,5 @@
 const EventEmitter = require('events')
-const emmiter = new EventEmitter()
+const emitter = new EventEmitter()
 class Status{
     constructor(){
         this.status = {
@@ -10,6 +10,8 @@ class Status{
             startValidation: 0,
             endValidation: 0,
             startNextElection: 0,
+            startElection: 0,
+            endElection: 0,
             services:[],
             offers:[],
             blocks_rate:{
@@ -27,10 +29,9 @@ class Status{
             },
         }
     }
-    
+
     update_status(data){
         let change = false
-        console.log(data);
         for (let kw of Object.entries(data)) {
             let [key,val] = kw
             if (this.status[key]&&this.status[key]!=val){
@@ -38,9 +39,8 @@ class Status{
                 this.status[key]= val  
             }    
         }
-        
         if (change)
-            emmiter.emit('data_change',this.status)
+            emitter.emit('data_change',this.status)
     }
 
     get_status(){
@@ -48,4 +48,4 @@ class Status{
     }
 }
 const status = new Status()
-module.exports ={status,emmiter}
+module.exports ={status,emitter}

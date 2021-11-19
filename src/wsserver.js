@@ -1,35 +1,30 @@
 const dotenv = require('dotenv').config()
 const WebSocket = require('ws');
-var ServicesObserver = require('./services_observer/ServicesObserver');
-var LiteserverObserver = require('./liteservers_observer/LiteserversObserver');
-let {metrics_service,bridge_service, interval_service} = require('./request')
+const {emitter} = require('./data/json_rpc_status')
 
 module.exports = async function start_wsserver()
 {
     const wsServer = new WebSocket.Server({ port: dotenv.parsed.WS_PORT || 3000 });
-
-    let servicesObserver = new ServicesObserver()
-    let liteserversObserver = await LiteserverObserver.build(dotenv.parsed.LITESERVER_CONFIG_URL)
- 
-    let lastData = JSON.stringify({
-        services: await servicesObserver.checkServices(), 
-        liteservers: liteserversObserver.liteservers,
-        elections: metrics_service.get_elections_data(),
-        complaints: metrics_service.get_complaints(),
-        blocks_rate:metrics_service.get_blocks_rate(),
-        validators: metrics_service.get_validators(),
-        offers: metrics_service.get_offers(),
-        bridge:{
-            eth:bridge_service.get_eth_status(),
-            bsc:bridge_service.get_bsc_status(),
-        }
-    });
+    let lastData = {}
+    // let lastData = JSON.stringify({
+    //     services: await servicesObserver.checkServices(), 
+    //     liteservers: liteserversObserver.liteservers,
+    //     elections: metrics_service.get_elections_data(),
+    //     complaints: metrics_service.get_complaints(),
+    //     blocks_rate:metrics_service.get_blocks_rate(),
+    //     validators: metrics_service.get_validators(),
+    //     offers: metrics_service.get_offers(),
+    //     bridge:{
+    //         eth:bridge_service.get_eth_status(),
+    //         bsc:bridge_service.get_bsc_status(),
+    //     }
+    // });
 
     wsServer.on('connection', function(ws) {
 
         console.log("New connection!");
 
-        ws.send(lastData);
+        ws.send(JSON.stringify(lastData));
 
         ws.on('message', function(message) {});
 
@@ -41,33 +36,10 @@ module.exports = async function start_wsserver()
             console.log('Connection closed');
         });
     });
-
-    setInterval(async () => {
-        console.log("fetching data...");
-    
-        await liteserversObserver.check_liteservers()
-    
-        lastData = JSON.stringify({
-          services: await servicesObserver.checkServices(), 
-          liteservers: liteserversObserver.liteservers,
-          elections: metrics_service.get_elections_data(),
-          complaints: metrics_service.get_complaints(),
-          blocks_rate:metrics_service.get_blocks_rate(),
-          validators: metrics_service.get_validators(),
-          offers: metrics_service.get_offers(),
-          bridge:{
-            eth:bridge_service.get_eth_status(),
-            bsc:bridge_service.get_bsc_status(),
-        }
-        });
-    
-        console.log("data fetched!");
-    }, dotenv.parsed.WS_INTERVAL || 15000)
-
-    setInterval(async () => {
+    emitter.on('data_change',(data)=>{
+        lastData = data
         for (const wsClient of wsServer.clients) {
-            wsClient.send(lastData) 
+            wsClient.send(JSON.stringify(data)) 
         }
-        console.log("data sended");
-    }, dotenv.parsed.WS_SEND_INTERVAL || 15000)
+    })
 }
