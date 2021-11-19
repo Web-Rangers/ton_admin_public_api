@@ -19,6 +19,7 @@ class Status{
             validators:[],
             complaints:[],
             liteservers:[],
+            dhtservers:[],
             blocks:[],
             bridge:{
                 eth:false,
@@ -29,7 +30,7 @@ class Status{
     
     update_status(data){
         let change = false
-      
+        console.log(data);
         for (let kw of Object.entries(data)) {
             let [key,val] = kw
             if (this.status[key]&&this.status[key]!=val){

@@ -1,7 +1,7 @@
 const {bridges_monitor,status_requester,block_monitor} = require('./helpers')
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const start_server = require('./server')
-const start_wsserver = require('./wsserver')
+// const start_wsserver = require('./wsserver')
 
 async function start(){
     await block_monitor.start_fetching()
@@ -10,9 +10,10 @@ async function start(){
         if(!block_monitor.started){
             await block_monitor.start_fetching()  
         }
+        
         await status_requester.fetch_data()
-    }, 1000);
+    }, 2000);
     start_server()
-    start_wsserver()
+    // start_wsserver()
 }
 start()

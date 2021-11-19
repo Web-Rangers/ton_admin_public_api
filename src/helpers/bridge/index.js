@@ -1,4 +1,4 @@
-const {BSCBridge} = require('./bsc/bsc')
-const {ETHBridge} = require('./eth/eth')
+const {bridges_monitor} = require('./bridge_monitor')
 
-module.exports = {BSCBridge, ETHBridge}
+
+module.exports = {bridges_monitor}

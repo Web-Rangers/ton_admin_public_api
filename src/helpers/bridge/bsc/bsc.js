@@ -55,11 +55,13 @@ class BSCBridge{
                 this.add_ton_out_transaction(iterator.in_msg.message.slice(7).toLowerCase(),iterator.utime)
             }
             else{
-                let adress = iterator.out_msgs[0].destination.toLowerCase()
-                if (this.bsc_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){
-                    this.ton_timeouts.push(iterator.utime)
-                    this.bsc_out[adress].shift()
-                }
+                if(iterator.out_msgs.length>0){
+                    let adress = iterator.out_msgs[0].destination.toLowerCase()
+                    if (this.bsc_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){
+                        this.ton_timeouts.push(iterator.utime)
+                        this.bsc_out[adress].shift()
+                    }
+                }  
             }
         }
         return transactions
