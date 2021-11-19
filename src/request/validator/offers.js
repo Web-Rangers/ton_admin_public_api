@@ -1,8 +1,8 @@
 
-let jrpc = require('../../data/json_rpc_status')
+let {status} = require('../../data/json_rpc_status')
 
 async function get_offers() {
-    return {'offers': jrpc.status.offers}
+    return {'offers': status.get_status().offers}
 }
     
 module.exports = {get_offers}

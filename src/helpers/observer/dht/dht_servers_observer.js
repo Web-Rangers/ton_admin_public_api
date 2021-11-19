@@ -1,7 +1,7 @@
 const axios = require('axios');
 var tcpp = require('tcp-ping');
 
-class DHTserverObserver {
+class DHTServerObserver {
     constructor(config) {
       this.config = config;
       this.dhtservers;
@@ -9,7 +9,7 @@ class DHTserverObserver {
 
     static async build (config_url) {
         let config =  await axios.get(config_url)
-        let observer = new DHTserverObserver(config)
+        let observer = new DHTServerObserver(config)
         observer.dhtservers = observer.get_dhtservers(observer.config)
         await observer.check_dhtservers()
         return observer;
@@ -43,4 +43,4 @@ class DHTserverObserver {
         }
     }
   }
-  module.exports = DHTserverObserver;
+  module.exports = {DHTServerObserver};

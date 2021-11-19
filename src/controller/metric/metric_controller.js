@@ -7,7 +7,7 @@ const build_metrics_controller = function() {
         get_offers,
         get_elections_data,
         get_blocks_rate,
-        get_accounts_data
+        get_accounts_data,
     })
     async function get_tps({params}) {
         return {status:200,message:{tps:metrics_service.get_tps()}}

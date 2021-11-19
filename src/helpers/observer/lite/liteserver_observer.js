@@ -1,7 +1,9 @@
 const axios = require('axios');
 var tcpp = require('tcp-ping');
+let {status} = require('../../../data/json_rpc_status')
 
-class LiteserverObserver {
+class LiteServerObserver {
+
     constructor(config) 
     {
       this.config = config;
@@ -37,21 +39,17 @@ class LiteserverObserver {
         return ip_arr;
     }
 
-    // async  configure(config_url)
-    // {
-    //     this.config =  await axios.get(config_url)
-    //     this.liteservers = this.get_liteservers(this.config)
-    //     await this.check_liteservers()
-    // }
-
     async check_liteservers() 
     {
         for (const server of this.liteservers) 
         {
             tcpp.ping({ address: server.ip, port:server.port, attempts:1}, function(err, data) {
                 server.time = data.avg
+                
             });
         }
+        status.update_status({liteservers:this.liteservers})
     }
-  }
-  module.exports = LiteserverObserver;
+}
+
+  module.exports = {LiteServerObserver}

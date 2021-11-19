@@ -1,5 +1,5 @@
-const {sendJRPC} = require('../jsonrpc')
-let config = require('../../config')
+const {sendJRPC} = require('../send_jrpc')
+let config = require('../../../config')
 
 async function login() {
     let result = await sendJRPC('/','login',[config.NODE_URL,config.PASSWRD]) 
