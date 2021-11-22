@@ -12,7 +12,7 @@ const build_admin_controller = function() {
         let jsonrpc_token = res.data.result.token
         let api = res.data.result.api
         if (jsonrpc_token){
-            return {status:200,message:'logged',data:{token:await auth_service.login(jsonrpc_token,api)}}
+            return {status:200,message:'logged',result:{token:await auth_service.login(jsonrpc_token,api)}}
         }
         return {status:400,message:'invalid credentials or server are not available'}
     }
@@ -26,13 +26,13 @@ const build_admin_controller = function() {
                 request.body.token = verify_token.token
                 request.body.url = verify_token.url
                 let result = await admin_service.tonadmin_proxy(request)
-                return{status:200,message:'sucess', data:result.data.result}
+                return{status:200,message:'sucess', result:result.data.result}
             }
             else{
-                return{status:403,message:'inalid token', data:{}} 
+                return{status:403,message:'invalid token', result:{}} 
             }  
         }
-        return{status:401,message:'unautorized', data:{}}
+        return{status:401,message:'unautorized', result:{}}
     }
 }
 
