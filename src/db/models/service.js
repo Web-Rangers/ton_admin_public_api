@@ -3,9 +3,8 @@ const mongoose = require('mongoose')
 const Page = mongoose.Schema({
     url: { type: String, required: true },
     status: { type: String, required: true},
-    ping: { type: Number, required: true},
-    date: { type: Date, requeired: true }
-})
+    ping: { type: Number, required: true}
+}, {timestamps: true})
 
 const Service = mongoose.Schema({
     name: { type: String, required: true},

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const Block = mongoose.Schema({
+const blockSchema = new Schema({
     block_id: { type: Number, required: true}
-})
+}, {timestamps: true})
 
-module.exports = mongoose.model('Block', Block)
+let Block = mongoose.model('Block', blockSchema)
+module.exports = Block

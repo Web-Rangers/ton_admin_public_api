@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const Transaction = mongoose.Schema({
     hash: { type: String, required: true }
-})
+}, {timestamps: true})
 
 const Bridge = mongoose.Schema({
     name: { type: String, required: true},
