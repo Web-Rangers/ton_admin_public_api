@@ -7,17 +7,14 @@ let api_callback= (controller)=>{
           ip: req.ip,
           method: req.method,
           path: req.path,
-          headers: {
-            'Content-Type': req.get('Content-Type'),
-            Referer: req.get('referer'),
-            'User-Agent': req.get('User-Agent')
-          }
+          headers: req.headers
       }
       controller(httpRequest)
       .then((httpResponse) => {
-        return res.status(httpResponse.status).send({status:httpResponse.status,message:httpResponse.message})
+        return res.status(httpResponse.status).send({status:httpResponse.status,message:httpResponse.message,data:httpResponse.data})
       })
       .catch(async (err) => {
+        console.log(err);
         res.status(500).send({ error: err })
       })
     }

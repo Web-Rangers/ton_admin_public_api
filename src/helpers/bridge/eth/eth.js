@@ -73,7 +73,7 @@ class ETHBridge{
                 'apikey':apikey
             }
         }) 
-        if (transactions.data.result){
+        try {
             for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
                 let from = trans.from.toLowerCase()
                 if (this.ton_out[from]&&!this.eth_timeouts.includes(trans.utime)){
@@ -86,7 +86,10 @@ class ETHBridge{
                 let parse = web3.eth.abi.decodeParameters(['uint256', 'int8', 'bytes32'],'0x' + trans.input.slice(10))
                 this.add_eth_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
             }
+        } catch (error) {
+            return undefined
         }
+            
         return transactions  
     }
     is_alive(){
