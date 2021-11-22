@@ -1,4 +1,3 @@
-let https = require('https')
 let axios = require('axios')
 let config = require('../../config')
 

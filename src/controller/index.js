@@ -1,7 +1,9 @@
 const {build_bridge_controller} = require('./bridge')
 const {build_metrics_controller} = require('./metric')
 const {build_service_controller} = require('./service')
+const {build_admin_controller} = require('./ton_admin')
 let MetricController = build_metrics_controller()
 let BridgeController = build_bridge_controller()
 let ServiceController = build_service_controller()
-module.exports = {BridgeController,MetricController,ServiceController}
+let AdminController = build_admin_controller()
+module.exports = {BridgeController,MetricController,ServiceController,AdminController}
