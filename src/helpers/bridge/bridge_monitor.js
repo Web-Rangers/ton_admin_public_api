@@ -15,7 +15,7 @@ class BridgesMonitor{
         if (this.bsc_bridge.is_alive()){
             return true
         }
-        ton_bot.sendAlert("bsc bridge isdead \n ton_out_transactions:"+Object.keys(this.bsc_bridge.ton_out).join(',')+" \n bsc_out:"+Object.keys(this.bsc_bridge.bsc_out).join(',')+"")
+        ton_bot.sendAlert("bsc bridge isdead \n ton_out_transactions:"+Object.keys(this.bsc_bridge.ton_out).join(',\n\t')+" \n bsc_out:"+Object.keys(this.bsc_bridge.bsc_out).join(',\n\t')+"")
         return false
     }
 
@@ -31,7 +31,7 @@ class BridgesMonitor{
         if (this.eth_bridge.is_alive()){
             return true
         }
-        ton_bot.sendAlert("eth bridge isdead \n ton_out_transactions:"+Object.keys(this.eth_bridge.ton_out).join(',')+" \n eth_out:"+Object.keys(this.eth_bridge.eth_out).join(',')+"")
+        ton_bot.sendAlert("eth bridge isdead \n ton_out_transactions: \n"+Object.keys(this.eth_bridge.ton_out).join(',\n\t')+" \n eth_out:"+Object.keys(this.eth_bridge.eth_out).join(',\n\t')+"")
         return false 
     }
     stop(){
