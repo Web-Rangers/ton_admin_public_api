@@ -80,21 +80,23 @@ class BSCBridge{
                 'apikey':apikey
             }
         })
-        if (transactions.data.result){
-            for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
-                let from = trans.from.toLowerCase()
-                if (this.ton_out[from]&&!this.bsc_timeouts.includes(trans.timeStamp)){
-                    this.bsc_timeouts.push(trans.timeStamp)
-                    this.ton_out[from].shift()
+            try {
+                for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
+                    let from = trans.from.toLowerCase()
+                    if (this.ton_out[from]&&!this.bsc_timeouts.includes(trans.timeStamp)){
+                        this.bsc_timeouts.push(trans.timeStamp)
+                        this.ton_out[from].shift()
+                    }
                 }
+                let bsc_out = transactions.data.result.filter(trans => trans.input.substring(0,10) == '0xe057fbff')
+                for (const trans of bsc_out) {
+                    let parse = web3.eth.abi.decodeParameters(['uint256', 'int8', 'bytes32'],'0x' + trans.input.slice(10))
+                    this.add_bsc_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
+                }
+            } catch (error) {
+                return undefined
             }
-            let bsc_out = transactions.data.result.filter(trans => trans.input.substring(0,10) == '0xe057fbff')
-            for (const trans of bsc_out) {
-                let parse = web3.eth.abi.decodeParameters(['uint256', 'int8', 'bytes32'],'0x' + trans.input.slice(10))
-                this.add_bsc_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
-            }
-        }
-        
+            
         return transactions   
     }
     is_alive(){
