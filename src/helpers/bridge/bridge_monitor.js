@@ -21,14 +21,14 @@ class BridgesMonitor{
         if (this.bsc_bridge.is_alive()){
             return true
         }
-        emmiter.emit('bridge_down',"bsc bridge isdead \n ton_out_transactions:"+Object.keys(this.bsc_bridge.ton_out).join(',')+" \n bsc_out:"+Object.keys(this.bsc_bridge.bsc_out).join(',')+"")
+        emmiter.emit('bridge_down',"bsc bridge isdead \n ton_out_transactions:"+Object.keys(this.bsc_bridge.ton_out).join(',\n\t')+" \n bsc_out:"+Object.keys(this.bsc_bridge.bsc_out).join(',\n\t')+"")
         return false
     }
     get_eth_bridge_status(){
         if (this.eth_bridge.is_alive()){
             return true
         }
-        emmiter.emit('bridge_down',"eth bridge isdead \n ton_out_transactions:"+Object.keys(this.eth_bridge.ton_out).join(',')+" \n eth_out:"+Object.keys(this.eth_bridge.eth_out).join(',')+"")
+        emmiter.emit('bridge_down',"eth bridge isdead \n ton_out_transactions:"+Object.keys(this.eth_bridge.ton_out).join(',\n\t')+" \n eth_out:"+Object.keys(this.eth_bridge.eth_out).join(',\n\t')+"")
         return false 
     }
     get_bsc_bridge_transactions(){return {'bsc':this.bsc_bridge.bsc_out,'ton':this.bsc_bridge.ton_out}}
