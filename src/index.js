@@ -4,7 +4,7 @@ const start_server = require('./server')
 const start_wsserver = require('./wsserver')
 
 async function start(){
-    //first fetch
+    // first fetch
     await block_monitor.start_fetching()
     await servers_monitor.create_observers()
    
