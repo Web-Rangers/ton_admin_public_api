@@ -4,7 +4,7 @@ function build_routes(app) {
     app.use('/api/bridge',bridge_router)
     app.use('/api/metric',metric_router)
     app.use('/api/service',service_router)
-    app.use('/admin',admin_router)
+    app.use('/api/admin',admin_router)
 }
 
 module.exports = {build_routes}
