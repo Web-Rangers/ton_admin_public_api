@@ -1,7 +1,7 @@
-const Block = require('./block')
-const {Bridge, Transaction} = require('./bridge')
+const {Block, BlockTransaction} = require('./block')
+const {Bridge, TonBridgeTransaction, Web3BridgeTransaction} = require('./bridge')
 const {Server} = require('./server')
-const {Service} = require('./service')
+const {Service, Page} = require('./service')
 const {User} = require('./user')
 
-module.exports = {Block, Bridge, Transaction, Server, Service, User}
+module.exports = {Block, BlockTransaction, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, Service, Page, User}

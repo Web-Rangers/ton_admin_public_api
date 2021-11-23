@@ -1,14 +1,16 @@
 const mongoose = require('mongoose')
 
-const Page = mongoose.Schema({
+const pageSchema = mongoose.Schema({
     url: { type: String, required: true },
-    status: { type: String, required: true},
+    status: { type: Number, required: true},
     ping: { type: Number, required: true}
 }, {timestamps: true})
 
-const Service = mongoose.Schema({
+const serviceSchema = mongoose.Schema({
     name: { type: String, required: true},
-    pages: [{ type: mongoose.Schema.ObjectId, ref: 'Page' }]
+    pages: [{ type: mongoose.Schema.Types.Mixed, ref: 'Page' }]
 })
 
-module.exports = mongoose.model('Service', Service), mongoose.model('Page', Page)
+const Page = mongoose.model('Page', pageSchema)
+const Service = mongoose.model('Service', serviceSchema)
+module.exports = {Service, Page}

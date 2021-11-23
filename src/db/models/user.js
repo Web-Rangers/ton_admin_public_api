@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
-const User = mongoose.Schema({
+const userSchema = mongoose.Schema({
     ip: { type: String, required: true }
 })
 
-module.exports = mongoose.model('User', User)
+const User = mongoose.model('User', userSchema)
+module.exports = { User }
