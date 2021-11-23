@@ -11,6 +11,7 @@ const build_admin_controller = function() {
         let res = await admin_service.tonadmin_login(request.body)
         let jsonrpc_token = res.data.result.token
         let api = res.data.result.api
+        console.log(res);
         if (jsonrpc_token){
             return {status:200,message:'logged',result:{token:await auth_service.login(jsonrpc_token,api)}}
         }
@@ -23,10 +24,12 @@ const build_admin_controller = function() {
         if (request.headers['authorization']){
             let verify_token = await auth_service.check(request.headers['authorization'])
             if (verify_token){
+                console.log(verify_token);
                 request.body.token = verify_token.token
                 request.body.url = verify_token.url
                 let result = await admin_service.tonadmin_proxy(request)
-                return{status:200,message:'sucess', result:result.data.result}
+                console.log();
+                return{status:200,message:'sucess', result:result.data.result?result.data.result:result.data.error}
             }
             else{
                 return{status:403,message:'invalid token', result:{}} 
