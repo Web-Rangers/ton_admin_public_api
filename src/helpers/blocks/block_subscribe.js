@@ -68,6 +68,7 @@ class BlocksStorageImpl_ {
         await this.insertShardBlocks(prevShardBlocks);
     }
     on_transaction(shortTx){
+        console.log(shortTx);
         var timestamp = new Date().getTime()/1000;
         if (!this.day_accounts[shortTx.account]){
             this.day_accounts[shortTx.account]=timestamp;
@@ -75,7 +76,9 @@ class BlocksStorageImpl_ {
         else{
             this.day_accounts[shortTx.account]=timestamp
         }
+
     }
+    
     clear_accounts(){
         for (let kv in this.day_accounts) {
             let [key,value] = kv 
