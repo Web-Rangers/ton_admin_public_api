@@ -68,6 +68,7 @@ class ETHBridge{
     }
     async calc_eth_network_transactions(offset=100,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
         //return await this.eth_contract.methods.getFullOracleSet().call()
+        try {
         let transactions = await axios.get(eth_address,{
             params:{
                 'module':'account',
@@ -81,7 +82,7 @@ class ETHBridge{
                 'apikey':apikey
             }
         }) 
-        try {
+        
             for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
                 let from = trans.from.toLowerCase()
                 if (this.ton_out[from]&&!this.eth_timeouts.includes(trans.utime)){

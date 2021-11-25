@@ -75,20 +75,21 @@ class BSCBridge{
         }
     }
     async calc_bsc_network_transactions(offset=100,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
-        let transactions = await axios.get(bsc_adress,{
-            params:{
-                'module':'account',
-                'action':'txlist',
-                'address': this.bsc_bridge_adress,
-                'startblock':startblock,
-                'endblock':99999999,
-                'page':1,
-                'offset':offset,
-                'sort':'desc',
-                'apikey':apikey
-            }
-        })
-            try {
+        try {    
+                let transactions = await axios.get(bsc_adress,{
+                        params:{
+                            'module':'account',
+                            'action':'txlist',
+                            'address': this.bsc_bridge_adress,
+                            'startblock':startblock,
+                            'endblock':99999999,
+                            'page':1,
+                            'offset':offset,
+                            'sort':'desc',
+                            'apikey':apikey
+                        }
+                })
+            
                 for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
                     let from = trans.from.toLowerCase()
                     if (this.ton_out[from]&&!this.bsc_timeouts.includes(trans.timeStamp)){
