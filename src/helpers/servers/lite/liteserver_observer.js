@@ -1,6 +1,7 @@
 const axios = require('axios');
 var tcpp = require('tcp-ping');
 let {status} = require('../../../data/json_rpc_status')
+const {create_server} = require('../../../db/operations/server')
 
 class LiteServerObserver {
 
@@ -49,8 +50,8 @@ class LiteServerObserver {
                 servers.push(server)
                 status.update_status({liteservers:servers})
             });
+            create_server(server.ip, server.port, server.time)
         }
-        
     }
 }
 

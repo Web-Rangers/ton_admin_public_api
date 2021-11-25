@@ -9,9 +9,9 @@ const blockTransactionSchema = mongoose.Schema({
     date: { type: Date, required: true }
 })
 
-const blockSchema = new Schema({
+const blockSchema = mongoose.Schema({
     block_id: { type: Number, required: true },
-    transactions: { type: Schema.Types.Mixed, ref: 'BlockTransaction'}
+    transactions: { type: mongoose.Schema.Types.Mixed, ref: 'BlockTransaction'}
 }, {timestamps: true})
 
 const Block = mongoose.model('Block', blockSchema)

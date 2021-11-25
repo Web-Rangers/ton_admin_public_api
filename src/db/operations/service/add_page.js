@@ -1,17 +1,16 @@
 const {Service, Page} = require('../../models')
 
-function add_page(serviceId, url, status, ping){
-	let page = new Page({
-		url: url,
-		status: status,
-        ping: ping
-	})
-    Service.findByIdAndUpdate(serviceId, {"$push": { 'pages': page }}, function(err, data) {
-	 	if (!err)
-            console.log('Page added successfully!')
+function add_page(serviceId, pageName, response_status, response_time){
+    let query = Service.findById(serviceId)
+    query.exec(function(err,service){
+	  	if (!err){
+            let page = service.pages.find(item => item.name = pageName)
+            console.log(page.months[0]);
+            //console.log('Page added successfully!')
+        }
         else
-            console.log('Error during record insertion : ' + err)
-    }); 
+           console.log('Error during record insertion : ' + err)
+    });
 }
 
 module.exports = {add_page}

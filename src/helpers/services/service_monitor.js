@@ -1,6 +1,7 @@
 const axios = require('axios');
 var config = require('./config.json');
 const {status} = require('../../data/json_rpc_status')
+const {add_page, create_service} = require('../../db/operations/service')
 class ServicesObserver {
     constructor() {
       this.services = config;
@@ -31,6 +32,9 @@ class ServicesObserver {
                 }
             }
         }
+        result_services.forEach(element => {
+            console.log(element);
+        });
         status.update_status({services:result_services})
     }
   }
