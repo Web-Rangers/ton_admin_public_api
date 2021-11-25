@@ -32,9 +32,6 @@ class ServicesObserver {
                 }
             }
         }
-        result_services.forEach(element => {
-            console.log(element);
-        });
         status.update_status({services:result_services})
     }
   }

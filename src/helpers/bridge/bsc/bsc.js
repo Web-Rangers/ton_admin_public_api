@@ -67,11 +67,12 @@ class BSCBridge{
                     }  
                 }
             }
-            return transactions
+            
         }
         catch(error)
         {
-            return undefined
+            console.log("Ton(bsc) bridge error:\n");
+            console.log(error);
         }
     }
     async calc_bsc_network_transactions(offset=100,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
@@ -103,10 +104,9 @@ class BSCBridge{
                     this.add_bsc_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
                 }
             } catch (error) {
-                return undefined
+                console.log("Bsc bridge error:\n");
+                console.log(error);
             }
-            
-        return transactions   
     }
     is_alive(){
         for (const iterator of Object.entries(this.ton_out)) {
