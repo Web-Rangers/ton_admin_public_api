@@ -6,10 +6,10 @@ const build_service_controller = function() {
         get_liteservers
     })
     async function get_liteservers({params}) {
-        return {status:200,message:{liteservers:server_service.get_liteservers()}}
+        return {status:200,result:{liteservers:server_service.get_liteservers()}}
     }
     async function get_dhtservers({params}) {
-        return {status:200,message:{dhtservers:server_service.get_dhtservers()}}
+        return {status:200,result:{dhtservers:server_service.get_dhtservers()}}
     }
 }
 

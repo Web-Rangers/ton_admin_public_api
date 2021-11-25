@@ -48,23 +48,31 @@ class BSCBridge{
         }        
     }
     // get transaction list from TON network
-    async calc_ton_network_transactions(limit = 10, lt = undefined, txhash = undefined, to_lt = undefined) {
-        let transactions = await this.ton_web.getTransactions(this.tonnetwork_bridge_adress,limit,lt,txhash,to_lt)
-        for (let iterator of transactions) {
-            if (iterator.in_msg.message.includes('swapTo')){
-                this.add_ton_out_transaction(iterator.in_msg.message.slice(7).toLowerCase(),iterator.utime)
+    async calc_ton_network_transactions(limit = 10, lt = undefined, txhash = undefined, to_lt = undefined) 
+    {
+        try
+        {
+            let transactions = await this.ton_web.getTransactions(this.tonnetwork_bridge_adress,limit,lt,txhash,to_lt)
+            for (let iterator of transactions) {
+                if (iterator.in_msg.message.includes('swapTo')){
+                    this.add_ton_out_transaction(iterator.in_msg.message.slice(7).toLowerCase(),iterator.utime)
+                }
+                else{
+                    if(iterator.out_msgs.length>0){
+                        let adress = iterator.out_msgs[0].destination.toLowerCase()
+                        if (this.bsc_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){
+                            this.ton_timeouts.push(iterator.utime)
+                            this.bsc_out[adress].shift()
+                        }
+                    }  
+                }
             }
-            else{
-                if(iterator.out_msgs.length>0){
-                    let adress = iterator.out_msgs[0].destination.toLowerCase()
-                    if (this.bsc_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){
-                        this.ton_timeouts.push(iterator.utime)
-                        this.bsc_out[adress].shift()
-                    }
-                }  
-            }
+            return transactions
         }
-        return transactions
+        catch(error)
+        {
+            return undefined
+        }
     }
     async calc_bsc_network_transactions(offset=100,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
         let transactions = await axios.get(bsc_adress,{

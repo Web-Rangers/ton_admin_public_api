@@ -45,18 +45,26 @@ class ETHBridge{
         }      
     }
     // get transaction list from TON network
-    async calc_ton_network_transactions(limit = 10, lt = undefined, txhash = undefined, to_lt = undefined) {
-       let transactions = await this.ton_web.getTransactions(this.tonnetwork_bridge_address,limit,lt,txhash,to_lt)
-        for (let iterator of transactions) {
-            if (iterator.in_msg.message.includes('swapTo')){
-                this.add_ton_out_transaction(iterator.in_msg.message.slice(7).toLowerCase(),iterator.utime)
+    async calc_ton_network_transactions(limit = 10, lt = undefined, txhash = undefined, to_lt = undefined) 
+    {
+        try
+        {
+            let transactions = await this.ton_web.getTransactions(this.tonnetwork_bridge_address,limit,lt,txhash,to_lt)
+            for (let iterator of transactions) {
+                if (iterator.in_msg.message.includes('swapTo')){
+                    this.add_ton_out_transaction(iterator.in_msg.message.slice(7).toLowerCase(),iterator.utime)
+                }
+                else{
+                    let adress = iterator.out_msgs[0].destination.toLowerCase()
+                    if (this.eth_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){this.ton_timeouts.push(iterator.utime);this.eth_out[adress].shift()}
+                }
             }
-            else{
-                let adress = iterator.out_msgs[0].destination.toLowerCase()
-                if (this.eth_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){this.ton_timeouts.push(iterator.utime);this.eth_out[adress].shift()}
-            }
+            return transactions
         }
-        return transactions
+        catch(error)
+        {
+            return undefined
+        }
     }
     async calc_eth_network_transactions(offset=100,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
         //return await this.eth_contract.methods.getFullOracleSet().call()
