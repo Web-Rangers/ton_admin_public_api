@@ -52,7 +52,6 @@ class LiteServerObserver {
                 status.update_status({liteservers:servers})
                 update_server(server.ip, server.port, server.time)
             });
-            
         }
     }
 }

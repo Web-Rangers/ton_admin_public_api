@@ -59,15 +59,16 @@ class ETHBridge{
                     if (this.eth_out[adress]&&!this.ton_timeouts.includes(iterator.utime)){this.ton_timeouts.push(iterator.utime);this.eth_out[adress].shift()}
                 }
             }
-            return transactions
         }
         catch(error)
         {
-            return undefined
+            console.log("Ton(eth) bridge error:\n");
+            console.log(error);
         }
     }
     async calc_eth_network_transactions(offset=100,startblock=0,apikey='7PWNNIPH8F8HEMCI3AZIHWNUB46VICMP67',eth_address = 'https://api.etherscan.io/api'){
         //return await this.eth_contract.methods.getFullOracleSet().call()
+        try {
         let transactions = await axios.get(eth_address,{
             params:{
                 'module':'account',
@@ -81,7 +82,7 @@ class ETHBridge{
                 'apikey':apikey
             }
         }) 
-        try {
+        
             for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
                 let from = trans.from.toLowerCase()
                 if (this.ton_out[from]&&!this.eth_timeouts.includes(trans.utime)){
@@ -95,10 +96,9 @@ class ETHBridge{
                 this.add_eth_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
             }
         } catch (error) {
-            return undefined
-        }
-            
-        return transactions  
+            console.log("ETH bridge error:\n");
+            console.log(error);
+        } 
     }
     is_alive(){
         for (const iterator of Object.entries(this.ton_out)) {

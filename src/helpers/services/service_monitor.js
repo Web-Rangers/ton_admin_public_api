@@ -26,9 +26,6 @@ class ServicesObserver {
                 await update_service(service.service_name,page);
             }
         }
-        // result_services.forEach(element => {
-        //     console.log(element);
-        // });
         status.update_status({services:result_services})
     }
   }

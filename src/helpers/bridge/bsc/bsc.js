@@ -65,28 +65,30 @@ class BSCBridge{
                     }  
                 }
             }
-            return transactions
+            
         }
         catch(error)
         {
-            return undefined
+            console.log("Ton(bsc) bridge error:\n");
+            console.log(error);
         }
     }
     async calc_bsc_network_transactions(offset=100,startblock=0,apikey = 'SRXAIJ7ZR1UT2PCP96MC39C31J4D1WMNKG',bsc_adress = 'https://api.bscscan.com/api'){
-        let transactions = await axios.get(bsc_adress,{
-            params:{
-                'module':'account',
-                'action':'txlist',
-                'address': this.bsc_bridge_adress,
-                'startblock':startblock,
-                'endblock':99999999,
-                'page':1,
-                'offset':offset,
-                'sort':'desc',
-                'apikey':apikey
-            }
-        })
-            try {
+        try {    
+                let transactions = await axios.get(bsc_adress,{
+                        params:{
+                            'module':'account',
+                            'action':'txlist',
+                            'address': this.bsc_bridge_adress,
+                            'startblock':startblock,
+                            'endblock':99999999,
+                            'page':1,
+                            'offset':offset,
+                            'sort':'desc',
+                            'apikey':apikey
+                        }
+                })
+            
                 for (const trans of transactions.data.result.filter(trans => trans.input.substring(0,10) == '0x4054b92b')) {
                     let from = trans.from.toLowerCase()
                     if (this.ton_out[from]&&!this.bsc_timeouts.includes(trans.timeStamp)){
@@ -100,10 +102,9 @@ class BSCBridge{
                     this.add_bsc_out_transaction(new this.ton_web.Address(parse[1]+':'+parse[2].slice(2)).toString(true, true, true, false).toLowerCase(),trans.timeStamp)
                 }
             } catch (error) {
-                return undefined
+                console.log("Bsc bridge error:\n");
+                console.log(error);
             }
-            
-        return transactions   
     }
     is_alive(){
         for (const iterator of Object.entries(this.ton_out)) {
