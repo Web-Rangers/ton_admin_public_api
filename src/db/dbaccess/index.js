@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const dotenv = require('dotenv')
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
 
 function connection(){
@@ -15,4 +15,4 @@ moongo.once("open", function () {
   console.log("Connected successfully to MongoDB!");
 });
 
-module.exports = {moongo}
+export  {moongo}

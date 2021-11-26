@@ -1,5 +1,5 @@
-const TonWeb = require('tonweb')
-const {BlocksStorageImpl} = require('./block_subscribe')
+import TonWeb from 'tonweb'
+import {BlocksStorageImpl} from './block_subscribe'
 
 class BlocksMonitor{
     started = false
@@ -33,4 +33,4 @@ class BlocksMonitor{
 
 const block_monitor = new BlocksMonitor()
 
-module.exports = {block_monitor}
+export {block_monitor}

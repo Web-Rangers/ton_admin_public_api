@@ -1,5 +1,5 @@
-const axios = require('axios');
-var tcpp = require('tcp-ping');
+import axios from 'axios'
+import tcpp from 'tcp-ping'
 
 class DHTServerObserver {
     constructor(config) {
@@ -43,4 +43,4 @@ class DHTServerObserver {
         }
     }
   }
-  module.exports = {DHTServerObserver};
+  export {DHTServerObserver};

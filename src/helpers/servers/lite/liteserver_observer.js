@@ -1,7 +1,7 @@
-const axios = require('axios');
-var tcpp = require('tcp-ping');
-let {status} = require('../../../data/json_rpc_status')
-const {create_server} = require('../../../db/operations/server')
+import axios from 'axios'
+import tcpp from 'tcp-ping'
+import {status} from '../../../data/json_rpc_status'
+import {update_server} from '../../../db/operations/server'
 
 class LiteServerObserver {
 
@@ -9,6 +9,7 @@ class LiteServerObserver {
     {
       this.config = config;
       this.liteservers;
+      this.check_liteservers = this.check_liteservers.bind(this)
     }
 
     static async build (config_url) {
@@ -49,10 +50,11 @@ class LiteServerObserver {
                 server.time = data.avg
                 servers.push(server)
                 status.update_status({liteservers:servers})
+                update_server(server.ip, server.port, server.time)
             });
-            create_server(server.ip, server.port, server.time)
+            
         }
     }
 }
 
-  module.exports = {LiteServerObserver}
+export {LiteServerObserver}

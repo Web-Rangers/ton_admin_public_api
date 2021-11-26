@@ -1,18 +1,16 @@
-const TonWeb = require('tonweb')
-const Web3 = require('web3');
+import TonWeb from 'tonweb'
+import Web3 from 'web3'
 const web3 = new Web3(Web3.givenProvider || 'wss://speedy-nodes-nyc.moralis.io/b6e921da0c20b0b94b5a8f61/bsc/mainnet/ws');
-const axios = require('axios')
+import axios from 'axios'
 //in minutes
 const CHECKEDPERIOD = 15
-
-
 
 class BSCBridge{
     //now tonnetwork_bridge_adress : Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r
     //now bsc_bridge_adress : 0x76A797A59Ba2C17726896976B7B3747BfD1d220f
     
     constructor(tonnetwork_bridge_adress='Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r', bsc_bridge_adress='0x76A797A59Ba2C17726896976B7B3747BfD1d220f'){
-        let json = require('./contract_json.json')
+        const json = require('./contract_json.json')
         this.bsc_contract = new web3.eth.Contract(json,bsc_bridge_adress)
         this.tonnetwork_bridge_adress = tonnetwork_bridge_adress
         this.bsc_bridge_adress = bsc_bridge_adress
@@ -110,14 +108,14 @@ class BSCBridge{
     is_alive(){
         for (const iterator of Object.entries(this.ton_out)) {
             let [key,val] = iterator
-            let ton_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            let ton_check = val.find(x=>~~(new Date()-new Date(x*1000))/(1000*60)>CHECKEDPERIOD)
             
             if (ton_check) return false
              
         }
         for (const iterator of Object.entries(this.bsc_out)) {
             let [key,val] = iterator
-            let bsc_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            let bsc_check = val.find(x=>~~(new Date()-new Date(x*1000))/(1000*60)>CHECKEDPERIOD)
             
             if (bsc_check) return false
         }
@@ -126,4 +124,4 @@ class BSCBridge{
     }
 }
 
-module.exports = {BSCBridge}
+export {BSCBridge}

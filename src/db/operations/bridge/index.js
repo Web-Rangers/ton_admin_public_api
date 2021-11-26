@@ -1,3 +1,3 @@
-const {create_bridge} = require('./create_bridge')
+import {create_bridge} from './create_bridge'
 
-module.exports = {create_bridge}
+export {create_bridge}

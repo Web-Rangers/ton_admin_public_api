@@ -1,4 +1,4 @@
-const {Bridge} = require('../../models')
+import {Bridge} from '../../models'
 
 function create_bridge(name, url, transactions = []){
 	let bridge = new Bridge({
@@ -14,4 +14,4 @@ function create_bridge(name, url, transactions = []){
   	});
 }
 
-module.exports = {create_bridge}
+export {create_bridge}

@@ -1,4 +1,4 @@
-const {status} = require('../../data/json_rpc_status')
+import {status} from '../../data/json_rpc_status'
 
 class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
@@ -104,4 +104,4 @@ class BlocksStorageImpl_ {
 
 }
 const BlocksStorageImpl = new BlocksStorageImpl_()
-module.exports = {BlocksStorageImpl}
+export {BlocksStorageImpl}

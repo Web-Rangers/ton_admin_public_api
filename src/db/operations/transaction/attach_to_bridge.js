@@ -1,4 +1,4 @@
-const {Bridge, Web3BridgeTransaction, TonBridgeTransaction} = require('../../models')
+import {Bridge, Web3BridgeTransaction, TonBridgeTransaction} from '../../models'
 
 function attach_web3_to_bridge(bridgeId, hash, from, to, method, ton_address, coins, date){
 	let transaction = new Web3BridgeTransaction({
@@ -35,4 +35,4 @@ function attach_ton_to_bridge(bridgeId, hash, from, to, message, coins, date){
     }); 
 }
 
-module.exports = {attach_web3_to_bridge, attach_ton_to_bridge}
+export {attach_web3_to_bridge, attach_ton_to_bridge}

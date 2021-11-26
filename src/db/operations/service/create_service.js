@@ -1,4 +1,4 @@
-const {Service} = require('../../models')
+import {Service} from '../../models'
 
 function create_service(name, pages=[]){
 	let service = new Service({
@@ -13,4 +13,4 @@ function create_service(name, pages=[]){
   	});
 }
 
-module.exports = {create_service}
+export {create_service}

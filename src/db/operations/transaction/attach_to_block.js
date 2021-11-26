@@ -1,4 +1,4 @@
-const {BlockTransaction, Block} = require('../../models')
+import {BlockTransaction, Block} from '../../models'
 
 function attach_to_block(blockId, hash, from, to, message, coins, date){
 	let transaction = new BlockTransaction({
@@ -17,4 +17,4 @@ function attach_to_block(blockId, hash, from, to, message, coins, date){
     }); 
 }
 
-module.exports = {attach_to_block}
+export {attach_to_block}

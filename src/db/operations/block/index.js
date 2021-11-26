@@ -1,3 +1,3 @@
-const {create_block} = require('./create_block')
+import {create_block} from './create_block'
 
-module.exports = {create_block}
+export {create_block}

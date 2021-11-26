@@ -1,4 +1,5 @@
-const {add_page} = require('./add_page')
-const {create_service} = require('./create_service')
+import {add_page} from './add_page'
+import {create_service} from './create_service'
+import {update_service} from './update_service_page'
 
-module.exports = {add_page, create_service}
+export {add_page, create_service,update_service}

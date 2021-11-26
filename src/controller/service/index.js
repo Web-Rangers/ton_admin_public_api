@@ -1,3 +1,3 @@
-const {build_service_controller} = require('./service_controller')
+import {build_service_controller} from './service_controller'
 
-module.exports = {build_service_controller}
+export {build_service_controller}

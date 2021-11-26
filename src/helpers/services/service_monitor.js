@@ -1,7 +1,7 @@
-const axios = require('axios');
-var config = require('./config.json');
-const {status} = require('../../data/json_rpc_status')
-const {add_page, create_service} = require('../../db/operations/service')
+import axios from 'axios'
+import config from './config.json'
+import {status} from '../../data/json_rpc_status'
+import {update_service} from '../../db/operations/service'
 class ServicesObserver {
     constructor() {
       this.services = config;
@@ -20,23 +20,17 @@ class ServicesObserver {
                 })
                 var end = new Date();
                
-                
-                if(response.status == 200){
-                    page.response_status = response.status
-                    page.response_time = end - start
-                }
-                else{
-                    //telegram alert
-                    page.response_status = response.status
-                    page.response_time = end - start
-                }
+                page.response_status = response.status
+                page.response_time = end - start
+
+                await update_service(service.service_name,page);
             }
         }
-        result_services.forEach(element => {
-            console.log(element);
-        });
+        // result_services.forEach(element => {
+        //     console.log(element);
+        // });
         status.update_status({services:result_services})
     }
   }
   const service_monitor = new ServicesObserver()
-  module.exports = {service_monitor};
+  export{service_monitor};

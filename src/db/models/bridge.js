@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const tonTransactionSchema = mongoose.Schema({
     hash: { type: String, required: true },
@@ -29,4 +29,4 @@ const bridgeSchema = mongoose.Schema({
 const Web3BridgeTransaction = mongoose.model('Web3BridgeTransaction', web3TransactionSchema)
 const TonBridgeTransaction = mongoose.model('TonBridgeTransaction', tonTransactionSchema)
 const Bridge = mongoose.model('Bridge', bridgeSchema)
-module.exports = {Bridge, Web3BridgeTransaction, TonBridgeTransaction}
+export {Bridge, Web3BridgeTransaction, TonBridgeTransaction}

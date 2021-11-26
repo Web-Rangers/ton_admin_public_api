@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const blockTransactionSchema = mongoose.Schema({
     hash: { type: String, required: true },
@@ -16,4 +16,4 @@ const blockSchema = mongoose.Schema({
 
 const Block = mongoose.model('Block', blockSchema)
 const BlockTransaction = mongoose.model('BlockTransaction', blockTransactionSchema)
-module.exports = { Block, BlockTransaction }
+export { Block, BlockTransaction }

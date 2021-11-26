@@ -1,4 +1,4 @@
-const {Service, Page} = require('../../models')
+import {Service, Page} from '../../models'
 
 function add_page(serviceId, pageName, response_status, response_time){
     let query = Service.findById(serviceId)
@@ -13,4 +13,4 @@ function add_page(serviceId, pageName, response_status, response_time){
     });
 }
 
-module.exports = {add_page}
+export {add_page}

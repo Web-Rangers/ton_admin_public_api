@@ -1,7 +1,7 @@
-const TonWeb = require('tonweb')
-const Web3 = require('web3');
+import TonWeb from 'tonweb'
+import Web3 from 'web3'
 const web3 = new Web3(Web3.givenProvider || 'ws://81.30.157.98:8546');
-const axios = require('axios')
+import axios from 'axios'
 //in minutes
 const CHECKEDPERIOD = 15
 
@@ -10,7 +10,7 @@ class ETHBridge{
     //now eth_bridge_adress : 0x76A797A59Ba2C17726896976B7B3747BfD1d220f
     
     constructor(tonnetwork_bridge_address='Ef_dJMSh8riPi3BTUTtcxsWjG8RLKnLctNjAM4rw8NN-xWdr', eth_bridge_address='0x582d872a1b094fc48f5de31d3b73f2d9be47def1'){
-        let json = require('./contract_json.json')
+        const json = require('./contract_json.json')
         this.eth_contract = new web3.eth.Contract(json,eth_bridge_address)
         this.tonnetwork_bridge_address = tonnetwork_bridge_address
         this.eth_bridge_address = eth_bridge_address
@@ -103,17 +103,17 @@ class ETHBridge{
     is_alive(){
         for (const iterator of Object.entries(this.ton_out)) {
             let [key,val] = iterator
-            let ton_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            let ton_check = val.find(x=>~~(new Date()-new Date(x*1000))/(1000*60)>CHECKEDPERIOD)
             if (ton_check) return false
             
         }
         for (const iterator of Object.entries(this.eth_out)) {
             let [key,val] = iterator
-            let eth_check = val.find(x=>Math.abs((new Date()-new Date(x*1000))/(1000*60))>CHECKEDPERIOD)
+            let eth_check = val.find(x=>~~(new Date()-new Date(x*1000))/(1000*60)>CHECKEDPERIOD)
             if (eth_check) return false
         }
         return true
     }
 }
 
-module.exports = {ETHBridge}
+export {ETHBridge}

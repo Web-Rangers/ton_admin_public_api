@@ -1,6 +1,6 @@
-const {get_validators} = require('./status')
-const {get_elections_data} = require('./elections')
-const {get_offers} = require('./offers')
-const {get_complaints} = require('./complains')
+import {get_validators} from'./status'
+import {get_elections_data} from'./elections'
+import {get_offers} from'./offers'
+import {get_complaints} from'./complains'
 
-module.exports= {get_validators, get_elections_data, get_offers, get_complaints}
+export {get_validators, get_elections_data, get_offers, get_complaints}

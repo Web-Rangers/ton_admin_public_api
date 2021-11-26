@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+import EventEmitter from 'events'
 const emitter = new EventEmitter()
 class Status{
     constructor(){
@@ -58,4 +58,4 @@ class Status{
     }
 }
 const status = new Status()
-module.exports ={status,emitter}
+export {status,emitter}

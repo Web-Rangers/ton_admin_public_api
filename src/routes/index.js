@@ -1,5 +1,5 @@
-const {bridge_router} = require('./bridge_router')
-const {metric_router} = require('./metrics_router')
-const {service_router} = require('./service_router')
+import {bridge_router} from'./bridge_router'
+import {metric_router} from'./metrics_router'
+import {service_router} from'./service_router'
 
-module.exports = {bridge_router,metric_router,service_router}
+export {bridge_router,metric_router,service_router}

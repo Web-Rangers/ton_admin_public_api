@@ -1,5 +1,5 @@
-const {sendJRPC} = require('../send_jrpc')
-let {status,emitter} = require('../../../data/json_rpc_status')
+import {sendJRPC} from '../send_jrpc'
+import {status,emitter} from '../../../data/json_rpc_status'
 
 async function get_offers_list() {
     let result = await sendJRPC('/','ol') 
@@ -12,4 +12,4 @@ async function get_offers_list() {
     //{'validators': result.data.result}
 }
 
-module.exports = {get_offers_list}
+export {get_offers_list}

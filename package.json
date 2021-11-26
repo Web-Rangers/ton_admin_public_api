@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "",
-    "start": "node src/index.js"
+    "clean": "rimraf build",
+    "build": "npm run clean && babel src -d build --extensions \".js\" --copy-files",
+    "start": "npm run-script build && node build/index.js"
   },
   "dependencies": {
     "axios": "^0.24.0",
@@ -25,5 +26,13 @@
     "uuidv4": "^6.2.12",
     "web3": "^1.6.0",
     "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.16.0",
+    "babel-plugin-inline-dotenv": "^1.6.0"
   }
 }

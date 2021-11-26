@@ -1,8 +1,8 @@
 
-const {block_monitor} = require('../../helpers/blocks')
+import {block_monitor} from'../../helpers/blocks'
 
 async function get_accounts_data() {
     return block_monitor.get_accouts_status()
 }
     
-module.exports = {get_accounts_data}
+export {get_accounts_data}

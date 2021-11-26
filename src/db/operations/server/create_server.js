@@ -1,4 +1,4 @@
-const {Server} = require('../../models')
+import {Server} from '../../models'
 
 function create_server(ip, port, time){
 	let server = new Server({
@@ -15,4 +15,4 @@ function create_server(ip, port, time){
   	});
 }
 
-module.exports = {create_server}
+export {create_server}

@@ -1,6 +1,6 @@
-let {BSCBridge} = require('./bsc/bsc')
-let {ETHBridge} = require('./eth/eth')
-const {status,emitter} = require('../../data/json_rpc_status')
+import {BSCBridge} from './bsc/bsc'
+import {ETHBridge} from './eth/eth'
+import {status,emitter} from '../../data/json_rpc_status'
 
 class BridgesMonitor{
 
@@ -35,4 +35,4 @@ class BridgesMonitor{
     get_eth_bridge_transactions(){return {'eth':this.eth_bridge.eth_out,'ton':this.eth_bridge.ton_out}}
 }
 const bridges_monitor = new BridgesMonitor()
-module.exports = {bridges_monitor}
+export {bridges_monitor}

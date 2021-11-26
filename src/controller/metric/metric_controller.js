@@ -1,4 +1,4 @@
-const {metrics_service} = require('../../request')
+import {metrics_service} from '../../request'
 
 const build_metrics_controller = function() {
     return ({
@@ -29,6 +29,6 @@ const build_metrics_controller = function() {
     }
 }
 
-module.exports = {
+export {
     build_metrics_controller
 }

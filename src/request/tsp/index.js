@@ -1,3 +1,3 @@
-const {get_tps} = require('./tsp')
+import {get_tps} from'./tsp'
 
-module.exports = {get_tps}
+export {get_tps}

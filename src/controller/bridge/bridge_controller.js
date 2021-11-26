@@ -1,4 +1,4 @@
-const {bridge_service} = require('../../request')
+import {bridge_service} from '../../request'
 
 const build_bridge_controller = function() {
     return ({
@@ -27,6 +27,6 @@ const build_bridge_controller = function() {
     }
 }
 
-module.exports = {
+export {
     build_bridge_controller
 }

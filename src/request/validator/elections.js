@@ -1,4 +1,4 @@
-let {status} = require('../../data/json_rpc_status')
+import {status} from'../../data/json_rpc_status'
 
 
 function get_elections_data() {
@@ -7,4 +7,4 @@ function get_elections_data() {
             'end': endElection, 'next': startNextElection}
 }
 
-module.exports = {get_elections_data}
+export {get_elections_data}

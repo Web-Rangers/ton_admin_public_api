@@ -1,6 +1,6 @@
-const {Block, BlockTransaction} = require('./block')
-const {Bridge, TonBridgeTransaction, Web3BridgeTransaction} = require('./bridge')
-const {Server} = require('./server')
-const {Service, Page} = require('./service')
+import  {Block, BlockTransaction} from './block'
+import  {Bridge, TonBridgeTransaction, Web3BridgeTransaction} from './bridge'
+import  {Server} from './server'
+import  {Service, Page} from './service'
 
-module.exports = {Block, BlockTransaction, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, Service, Page}
+export {Block, BlockTransaction, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, Service, Page}

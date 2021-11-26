@@ -1,4 +1,4 @@
-const {Block} = require('../../models')
+import {Block} from '../../models'
 
 function create_block(block_id){
 	let block = new Block({
@@ -12,4 +12,4 @@ function create_block(block_id){
   	});
 }
 
-module.exports = {create_block}
+export {create_block}

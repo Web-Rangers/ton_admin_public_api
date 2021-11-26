@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
-const bcrypt = require('bcrypt')
+import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import bcrypt from 'bcrypt'
 
 
 class AuthService{
@@ -25,4 +25,4 @@ class AuthService{
     }
 }
 const auth_service = new AuthService()
-module.exports = {AuthService,auth_service}
+export {AuthService,auth_service}
