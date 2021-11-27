@@ -18,7 +18,7 @@ let api_callback= (controller)=>{
         return res.status(httpResponse.status).send({status:httpResponse.status,message:httpResponse.message,result:httpResponse.result})
       })
       .catch(async (err) => {
-        // console.log(err);
+        console.log(err);
         res.status(500).send({ error: err })
       })
     }

@@ -52,7 +52,8 @@ function calc_step_object(step_data,result_value,now) {
     
     let date_time = {year:now.getUTCFullYear(),month:now.getMonth(), day:now.getDate()}
 
-    let index = steps.indexOf(step_data)
+    let index = steps.indexOf(step_data)+1
+
     let step_map = steps.slice(index>=0?index:0,steps.lastIndex)
     
     let object = {}
