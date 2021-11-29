@@ -97,7 +97,6 @@ class ETHBridge{
             }
         } catch (error) {
             console.log("ETH bridge error:\n");
-            console.log(error);
         } 
     }
     is_alive(){

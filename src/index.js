@@ -13,7 +13,7 @@ async function start(){
         if(!block_monitor.started){
             await block_monitor.start_fetching()  
         }   
-       // await status_requester.fetch_data()
+       await status_requester.fetch_data()
     }, 4000);
     setInterval(async () => {
         await service_monitor.checkServices()

@@ -103,7 +103,6 @@ class BSCBridge{
                 }
             } catch (error) {
                 console.log("Bsc bridge error:\n");
-                console.log(error);
             }
     }
     is_alive(){
