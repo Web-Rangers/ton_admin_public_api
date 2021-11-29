@@ -1,4 +1,4 @@
-const {server_service} = require('../../request')
+import {server_service} from '../../request'
 
 const build_service_controller = function() {
     return ({
@@ -13,6 +13,6 @@ const build_service_controller = function() {
     }
 }
 
-module.exports = {
+export {
     build_service_controller
 }

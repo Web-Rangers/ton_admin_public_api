@@ -1,6 +1,6 @@
-const { Telegraf } = require('telegraf')
-let config = require('../config')
-const fs = require('fs');
+import { Telegraf } from 'telegraf'
+import config from '../config'
+import fs from 'fs'
 
 class TonBridgeStatusBot{
 
@@ -35,4 +35,4 @@ class TonBridgeStatusBot{
     }
 }
 const ton_bot = new TonBridgeStatusBot()
-module.exports = ton_bot
+export default  ton_bot

@@ -1,5 +1,5 @@
-const {json_rpc_monitor} = require('./monitoring')
-const {login} = require('./auth/login')
+import {json_rpc_monitor} from './monitoring'
+import {login} from './auth/login'
 
 class StatusRequester{
     async fetch_data(){   
@@ -11,4 +11,4 @@ class StatusRequester{
 }
 let status_requester = new StatusRequester()
 
-module.exports = {status_requester}
+export {status_requester}

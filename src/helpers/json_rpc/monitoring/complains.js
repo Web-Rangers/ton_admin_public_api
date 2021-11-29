@@ -1,5 +1,5 @@
-const {sendJRPC} = require('../send_jrpc')
-let {status,emitter} = require('../../../data/json_rpc_status')
+import {sendJRPC} from '../send_jrpc'
+import {status,emitter} from '../../../data/json_rpc_status'
 
 async function get_complaints_list() {
     let response = await sendJRPC('/','cl')
@@ -18,4 +18,4 @@ async function get_complaints_list() {
     return undefined
 }
     
-module.exports = {get_complaints_list}
+export {get_complaints_list}

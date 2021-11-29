@@ -1,4 +1,4 @@
-const {status} = require('../../data/json_rpc_status')
+import {status} from '../../data/json_rpc_status'
 
 class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
@@ -32,6 +32,7 @@ class BlocksStorageImpl_ {
      */
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
         // this.day_blocks.push(mcBlockNumber)
+        console.log("insertBlocks",mcBlockNumber, shardBlockNumbers);
         status.status.last_block = mcBlockNumber
         
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
@@ -40,7 +41,38 @@ class BlocksStorageImpl_ {
 
         await this.insertShardBlocks(shardBlockNumbers);
     }
-
+    
+    async onTransaction(shortTx){
+        console.log('Transaction!');
+        let address = shortTx.account;
+        let bounceble = new this.ton_web.Address(address).toString(true,true,true,false)
+        let lt = shortTx.lt 
+        let hash = undefined
+        let limit = 20
+        let to_lt = undefined
+        const txs = await this.ton_web.provider.send("getTransactions", {address, limit, lt, hash, to_lt});
+        const tx = txs[0];
+        if (tx&&tx.in_msg) {
+            let type = ''
+            if (known_accounts[bounceble]){
+                if(known_accounts[bounceble] != 'nevermind'){
+                    type = known_accounts[bounceble]
+                }
+            }
+            else{
+                type = 'between accounts'
+            }
+            if (tx.in_msg.destination == bounceble)
+            {
+                let value = tx.in_msg.value
+                // mean - money in
+            }
+            else{
+                //mean - moneu out
+                
+            }
+        }          
+    }
     /**
      * Get last processed masterchain block number
      * @return {Promise<number | undefined>}
@@ -61,6 +93,7 @@ class BlocksStorageImpl_ {
      * @param   prevShardBlocks    {[{shardId: string, shardBlockNumber: number}]}
      */
     async setBlockProcessed(shardId, shardBlockNumber, prevShardBlocks) {
+        console.log("setBlockProcessed",shardId, shardBlockNumber, prevShardBlocks);
         // UPDATE shardchainBlocks SET processed = TRUE WHERE shardId = ? && shardBlockNumber = ?
         if (this.shardchainBlocks[shardId + '_' + shardBlockNumber] === undefined) throw new Error('shard not exists ' + shardId + '_' + shardBlockNumber);
         this.shardchainBlocks[shardId + '_' + shardBlockNumber] = true;
@@ -107,4 +140,4 @@ class BlocksStorageImpl_ {
 
 }
 const BlocksStorageImpl = new BlocksStorageImpl_()
-module.exports = {BlocksStorageImpl}
+export {BlocksStorageImpl}

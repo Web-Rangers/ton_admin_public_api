@@ -1,5 +1,5 @@
-let axios = require('axios')
-let config = require('../../config')
+import axios from 'axios'
+import config from '../../config'
 
 async function sendJRPC(url, data, params = {}){
 
@@ -15,4 +15,4 @@ async function sendJRPC(url, data, params = {}){
         {headers:headers})
 };
 
-module.exports = {sendJRPC}
+export {sendJRPC}

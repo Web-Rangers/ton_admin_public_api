@@ -1,3 +1,3 @@
-const {block_monitor} = require('./block_monitor')
+import {block_monitor} from './block_monitor'
 
-module.exports = {block_monitor}
+export {block_monitor}

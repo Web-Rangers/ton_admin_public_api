@@ -1,3 +1,3 @@
-const {build_bridge_controller} = require('./bridge_controller')
+import {build_bridge_controller}  from './bridge_controller'
 
-module.exports = {build_bridge_controller}
+export {build_bridge_controller}

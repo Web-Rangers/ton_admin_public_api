@@ -1,3 +1,3 @@
-const {get_blocks_rate} = require('./get_blocks_rate')
+import {get_blocks_rate}  from './get_blocks_rate'
 
-module.exports = {get_blocks_rate}
+export {get_blocks_rate}

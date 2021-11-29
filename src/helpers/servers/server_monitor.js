@@ -1,5 +1,5 @@
-const {DHTServerObserver} = require('./dht/dht_servers_observer')
-const {LiteServerObserver} = require('./lite/liteserver_observer')
+import {DHTServerObserver} from './dht/dht_servers_observer'
+import {LiteServerObserver} from './lite/liteserver_observer'
 
 class ObserverMonitor{
     async create_observers(){
@@ -12,4 +12,4 @@ class ObserverMonitor{
     }
 }
 const servers_monitor = new ObserverMonitor()
-module.exports = {servers_monitor}
+export {servers_monitor}

@@ -1,5 +1,5 @@
-const {sendJRPC} = require('../send_jrpc')
-let config = require('../../../config')
+import {sendJRPC} from '../send_jrpc'
+import config from '../../../config'
 
 async function login() {
     let result = await sendJRPC('/','login',[config.NODE_URL,config.PASSWRD]) 
@@ -8,4 +8,4 @@ async function login() {
     return {'status':'logged'}  
 }
 
-module.exports = {login}
+export {login}

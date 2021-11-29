@@ -1,4 +1,4 @@
-const {bridges_monitor} = require('./bridge_monitor')
+import {bridges_monitor} from './bridge_monitor'
 
 
-module.exports = {bridges_monitor}
+export {bridges_monitor}

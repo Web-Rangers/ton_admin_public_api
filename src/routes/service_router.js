@@ -1,9 +1,9 @@
-let express = require('express');
+import express from 'express'
 const service_router = express.Router();
-let {ServiceController} = require('../controller')
-let {api_callback} = require('../callback')
+import {ServiceController} from '../controller'
+import {api_callback} from '../callback'
 
 service_router.get('/lite',api_callback(ServiceController.get_liteservers))
 service_router.get('/dht',api_callback(ServiceController.get_dhtservers))
 
-module.exports = {service_router}
+export {service_router}
