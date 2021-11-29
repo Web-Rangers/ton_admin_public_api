@@ -6,7 +6,7 @@ async function get_complaints_list() {
     if (response&&!response.data.error){
         let result = Object.values(response.data.result)
         if (result){
-            for(element in result){
+            for(let element in result){
                 element = {'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
                 'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}
             }
