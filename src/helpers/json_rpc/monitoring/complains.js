@@ -6,10 +6,8 @@ async function get_complaints_list() {
     if (response&&!response.data.error){
         let result = Object.values(response.data.result)
         if (result){
-            for(let element in result){
-                element = {'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
-                'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}
-            }
+            result = result.map(element => element={'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
+            'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}) 
             status.status.complaints=result
             emitter.emit('data_change',status.status)
         }
