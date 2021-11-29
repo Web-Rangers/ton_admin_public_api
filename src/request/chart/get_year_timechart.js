@@ -12,10 +12,10 @@ async function get_year_timechart(ip,port) {
     let result = calc_month(year_months,year)
     
     if (cur_month-12<0){
-        let prev_year = server.years.find(x=>x.year==cur_year-1)
-        if(prev_year){
-            let prev_year_months = prev_year.months.filter(x=>x.month>=12-(-1*(cur_month-12)))
-            result = [calc_month(prev_year_months,prev_year),...result]
+        year = server.years.find(x=>x.year==cur_year-1)
+        if(year){
+            year_months = year.months.filter(x=>x.month>=(12-cur_month))
+            result = [calc_month(year_months,year),...result]
         }
     }
     
@@ -29,7 +29,7 @@ function calc_month(months,year) {
             if (!result[index]){
                 result[index]=[]
             }    
-            for (let i = 0; i < day.data.length-1; i++) {
+            for (let i = 0; i < day.data.length; i++) {
                 if (day.data[i].args){
                     let length = result[index].length-1
                     if(result[index][length]&&result[index][length]!=0){

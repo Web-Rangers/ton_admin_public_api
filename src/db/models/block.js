@@ -1,12 +1,16 @@
 import mongoose from 'mongoose'
 
 const blockSchema = mongoose.Schema({
-    hash: { type: String, required: true },
+  
     height:{type: Number},
     transactions:[{
-        from: { type: String, required: true },
-        to: { type: String, required: true },
-        message: { type: String, required: true }
+        hash: { type: String},
+        from: {type: String},
+        to: {type: String},
+        type:{type: String},
+        direction:{type: String},
+        value:{type: Number},
+        message:{type: String}
     }],
     timestamps:{type:Number}
 })

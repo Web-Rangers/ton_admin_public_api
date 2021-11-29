@@ -1,35 +1,41 @@
 
 import {Server} from'../../db/models'
 
-async function get_month_timechart(ip,port) {
+async function get_week_timechart(ip,port) {
     let current_date = new Date()
     let [cur_year,cur_month,cur_day]=[current_date.getUTCFullYear(),current_date.getMonth(),current_date.getDate()]
-
+    //NADA DADELAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     let server = await Server.findOne({'ip':ip,'port':port})  
     let year = server.years.find(x=>x.year==cur_year)
     let this_months = year.months.find(x=>x.month==cur_month)
     console.log(this_months.days);
-    let days = this_months.days.filter(x=>x.day<=cur_day)
+    let days = this_months.days.filter(x=>x.day<=cur_day&&x.day>=cur_day-7)
     console.log(this_months);
     let result = calc_days(days,year,cur_month)
     
-    if (cur_day-30<0){
-        if (cur_month==0){
-            year = server.years.find(x=>x.year==cur_year-1)
-            this_months = year.months.filter(x=>x.month==(cur_month-1))
-            days = this_months.days.filter(x=>x.day>=30-cur_day)
+    
+    if (cur_month==0&&cur_day-7<0){
+        year = server.years.find(x=>x.year==cur_year-1)
+        this_months = year.months.filter(x=>x.month==(cur_month-1))
+        days = this_months.days.filter(x=>x.day>=7-7-cur_day)
+        result = Object.assign(calc_days(days,year,cur_month),result)
+    }
+    else if (cur_day-7<0){
+        year = server.years.find(x=>x.year==cur_year)
+        this_months = year.months.filter(x=>x.month==(cur_month-1))
+        days = this_months.days.filter(x=>x.day>=7-7-cur_day)
+        result = Object.assign(calc_days(days,year,cur_month),result)
+    }
+    else{
+        this_months = year.months.find(x=>x.month==(cur_month-1))
+        if(this_months){
+            console.log(result);
+            days = this_months.days.filter(x=>x.day>=7-7-cur_day)
             result = Object.assign(calc_days(days,year,cur_month),result)
         }
-        else{
-            this_months = year.months.find(x=>x.month==(cur_month-1))
-            if(this_months){
-                console.log(result);
-                days = this_months.days.filter(x=>x.day>=30-(30-cur_day))
-                result = Object.assign(calc_days(days,year,cur_month),result)
-            }
-            
-        }
-    } 
+        
+    }
+    
     
     return result
 }
@@ -41,7 +47,7 @@ function calc_days(days,year,month) {
         if (!result[index]){
             result[index]=[]
         }    
-        for (let i = 0; i < day.data.length; i++) {
+        for (let i = 0; i < day.data.length-1; i++) {
             if (day.data[i].args){
                 let length = result[index].length-1
                 if(result[index][length]&&result[index][length]!=0){
@@ -60,4 +66,4 @@ function calc_days(days,year,month) {
     return result
 }
     
-export default get_month_timechart
+export default get_week_timechart

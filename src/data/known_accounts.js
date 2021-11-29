@@ -1,15 +1,15 @@
 let known_accounts ={
-    "EQABMMdzRuntgt9nfRB61qd1wR-cGPagXA3ReQazVYUNrT7p":"nevermind",//EXMO Deposit 1
+    "EQABMMdzRuntgt9nfRB61qd1wR-cGPagXA3ReQazVYUNrT7p":"EXMO Deposit 1",//EXMO Deposit 1
     "EQB5lISMH8vLxXpqWph7ZutCS4tU4QdZtrUUpmtgDCsO73JR": "EXMO Withdraw 1",
-    "EQCNGVeTuq2aCMRtw1OuvpmTQdq9B3IblyXxnhirw9ENkhLa": "nevermind",//EXMO Cold 1
+    "EQCNGVeTuq2aCMRtw1OuvpmTQdq9B3IblyXxnhirw9ENkhLa": "EXMO Cold 1",//EXMO Cold 1
     "Ef_dJMSh8riPi3BTUTtcxsWjG8RLKnLctNjAM4rw8NN-xWdr": "ETH Bridge",
-    "EQCuzvIOXLjH2tv35gY4tzhIvXCqZWDuK9kUhFGXKLImgxT5": "nevermind",//ETH Bridge Collector
-    "kf8rV4RD7BD-j_C-Xsu8FBO9BOOOwISjNPbBC8tcq688Gcmk": "nevermind",//ETH Bridge Governance
+    "EQCuzvIOXLjH2tv35gY4tzhIvXCqZWDuK9kUhFGXKLImgxT5": "ETH Bridge Collector",//ETH Bridge Collector
+    "kf8rV4RD7BD-j_C-Xsu8FBO9BOOOwISjNPbBC8tcq688Gcmk": "ETH Bridge Governance",//ETH Bridge Governance
     "Ef9NXAIQs12t2qIZ-sRZ26D977H65Ol6DQeXc5_gUNaUys5r": "BSC Bridge",
-    "EQAHI1vGuw7d4WG-CtfDrWqEPNtmUuKjKFEFeJmZaqqfWTvW": "nevermind",//BSC Bridge Collector
-    "kf8_gV8rpqtPl1vmYDrMzwxlGQDJ63SIKO8vDhNZHT5wwVhd": "nevermind",//BSC Bridge Governance
+    "EQAHI1vGuw7d4WG-CtfDrWqEPNtmUuKjKFEFeJmZaqqfWTvW": "BSC Bridge Collector",//BSC Bridge Collector
+    "kf8_gV8rpqtPl1vmYDrMzwxlGQDJ63SIKO8vDhNZHT5wwVhd": "BSC Bridge Governance",//BSC Bridge Governance
     "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N":"TON Foundation",
-    "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF":"Elector Contract",
+    "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF":"Elector Contract",//Elector Contract
     "Ef9VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVbxn":"Config Contract",
     "Ef80UXx731GHxVr0-LYf3DIViMerdo3uJLAG3ykQZFjXz2kW":"Log tests Contract",
 
