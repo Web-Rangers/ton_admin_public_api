@@ -14,10 +14,16 @@ async function update_server(ip,port, time){
                 if(day){
                     let res_ = day.data.find(x=>(~~((now.getTime()-x.timestamp)/(1000*60))==0)&&(x.args==result.args))
                     if (res_){
-                        res_.avg = ~~((res_.avg+result.avg)/2)      
+                        
+                        res_.avg = ~~((res_.avg+result.avg)/2)  
+                        
+                            
                     }
                     else{
-                        day.data.push(result)
+                        if(result.avg&&result.timestamp){
+                            day.data.push(result)
+                        }
+                        
                     }
                 }
                 else{

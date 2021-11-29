@@ -19,7 +19,9 @@ async function update_service(name, page){
                             res_.avg = ~~((res_.avg+result.avg)/2)      
                         }
                         else{
-                            day.data.push(result)
+                            if(result.avg&&result.timestamp){
+                                day.data.push(result)
+                            }
                         }
                     }
                     else{
