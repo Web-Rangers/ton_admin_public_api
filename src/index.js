@@ -11,7 +11,7 @@ async function start(){
     setInterval(async () => {   
         await bridges_monitor.fetch_data()
         if(!block_monitor.started){
-            await block_monitor.start_fetching()  
+             await block_monitor.start_fetching()  
         }   
     }, 4000);
     setInterval(async () => {

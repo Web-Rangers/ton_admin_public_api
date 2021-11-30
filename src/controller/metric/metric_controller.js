@@ -8,6 +8,7 @@ const build_metrics_controller = function() {
         get_elections_data,
         get_blocks_rate,
         get_accounts_data,
+        get_validators_list
     })
     async function get_tps({params}) {
         return {status:200,result:{tps:metrics_service.get_tps()}}
@@ -26,6 +27,9 @@ const build_metrics_controller = function() {
     }
     async function get_accounts_data({params}) {
         return {status:200,result:{accounts:metrics_service.get_accounts_result()}}
+    }
+    async function get_validators_list({params}) {
+        return {status:200,result:{accounts:metrics_service.get_validators_list()}}
     }
 }
 
