@@ -37,7 +37,7 @@ async function get_hour_timechart(ip,port) {
             data = server.years.find(x=>x.year==cur_year).months
                             .find(x=>x.month==cur_month).days
                             .find(x=>x.day==cur_day).data
-                            .filter(x=>new Date(x.timestamp).getUTCMinutes()>=60-(60-cur_minutes))    
+                            .filter(x=>(new Date(x.timestamp).getUTCMinutes()>=60-(60-cur_minutes))&&(new Date(x.timestamp).getHours()==cur_hour-1))    
             result = Object.assign(calc_days(data,cur_hour-1),result)
         }
     } 
