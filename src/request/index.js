@@ -4,28 +4,14 @@ import {get_bsc_status,get_eth_status,get_bsc_bridge_transactions,get_eth_bridge
 import {get_tps} from './tsp'
 import {get_blocks_rate} from './blocks'
 import {get_liteservers,get_dhtservers} from './servers'
-import {server_get_year_timechart, 
-    server_get_month_timechart,
-    server_get_day_timechart,
-    server_get_week_timechart,  
-    server_get_hour_timechart,  
-    service_get_year_timechart, 
-    service_get_month_timechart,
-    service_get_day_timechart,  
-    service_get_week_timechart, 
-    service_get_hour_timechart} from './chart'
+import {get_chart_by_page,get_chart_by_server,get_server_chart,get_service_chart} from './chart'
 
-const server_chart_service = {server_get_year_timechart, 
-    server_get_month_timechart,
-    server_get_day_timechart,
-    server_get_week_timechart,  
-    server_get_hour_timechart}
+const server_chart_service = {
+    get_server_chart,
+    get_chart_by_server}
 const service_chart_service = {
-    service_get_year_timechart, 
-    service_get_month_timechart,
-    service_get_day_timechart,  
-    service_get_week_timechart, 
-    service_get_hour_timechart
+    get_chart_by_page,
+    get_service_chart
 }
 const server_service = {get_liteservers,get_dhtservers}
 const metrics_service = {get_tps,get_validators,get_complaints,get_offers,get_elections_data,get_blocks_rate,get_accounts_data}
