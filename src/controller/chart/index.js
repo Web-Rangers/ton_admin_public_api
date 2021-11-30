@@ -1,3 +1,4 @@
-import build_chart_controller from './chart_controller'
+import build_server_chart_controller from './server_chart_controller'
+import buld_service_chart_controller from './service_chart_controller'
 
-export default build_chart_controller
+export {build_server_chart_controller,buld_service_chart_controller}

@@ -1,5 +1,5 @@
 
-import {Server} from'../../db/models'
+import {Server} from'../../../db/models'
 
 async function get_hour_timechart(ip,port) {
     let current_date = new Date()
