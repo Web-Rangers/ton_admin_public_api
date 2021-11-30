@@ -1,3 +1,4 @@
+
 import TonWeb from 'tonweb'
 import {BlocksStorageImpl} from './block_subscribe'
 
@@ -7,8 +8,11 @@ class BlocksMonitor{
         this.active_accouts = {}
         this.transactions = []
         this.ton_web = new TonWeb()
-        this.blockSubscribe = new this.ton_web.BlockSubscribe(this.ton_web.provider, BlocksStorageImpl, BlocksStorageImpl.on_transaction);
+        
+        
+        this.blockSubscribe = new this.ton_web.BlockSubscribe(this.ton_web.provider, BlocksStorageImpl, BlocksStorageImpl.onTransaction);
     }
+    
     async start_fetching(){
         this.started = true
        
