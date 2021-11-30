@@ -2,35 +2,18 @@ import {service_chart_service} from '../../request'
 
 const build_service_chart_controller = function() {
     return ({
-        get_year,
-        get_month,
-        get_day,
-        get_week,
-        get_hour
+        get_chart_by_page,
+        get_service_chart 
     })
-    async function get_year(request) {
-        
-        let chart = await service_chart_service.service_get_year_timechart(request.body.service_name,request.body.page_name)
+    
+    async function get_chart_by_page(request) {
+        let {service_name,page_name,time_period,time_value} = request.body
+        let chart = await service_chart_service.get_chart_by_page(service_name,page_name,time_period,time_value)
         return {status:200,result:{chart}}
     }
-    async function get_month(request) {
-        
-        let chart = await service_chart_service.service_get_month_timechart(request.body.service_name,request.body.page_name)
-        return {status:200,result:{chart}}
-    }
-    async function get_week(request) {
-        
-        let chart = await service_chart_service.service_get_week_timechart(request.body.service_name,request.body.page_name)
-        return {status:200,result:{chart}}
-    }
-    async function get_day(request) {
-        
-        let chart = await service_chart_service.service_get_day_timechart(request.body.service_name,request.body.page_name)
-        return {status:200,result:{chart}}
-    }
-    async function get_hour(request) {
-        
-        let chart = await service_chart_service.service_get_hour_timechart(request.body.service_name,request.body.page_name)
+    async function get_service_chart(request) {
+        let {service_name,time_period,time_value} = request.body
+        let chart = await service_chart_service.get_service_chart(service_name,time_period,time_value)
         return {status:200,result:{chart}}
     }
 }
