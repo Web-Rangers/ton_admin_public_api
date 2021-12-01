@@ -1,8 +1,8 @@
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_tps() {
-    let tpsAvg =status.get_status().tpsAvg
-    return {tps:tpsAvg}
+async function get_tps() {
+    let status = await Status.findOne({})
+    return status.tpsAvg
 }
 
 export {get_tps}

@@ -7,29 +7,26 @@ const build_metrics_controller = function() {
         get_offers,
         get_elections_data,
         get_blocks_rate,
-        get_accounts_data,
         get_validators_list
     })
     async function get_tps({params}) {
-        return {status:200,result:{tps:metrics_service.get_tps()}}
+        return {status:200,result:{tps:await metrics_service.get_tps()}}
     }
     async function get_validators({params}) {
-        return {status:200,result:{validators:metrics_service.get_validators()}}
+        return {status:200,result:{validators:await metrics_service.get_validators()}}
     }
     async function get_offers({params}) {
-        return {status:200,result:{offers:metrics_service.get_offers()}}
+        return {status:200,result:{offers:await metrics_service.get_offers()}}
     }
     async function get_elections_data({params}) {
-        return {status:200,result:{elections:metrics_service.get_elections_data()}}
+        return {status:200,result:{elections:await metrics_service.get_elections_data()}}
     }
     async function get_blocks_rate({params}) {
-        return {status:200,result:{blocks_rate:metrics_service.get_blocks_rate()}}
+        return {status:200,result:{blocks_rate:await metrics_service.get_blocks_rate()}}
     }
-    async function get_accounts_data({params}) {
-        return {status:200,result:{accounts:metrics_service.get_accounts_result()}}
-    }
+    
     async function get_validators_list({params}) {
-        return {status:200,result:{accounts:metrics_service.get_validators_list()}}
+        return {status:200,result:{accounts:await metrics_service.get_validators()}}
     }
 }
 

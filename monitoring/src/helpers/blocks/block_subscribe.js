@@ -1,5 +1,5 @@
-import {status} from '../../data/json_rpc_status'
-import {Block} from '../../db/models/block'
+import {emitter} from '../../data/json_rpc_status'
+import {Block,Status} from '../../db/models'
 import TonWeb from 'tonweb'
 import {known_accounts} from '../../data/known_accounts'
 
@@ -46,8 +46,10 @@ class BlocksStorageImpl_ {
         this.transactions = []
         await block.save()
         // console.log("insertBlocks",mcBlockNumber, shardBlockNumbers);
-        status.status.last_block = mcBlockNumber
-        
+        let status = await Status.findOne({})
+        status.last_block=mcBlockNumber
+        await status.save()
+        emitter.emit('data_change',status)
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
         if (this.masterchainBlocks[mcBlockNumber] !== undefined) throw new Error('mc already exists ' + mcBlockNumber);
         this.masterchainBlocks[mcBlockNumber] = true;

@@ -1,7 +1,9 @@
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_dhtservers() {
-    return status.get_status().dhtservers
+
+async function get_dhtservers() {
+    let status = await Status.findOne({})
+    return status.dhtservers
 }
 
 export {get_dhtservers}

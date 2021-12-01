@@ -6,7 +6,7 @@ export default function MakeCallBack(){
             method:req.method
         }
         
-        let url = 'http://'+ process.env.ADMIN_SERVICE_SERVICE+req.originalUrl;
+        let url = 'http://'+ process.env.ADMIN_SERVICE+req.originalUrl;
    
         options.headers = req.headers
         if(req.method == 'GET'){

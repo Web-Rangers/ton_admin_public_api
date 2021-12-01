@@ -1,8 +1,8 @@
-
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
 async function get_offers() {
-    return {'offers': status.get_status().offers}
+    let status = await Status.findOne({}) 
+    return {'offers': status.offers}
 }
     
 export {get_offers}

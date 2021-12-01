@@ -1,8 +1,8 @@
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_validators() {
-    let {totalValidators,onlineValidators} = {...status.get_status()}
-    return {'total':totalValidators,'active':onlineValidators}
+async function get_validators() {
+    let status = await Status.findOne({})
+    return {'total':status.totalValidators,'active':status.onlineValidators}
 }
 
 export {get_validators}
