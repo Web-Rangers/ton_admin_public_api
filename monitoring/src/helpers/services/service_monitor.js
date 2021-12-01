@@ -11,13 +11,18 @@ class ServicesObserver {
         let result_services = this.services
         for (const service of result_services) {
             for (const page of service.pages) {
-                
+                let response
                 var start = new Date();
-                let response = await axios.get(page.url, {
+                try {
+                  response = await axios.get(page.url, {
                     validateStatus: function (status) {
                       return status < 1000; // Resolve only if the status code is less than 1000
                     }
                 })
+                } catch (error) {
+                  console.log(page.url + " raise error");
+                }
+                
                 var end = new Date();
                
                 page.response_status = response.status
