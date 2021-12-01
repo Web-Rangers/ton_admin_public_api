@@ -1,10 +1,10 @@
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
 
-function get_elections_data() {
-    let {electionId,startElection,endElection,startNextElection} = {...status.get_status()}
-    return {'id': electionId,'start':startElection,
-            'end': endElection, 'next': startNextElection}
+async function get_elections_data() {
+    let status = await Status.findOne({}) 
+    return {'id': status.electionId,'start':status.startElection,
+            'end': status.endElection, 'next': status.startNextElection}
 }
 
 export {get_elections_data}

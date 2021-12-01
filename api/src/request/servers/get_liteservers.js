@@ -1,7 +1,8 @@
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_liteservers() {
-    return status.get_status().liteservers
+async function get_liteservers() {
+    let status = await Status.findOne({})
+    return status.liteservers
 }
 
 export {get_liteservers}

@@ -1,7 +1,8 @@
-import {status} from '../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_eth_status() {
-    let {eth} = {...status.get_status().bridge}
+async function get_eth_status() {
+    let status = await Status.findOne({})
+    let eth = status.bridge['eth']
     return eth
 }
 

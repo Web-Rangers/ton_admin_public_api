@@ -1,7 +1,8 @@
-import {status} from '../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
-function get_blocks_rate() {
-    let {blocks_rate} = {...status.get_status()}
+async function get_blocks_rate() {
+    let status = await Status.findOne()
+    let blocks_rate = status.last_block
     return blocks_rate
 }
 

@@ -1,8 +1,9 @@
-
-import {status} from'../../data/json_rpc_status'
+import {Status} from '../../db/models'
 
 async function get_complaints() {
-    return {complains:status.get_status().complains}
+    let status = await Status.findOne({})
+    
+    return {complains:status.complains}
 }
     
 export {get_complaints}
