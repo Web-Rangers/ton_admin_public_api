@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 dotenv.config();
-console.log(process.env)
+
 let config = {
     NODE_URL: process.env.API_URL,
     TOKEN:'',

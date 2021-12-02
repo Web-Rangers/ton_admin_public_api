@@ -1,7 +1,7 @@
 import dotenv from'dotenv'
 import WebSocket from 'ws';
 import {emitter} from './data/json_rpc_status'
-import {moongo} from './db/dbaccess/index'
+
 dotenv.config()
 
 export default async function start_wsserver()
