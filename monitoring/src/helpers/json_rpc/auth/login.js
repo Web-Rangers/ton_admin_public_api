@@ -1,5 +1,5 @@
 import {sendJRPC} from '../send_jrpc'
-import config from '../../../config'
+import {config} from '../../../config'
 
 async function login() {
     let result = await sendJRPC('/','login',[config.NODE_URL,config.PASSWRD]) 
