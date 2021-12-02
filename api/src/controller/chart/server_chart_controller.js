@@ -7,13 +7,13 @@ const build_server_chart_controller = function() {
     })
 
     async function get_servers_chart(request) {
-        let {time_period,time_value} = request.body
+        let {time_period,time_value} = request.query
         let chart = await server_chart_service.get_server_chart(time_period,time_value)
         return {status:200,result:{chart}}
     }
 
     async function get_server_chart(request) {
-        let {ip,port,time_period,time_value} = request.body
+        let {ip,port,time_period,time_value} = request.query
         let chart = await server_chart_service.get_chart_by_server(ip,port,time_period,time_value)
         return {status:200,result:{chart}}
     }
