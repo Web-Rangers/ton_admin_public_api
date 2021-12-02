@@ -86,12 +86,7 @@
                 "name": "some Ton block",
                 "url":"https://ton.sh/block/-1/16050750",
                 "type":"page"
-            },
-            {
-                "name": "somebody once told me",
-                "url":"https://youtu.be/Smd4CUg_cB0?t=6",
-                "type":"Boloto"
-            }   
+            }  
                 
         ]
     },
