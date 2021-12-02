@@ -11,8 +11,6 @@ connection()
 
 const moongo = mongoose.connection;
 moongo.on("error", console.error.bind(console, "MongoDB connection error: "));
-moongo.once("open", function () {
-  console.log("Connected successfully to MongoDB!");
-});
+
 
 export  {moongo}
