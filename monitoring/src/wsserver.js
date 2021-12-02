@@ -1,12 +1,12 @@
-import dotenv from'dotenv'
+
 import WebSocket from 'ws';
 import {emitter} from './data/json_rpc_status'
+import {config} from './config'
 
-dotenv.config()
 
 export default async function start_wsserver()
 {
-    const wsServer = new WebSocket.Server({ port: process.env.WS_PORT || 3000 });
+    const wsServer = new WebSocket.Server({ port: config.PORT || 3000 });
     let lastData = {}
 
     wsServer.on('connection', function(ws) {

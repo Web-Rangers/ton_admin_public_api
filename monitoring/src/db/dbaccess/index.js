@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-
+import {config} from '../../config'
 
 function connection(){
-    dotenv.config({path:'../.env'})
-    const res = mongoose.connect(process.env.DM_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    const res = mongoose.connect(config.DM_DB_URI)
     return res
 }
 connection()
