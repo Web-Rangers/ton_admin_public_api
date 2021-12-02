@@ -4,34 +4,39 @@ import {Status} from '../db/models'
 
 class Status_{
     async update_status(data){
-        let status =await Status.findOne({})
-        if (!status){
-            status = new Status()
-        }
-        let change = false
-        for (let kw of Object.entries(data)) {
-            let [key,val] = kw
-            if(status[key]){
-                if (Object.keys(val).length>0){
-                    for (let vkw of Object.entries(val)) {
-                        let [vkey,vval] = vkw
-                        status[key][vkey] = vval
-                    }
-                    change = true
-                }
-                else{
-                    if(status[key]!=val){
+        try {
+            let status =await Status.findOne({})
+            if (!status){
+                status = new Status()
+            }
+            let change = false
+            for (let kw of Object.entries(data)) {
+                let [key,val] = kw
+                if(status[key]){
+                    if (Object.keys(val).length>0){
+                        for (let vkw of Object.entries(val)) {
+                            let [vkey,vval] = vkw
+                            status[key][vkey] = vval
+                        }
                         change = true
                     }
-                    if (status[key]){
-                        status[key] = val  
-                    } 
-                }
-            }     
+                    else{
+                        if(status[key]!=val){
+                            change = true
+                        }
+                        if (status[key]){
+                            status[key] = val  
+                        } 
+                    }
+                }     
+            }
+            await status.save()
+            if (change)
+                emitter.emit('data_change',status)
+        } catch (error) {
+           console.log(error); 
         }
-        await status.save()
-        if (change)
-            emitter.emit('data_change',status)
+        
     }
 
     get_status(){
