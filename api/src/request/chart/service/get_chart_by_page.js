@@ -24,9 +24,7 @@ async function get_chart_by_page(service_name,page_name,time_period = 'h',time_v
  
     let current_date = new Date()
     let service = await Service.findOne({'name':service_name})
-    console.log(service.pages);
     let page = service.pages.find(x=>x.name==page_name)
-    console.log(page);
     let data = page.data.filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
     
     let result = {}
