@@ -1,3 +1,5 @@
-import {get_blocks_rate}  from './get_blocks_rate'
+import {get_blocks}  from './get_blocks'
 
-export {get_blocks_rate}
+import {get_last_block}  from './get_last_block'
+
+export {get_blocks,get_last_block}

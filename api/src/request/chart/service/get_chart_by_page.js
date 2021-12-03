@@ -35,7 +35,7 @@ async function get_chart_by_page(service_name,page_name,time_period = 'h',time_v
             result[index]=[]
         }    
         
-        if (dat.args){
+        if (dat.args==200){
             let length = result[index].length-1
             if(result[index][length]&&result[index][length]!=0){
                 result[index][length] = (result[index][length]+dat.avg)/2
