@@ -30,6 +30,10 @@ class Status_{
                     }
                 }     
             }
+<<<<<<< HEAD
+=======
+            delete status.__v
+>>>>>>> efe4555 (bla)
             await status.save()
             if (change)
                 emitter.emit('data_change',status)

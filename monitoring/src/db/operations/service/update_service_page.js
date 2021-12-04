@@ -4,6 +4,7 @@ async function update_service(name, page){
     let now = new Date()
     let service = await Service.findOne({name:name})
     let result = {timestamp:now.getTime(),avg:page.response_time,args:page.response_status}
+    delete service.__v
     if (service){
         let service_page = service.pages.find(x=>x.name==page.name)
         if (service_page){
