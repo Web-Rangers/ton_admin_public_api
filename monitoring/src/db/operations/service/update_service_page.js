@@ -3,8 +3,8 @@ import {Service} from '../../models'
 async function update_service(name, page){
     let now = new Date()
     let service = await Service.findOne({name:name})
-    let result = {timestamp:now.getTime(),avg:page.response_time,args:page.response_status}
-    delete service.__v
+    let result = {timestamp:now.getTime(), avg:page.response_time, args:page.response_status}
+    
     if (service){
         try {
             let service_page = service.pages.find(x=>x.name==page.name)

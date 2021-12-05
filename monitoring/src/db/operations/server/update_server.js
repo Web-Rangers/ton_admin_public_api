@@ -3,8 +3,8 @@ import {Server} from '../../models'
 async function update_server(ip, port, time){
     let now = new Date()
     let server = await Server.findOne({ip:ip,port:port})
-    delete server.__v
-    let result = {timestamp:now.getTime(),avg:time,args:time?true:false}
+    
+    let result = {timestamp:now.getTime(), avg:time, args:time?true:false}
     if (server){
         try {
             let last_minute_data = server.data.find(x=>(~~((now.getTime()-x.timestamp)/(1000*60))==0)&&(x.args==result.args))
