@@ -1,5 +1,5 @@
 
-import {Service} from'../../../db/models'
+import {Service,ServiceData} from'../../../db/models'
 
 async function get_chart_by_page(service_name,time_period = 'h',time_value=1) {
     //hour
@@ -27,10 +27,8 @@ async function get_chart_by_page(service_name,time_period = 'h',time_value=1) {
     let result = {}
     
     for (let page of service.pages) {
-        let data = page.data.filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
-     
+        let data =(await ServiceData.find({page_name:page.name,service:service._id})).filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
         for (let dat of data) {
-            
             let index = `${~~((current_date.getTime()-dat.timestamp)/(time_argument))}`
             if (!result[index]){
                 result[index]=[]

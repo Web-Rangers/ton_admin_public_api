@@ -19,7 +19,8 @@
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nocache": "^3.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",

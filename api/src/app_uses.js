@@ -2,9 +2,11 @@ import express from 'express'
 import cookieParser from'cookie-parser'
 import logger  from 'morgan'
 import cors from 'cors'
+import nocache from 'nocache'
 
 function build_uses(app) {
     app.use(cors({origin:'http://localhost:3000', credentials:true}));
+    app.use(nocache())
     app.use(express.json());
     app.use(cookieParser());
     app.set('etag', false)

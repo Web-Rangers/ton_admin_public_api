@@ -1,5 +1,5 @@
 
-import {Server} from'../../../db/models'
+import {Server,ServerData} from'../../../db/models'
 
 async function get_server_chart(time_period = 'h',time_value=1) {
     //hour
@@ -28,9 +28,9 @@ async function get_server_chart(time_period = 'h',time_value=1) {
     let result = {}
     for(let server of servers){
         console.log(server);
-        let data = server.data.filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
-    
-        for (let dat of data) {
+        let data = await ServerData.find({server:server._id})
+       
+        for (let dat of data.filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))) {
             
             let index = `${~~((current_date.getTime()-dat.timestamp)/(time_argument))}`
             if (!result[index]){

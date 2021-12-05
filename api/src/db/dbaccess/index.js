@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import {config} from '../../config'
+import {Status} from '../models'
 
 function connection(){
     const res = mongoose.connect(config.DM_DB_URI)

@@ -1,5 +1,5 @@
 
-import {Server} from'../../../db/models'
+import {Server,ServerData} from'../../../db/models'
 
 async function get_chart_by_server(ip,port,time_period = 'h',time_value=1) {
     //hour
@@ -21,11 +21,9 @@ async function get_chart_by_server(ip,port,time_period = 'h',time_value=1) {
         default:
             break;
     }
- 
     let current_date = new Date()
-    let server = await Server.findOne({'ip':ip,'port':port}) 
-    let data = server.data.filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
-    
+    let server = await Server.findOne({'ip':ip,'port':port})
+    let data = (await ServerData.find({server:server._id})).filter(x=>(((current_date.getTime()-x.timestamp)/(time_argument)))<=(index_argument*time_value))
     let result = {}
     for (let dat of data) {
         
