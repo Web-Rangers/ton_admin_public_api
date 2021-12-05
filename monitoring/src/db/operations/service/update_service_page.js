@@ -1,49 +1,46 @@
-import {Service} from '../../models'
+import {Service,ServiceData} from '../../models'
 
 async function update_service(name, page){
     let now = new Date()
     let service = await Service.findOne({name:name})
-    let result = {timestamp:now.getTime(),avg:page.response_time,args:page.response_status}
-    delete service.__v
-    if (service){
-        try {
-            let service_page = service.pages.find(x=>x.name==page.name)
-            if (service_page){
-                let last_minute_data = service_page.data.find(x=>(~~((now.getTime()-x.timestamp)/(1000*60))==0)&&(x.args==result.args))
-                if (last_minute_data){
-                    if (result.avg){
-                        last_minute_data.avg = ~~((last_minute_data.avg+result.avg)/2)
-                    }       
-                }
-                else{
-                    if(result.avg&&result.timestamp){
-                        service_page.data.push(result)
-                    }
-                }
-                
-            }else{
-                
-                service.pages.push({
-                    name:page.name,
-                    data:[result]
-                })
-            }
-        await service.save() 
-        } catch (error) {
-            console.log(error);
-        }
-            
-    }
-    else{   
+    
+    if (!service){   
         service = new Service({
             name: name,
             pages:[{
-                name:page.name,
-                data:[result]
+                name:page.name
             }]
         })
         await service.save()
-    }	
+    }
+    let result = {timestamp:now.getTime(),avg:page.response_time,args:page.response_status}
+    
+    let service_page = service.pages.find(x=>x.name==page.name)
+    if (!service_page){
+        service.pages.push({
+            name:page.name
+        })
+        service_page = service.pages.find(x=>x.name==page.name)
+    }
+
+    let data = await ServiceData.findOne({service:service._id,page_name:service_page.name,args:result.args,$where:function(){
+        let now = new Date()
+        return (~~((now.getTime()-this.timestamp)/(1000*60))==0)  
+    }})
+    if (data){
+        data.avg=~~((data.avg+result.avg)/2)
+        await data.save()      
+    }
+    else{
+        data = new ServiceData({
+            service:service,
+            page_name:service_page.name,
+            timestamp:result.timestamp,
+            avg:result.avg,
+            args:result.args
+        }) 
+        await data.save()
+    } 
 }
 
 export {update_service}

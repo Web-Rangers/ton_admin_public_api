@@ -5,15 +5,18 @@ const serviceSchema = mongoose.Schema({
     pages: [{
         name: { type: String, required: true },
         url: { type: String },
-        type: { type: String},
-        data:[{
-            timestamp:{type:Number},
-            args:{type:Number},
-            avg:{type:Number}
-        }]            
+        type: { type: String}          
     }]
 })
+const service_data = mongoose.Schema({
+    service:{ type: mongoose.Schema.Types.Mixed,ref: 'Service'},
+    page_name :{type: String},
+    timestamp:{type:Number},
+    args:{type:String},
+    avg:{type:Number}  
+}, {timestamps: true})
 
 
 const Service = mongoose.model('Service', serviceSchema)
-export {Service}
+const ServiceData = mongoose.model('ServiceData', service_data)
+export {Service,ServiceData}

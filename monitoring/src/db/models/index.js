@@ -1,7 +1,7 @@
 import  {Block} from './block'
 import  {Bridge, TonBridgeTransaction, Web3BridgeTransaction} from './bridge'
-import  {Server} from './server'
-import  {Service, Page} from './service'
+import  {Server,ServerData} from './server'
+import  {Service,ServiceData} from './service'
 import  {Status} from './status'
 
-export {Block, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, Service, Page,Status}
+export {Block, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, ServiceData, Service, ServerData,Status}
