@@ -46,7 +46,7 @@ class LiteServerObserver {
         let servers = []
         for (const server of this.liteservers) 
         {
-            tcpp.ping({ address: server.ip, port:server.port, attempts:1}, function(err, data) {
+            tcpp.ping({ address: server.ip, port:server.port, attempts:5}, function(err, data) {
                 server.time = data.avg
                 servers.push(server)
                 status.update_status({liteservers:servers})
