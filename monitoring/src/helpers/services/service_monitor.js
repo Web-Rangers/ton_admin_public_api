@@ -5,6 +5,23 @@ import {update_service} from '../../db/operations/service'
 class ServicesObserver {
     constructor() {
       this.services = config;
+
+      axios.interceptors.request.use(function (config) {
+        config.metadata = { startTime: new Date()}
+          return config;
+        }, function (error) {
+          return Promise.reject(error);
+      });
+
+      axios.interceptors.response.use(function (response) {
+        response.config.metadata.endTime = new Date()
+        response.duration = response.config.metadata.endTime - response.config.metadata.startTime
+        return response;
+      }, function (error) {
+        error.config.metadata.endTime = new Date();
+        error.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+        return Promise.reject(error);
+      });
     }
 
     async checkServices(){
@@ -13,20 +30,17 @@ class ServicesObserver {
             for (const page of service.pages) {
                 let response = {};
                 try {
-                  var start = new Date();
                   response = await axios.get(page.url, {
                     validateStatus: function (status) {
                       return status < 1000; // Resolve only if the status code is less than 1000
                     }
                   })
-                  var end = new Date();
                 } catch (error) {
                   console.log(page.url + " raise error");
-                  var end = new Date();
                 }
- 
+                //console.log(response.duration);
                 page.response_status = response.status
-                page.response_time = end - start
+                page.response_time = response.duration
                 await update_service(service.service_name,page);
             }
         }
