@@ -1,9 +1,10 @@
 import EventEmitter from 'events'
 const emitter = new EventEmitter()
-import {Status} from '../db/models'
+import {database_config} from '../db/dbaccess'
 
 class Status_{
     async update_status(data){
+        let {Status} = database_config.status_conn.models
         try {
             let status =await Status.findOne({})
             if (!status){

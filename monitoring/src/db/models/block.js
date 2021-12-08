@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const blockSchema = mongoose.Schema({
-  
+const Block = mongoose.Schema({
     height:{type: Number},
     transactions:[{
         hash: { type: String},
@@ -15,5 +14,4 @@ const blockSchema = mongoose.Schema({
     timestamps:{type:Number}
 })
 
-const Block = mongoose.model('Block', blockSchema)
 export { Block }

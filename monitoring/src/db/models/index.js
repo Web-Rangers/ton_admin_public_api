@@ -1,7 +1,9 @@
 import  {Block} from './block'
+import  {statusScema} from './status'
 import  {Bridge, TonBridgeTransaction, Web3BridgeTransaction} from './bridge'
-import  {Server,ServerData} from './server'
-import  {Service,ServiceData} from './service'
-import  {Status} from './status'
+import  {serverScema,server_dataScema} from './server'
+import  {serviceScema,service_dataScema} from './service'
 
-export {Block, Bridge, TonBridgeTransaction, Web3BridgeTransaction, Server, ServiceData, Service, ServerData,Status}
+
+export {Block, Bridge, TonBridgeTransaction, Web3BridgeTransaction}
+export {serverScema,server_dataScema,serviceScema,service_dataScema, statusScema}

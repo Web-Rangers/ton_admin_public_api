@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const serviceSchema = mongoose.Schema({
+const serviceScema = mongoose.Schema({
     name: { type: String, required: true},
     pages: [{
         name: { type: String, required: true },
@@ -8,15 +8,12 @@ const serviceSchema = mongoose.Schema({
         type: { type: String}          
     }]
 })
-const service_data = mongoose.Schema({
+const service_dataScema = mongoose.Schema({
     service:{ type: mongoose.Schema.Types.Mixed,ref: 'Service'},
     page_name :{type: String},
     timestamp:{type:Number},
     args:{type:String},
     avg:{type:Number}  
-}, {timestamps: true})
+})
 
-
-const Service = mongoose.model('Service', serviceSchema)
-const ServiceData = mongoose.model('ServiceData', service_data)
-export {Service,ServiceData}
+export {serviceScema,service_dataScema}

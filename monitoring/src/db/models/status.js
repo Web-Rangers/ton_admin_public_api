@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const statusSchema = mongoose.Schema({
+const statusScema = mongoose.Schema({
     electionId: {type:Number},
     tpsAvg: [],
     totalValidators: {type:Number},
@@ -24,6 +24,4 @@ const statusSchema = mongoose.Schema({
     }
 })
 
-
-const Status = mongoose.model('status', statusSchema)
-export {Status}
+export {statusScema}

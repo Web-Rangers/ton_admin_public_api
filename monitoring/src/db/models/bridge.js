@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const tonTransactionSchema = mongoose.Schema({
+const TonBridgeTransaction = mongoose.Schema({
     hash: { type: String, required: true },
     from: { type: String, required: true },
     to: { type: String, required: true },
@@ -9,7 +9,7 @@ const tonTransactionSchema = mongoose.Schema({
     date: { type: Date, required: true }
 })
 
-const web3TransactionSchema = mongoose.Schema({
+const Web3BridgeTransaction = mongoose.Schema({
     hash: { type: String, required: true },
     from: { type: String, required: true },
     to: { type: String, required: true },
@@ -19,14 +19,11 @@ const web3TransactionSchema = mongoose.Schema({
     date: { type: Date, required: true }
 })
 
-const bridgeSchema = mongoose.Schema({
+const Bridge = mongoose.Schema({
     name: { type: String, required: true },
     url: { type: String, required: true },
     web3_transactions: [{ type: mongoose.Schema.Types.Mixed, ref: 'Web3BridgeTransaction' }],
     ton_transactions: [{ type: mongoose.Schema.Types.Mixed, ref: 'TonBridgeTransaction' }]
 })
 
-const Web3BridgeTransaction = mongoose.model('Web3BridgeTransaction', web3TransactionSchema)
-const TonBridgeTransaction = mongoose.model('TonBridgeTransaction', tonTransactionSchema)
-const Bridge = mongoose.model('Bridge', bridgeSchema)
 export {Bridge, Web3BridgeTransaction, TonBridgeTransaction}

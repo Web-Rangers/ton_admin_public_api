@@ -1,6 +1,7 @@
-import {BlockTransaction, Block} from '../../models'
+import {database_config} from '../../dbaccess'
 
 function attach_to_block(blockId, hash, from, to, message, coins, date){
+    let {BlockTransaction,Block} = database_config.status_conn.models
 	let transaction = new BlockTransaction({
 		hash: hash,
         from: from,

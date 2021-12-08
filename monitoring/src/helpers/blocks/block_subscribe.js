@@ -1,5 +1,6 @@
 import {emitter} from '../../data/json_rpc_status'
-import {Block,Status} from '../../db/models'
+import {database_config} from '../../db/dbaccess'
+
 import TonWeb from 'tonweb'
 import {known_accounts} from '../../data/known_accounts'
 
@@ -38,7 +39,7 @@ class BlocksStorageImpl_ {
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
         // this.day_blocks.push(mcBlockNumber)
         
-        let block = new Block({
+        let block = new database_config.status_conn.models.Block({
             height:mcBlockNumber,
             transactions:this.transactions,
             timestamps:new Date().getTime()
@@ -46,7 +47,7 @@ class BlocksStorageImpl_ {
         this.transactions = []
         await block.save()
         // console.log("insertBlocks",mcBlockNumber, shardBlockNumbers);
-        let status = await Status.findOne({})
+        let status = await database_config.status_conn.models.Status.findOne({})
         status.last_block=mcBlockNumber
         await status.save()
         emitter.emit('data_change',status)
