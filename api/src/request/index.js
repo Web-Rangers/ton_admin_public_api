@@ -7,9 +7,7 @@ import {get_liteservers,get_dhtservers} from './servers'
 
 import {get_givers_data} from './givers/get_givers_data'
 
-const server_chart_service = {
-    get_server_chart,
-    get_chart_by_server}
+
 
 const giver_service = {get_givers_data}
 const server_service = {get_liteservers,get_dhtservers}
@@ -17,4 +15,4 @@ const metrics_service = {get_tps,get_validators,get_complaints,get_offers,get_el
 const bridge_service = {get_bsc_status,get_eth_status}
 
 
-export {bridge_service,metrics_service,server_service,server_chart_service,giver_service}
+export {bridge_service,metrics_service,server_service,giver_service}
