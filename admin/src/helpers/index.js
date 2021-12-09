@@ -1,3 +1,3 @@
-const {auth_service} = require('./auth/auth_service')
+import {auth_service} from './auth/auth_service'
 
-module.exports = {auth_service}
+export {auth_service}

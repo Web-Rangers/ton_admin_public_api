@@ -1,5 +1,5 @@
-const {tonadmin_login,tonadmin_proxy} = require('./admin')
+import {tonadmin_login,tonadmin_proxy} from './admin'
 
 const admin_service = {tonadmin_login,tonadmin_proxy}
 
-module.exports = {admin_service}
+export {admin_service}

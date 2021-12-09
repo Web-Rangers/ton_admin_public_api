@@ -1,3 +1,3 @@
 
-const {admin_router} = require('./admin_router')
-module.exports = {admin_router}
+import {admin_router} from './admin_router'
+export {admin_router}

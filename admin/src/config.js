@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
 dotenv.config();
 console.log(process.env)
 let config = {
@@ -10,4 +10,4 @@ let config = {
     PORT:process.env.PORT
 };
 
-module.exports = config;
+export {config}

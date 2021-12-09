@@ -1,5 +1,5 @@
-const {admin_service} = require('../../request')
-const {auth_service} = require('../../helpers')
+import {admin_service} from '../../request'
+import {auth_service} from '../../helpers'
 
 const build_admin_controller = function() {
     return ({
@@ -39,6 +39,6 @@ const build_admin_controller = function() {
     }
 }
 
-module.exports = {
+export {
     build_admin_controller
 }

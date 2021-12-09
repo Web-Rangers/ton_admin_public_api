@@ -1,4 +1,4 @@
-let axios = require('axios')
+import {axios} from 'axios'
 
 async function tonadmin_proxy(request_params){
     let headers = {
@@ -14,4 +14,4 @@ async function tonadmin_proxy(request_params){
     )
 }
 
-module.exports = {tonadmin_proxy}
+export {tonadmin_proxy}

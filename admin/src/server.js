@@ -1,10 +1,10 @@
 
-let express = require('express')
-let {build_routes} = require('./app_routes')
-let {build_uses} = require('./app_uses')
-let config = require('./config')
+import express from 'express'
+import {build_routes} from './app_routes'
+import {build_uses} from './app_uses'
+import {config} from './config'
 
-module.exports = function start_server() {
+export function start_server() {
     let app = express()
     build_uses(app)
     build_routes(app)
