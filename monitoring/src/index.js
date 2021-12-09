@@ -3,7 +3,6 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 import start_wsserver from'./wsserver'
 import {change_monirotingdb} from './db/dbaccess'
 import {config} from './config'
-import mongoose from 'mongoose'
 
     async function main(){
         await servers_monitor.create_observers()

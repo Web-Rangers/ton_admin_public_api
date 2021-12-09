@@ -1,12 +1,14 @@
 from datetime import datetime
-
+from chart_service.exception import NotFoundException, BadRequestException, ServerErrorException
 from chart_service.db import get_database, get_client
 from numpy import array
-
-from .. import time_parts_values
+from .validator import validate
+from chart_service.request import time_parts_values
 
 
 def get_fullchart(time_period, time_value):
+    validate(time_period, time_value)
+
     tpv = time_parts_values.get(time_period)
     if tpv:
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')

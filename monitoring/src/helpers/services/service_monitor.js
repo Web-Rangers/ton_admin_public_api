@@ -35,6 +35,8 @@ class ServicesObserver {
                     validateStatus: async function (stat) {
                       return stat<1000
                     }
+                    
+                    
                   })
                 } catch (error) {
                   console.log(error);
