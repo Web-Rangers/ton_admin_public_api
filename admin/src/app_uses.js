@@ -1,7 +1,7 @@
-let express = require('express')
-let cookieParser= require('cookie-parser')
-let logger = require('morgan')
-let cors = require('cors')
+import express from 'express'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
+import cors from 'cors'
 
 function build_uses(app) {
     app.use(cors({origin:'http://localhost:3000', credentials:true}));
@@ -12,4 +12,4 @@ function build_uses(app) {
     app.use(express.urlencoded({ extended: true }));
 }
 
-module.exports = {build_uses}
+export {build_uses}

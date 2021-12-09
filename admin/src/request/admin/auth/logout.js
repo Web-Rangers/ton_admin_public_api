@@ -1,4 +1,4 @@
-let axios = require('axios')
+import {axios} from 'axios'
 
 async function tonadmin_logout(){
     let headers = {
@@ -10,4 +10,4 @@ async function tonadmin_logout(){
     )
 }
 
-module.exports = {tonadmin_logout}
+export {tonadmin_logout}

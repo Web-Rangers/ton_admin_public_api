@@ -24,4 +24,4 @@ let api_callback= (controller)=>{
     }
 }
 
-module.exports = {api_callback}
+export {api_callback}

@@ -1,6 +1,6 @@
 
-const {build_admin_controller} = require('./ton_admin')
+import {build_admin_controller} from './ton_admin'
 
 let AdminController = build_admin_controller()
 
-module.exports = {AdminController}
+export {AdminController}

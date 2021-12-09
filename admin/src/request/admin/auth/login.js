@@ -1,5 +1,4 @@
-let axios = require('axios')
-
+import {axios} from 'axios'
 async function tonadmin_login(login_data){
     let {params} = {...login_data}
     let headers = {
@@ -11,4 +10,4 @@ async function tonadmin_login(login_data){
     )
 }
 
-module.exports = {tonadmin_login}
+export {tonadmin_login}

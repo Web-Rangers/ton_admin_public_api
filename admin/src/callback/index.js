@@ -1,3 +1,3 @@
-const {api_callback} = require('./api_callback')
+import {api_callback} from './api_callback'
 
-module.exports = {api_callback}
+export {api_callback}
