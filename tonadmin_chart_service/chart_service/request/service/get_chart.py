@@ -31,7 +31,7 @@ def get_service_chart(service_name, time_period, time_value):
             """})))
             for data in data_s:
 
-                index = int((now.timestamp()-(data.get('timestamp')/1000))/t_index)
+                index = int((now.timestamp() - (data.get('timestamp') / 1000)) / (t_value/1000))
 
                 if not result.get(index):
                     result[index] = []
@@ -44,5 +44,5 @@ def get_service_chart(service_name, time_period, time_value):
                         result[index].append(data.get('avg'))
                 else:
                     result[index].append(0)
-    print(result)
+
     return result

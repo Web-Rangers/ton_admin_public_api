@@ -8,6 +8,7 @@ def chart_router(app: Flask):
     @app.route("/api/v1/chart/server/server_chart", methods=['GET'])
     def get_chart_by_server():
         data = parse_qs(urlparse(request.url).query)
+        print(data)
         response = get_server_chart(data.get('ip')[0], int(data.get('port')[0]), data.get('time_period')[0], int(data.get('time_value')[0]))
         return jsonify(response)
 
@@ -21,7 +22,7 @@ def chart_router(app: Flask):
     @app.route("/api/v1/chart/service/pagechart", methods=['GET'])
     def get_page_chart():
         data = parse_qs(urlparse(request.url).query)
-        print(data)
+
         response = get_chart_by_page(data.get('service_name')[0], data.get('page_name')[0], data.get('time_period')[0],
                              int(data.get('time_value')[0]))
         return jsonify(response)

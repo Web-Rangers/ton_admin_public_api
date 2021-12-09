@@ -9,26 +9,14 @@ export default function MakeCallBack(){
         let url = 'http://'+ process.env.CHART_SERVICE+req.originalUrl;
    
         options.headers = req.headers
-        if(req.method == 'GET'){
-            if (Object.keys(req.query).length) {
-                url += '?'
-                
-                let params = Object.entries(req.query).map(element=>`${element[0]}=${element[1]}`);
-                url += params.join('&')
-            }
-            console.log(url);
-            
-        }
-        else{
-            options.body = JSON.stringify(req.body)
-        }
+
                
         try {
             let response_ = await fetch(url,options)
-            console.log(response_);
+            console.log(response_.status);
             if (response_.status==200){
                 let json = await response_.json() 
-                res.status(json.status)
+                res.status(response_.status)
                 res.send(json); 
             }
             else{

@@ -20,6 +20,7 @@ def get_server_chart(ip, port, time_period, time_value):
             t_value)) <= (t_index * time_value)]
     result = {}
     for db_name in db_s:
+        print(db_name)
         db = get_database(db_name)
         server = db.get_collection('servers').find_one({'ip': ip, 'port': port})
 
@@ -30,8 +31,7 @@ def get_server_chart(ip, port, time_period, time_value):
         }
         """})))
         for data in data_s:
-
-            index = int((now.timestamp() - (data.get('timestamp') / 1000)) / t_index)
+            index = int((now.timestamp() - (data.get('timestamp') / 1000)) / (t_value/1000))
 
             if not result.get(index):
                 result[index] = []

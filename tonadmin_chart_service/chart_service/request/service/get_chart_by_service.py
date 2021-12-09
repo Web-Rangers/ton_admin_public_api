@@ -6,7 +6,7 @@ from numpy import array
 from .. import time_parts_values
 
 
-def get_chart_by_page(service_name,page_name, time_period, time_value):
+def get_chart_by_page(service_name, page_name, time_period, time_value):
     tpv = time_parts_values.get(time_period)
     if tpv:
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')
@@ -19,9 +19,11 @@ def get_chart_by_page(service_name,page_name, time_period, time_value):
             if ((now.timestamp()-datetime.strptime(str(i).replace('tonstatus', ''), '%Y-%m-%d').timestamp())/(t_value)) <= (t_index*time_value)]
     result = {}
     for db_name in db_s:
+
         db = get_database(db_name)
         service = db.get_collection('services').find_one({'name': service_name})
         page = [i for i in service.get('pages') if i.get('name') == page_name][0]
+
         if page:
             data_s = array(list(db.get_collection('servicedatas').find({"service": service.get('_id'), 'page_name': page.get('name'), "$where": """
             function(){
@@ -30,9 +32,7 @@ def get_chart_by_page(service_name,page_name, time_period, time_value):
             }
             """})))
             for data in data_s:
-
-                index = int((now.timestamp()-(data.get('timestamp')/1000))/t_index)
-
+                index = int((now.timestamp() - (data.get('timestamp') / 1000)) / (t_value/1000))
                 if not result.get(index):
                     result[index] = []
                 length = len(result[index]) - 1
