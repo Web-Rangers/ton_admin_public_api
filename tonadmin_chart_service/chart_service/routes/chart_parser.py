@@ -6,16 +6,16 @@ from chart_service.exception import BaseAPIException
 
 def callback(method, *args, **kwargs):
     try:
-        response = jsonify({'chart':method(*args, **kwargs)})
+        response = jsonify({'status': 200, 'result': {'chart': method(*args, **kwargs)}})
         response.status_code = 200
         return response
     except BaseAPIException as ex:
         print(ex)
-        response = jsonify(ex.message())
+        response = jsonify({'status': ex.status_code(), 'message': ex.message(),'result':{}})
         response.status_code = ex.status_code()
         return response
     except Exception as ex:
-        response = jsonify({"message": "server_error"})
+        response = jsonify({'status': ex.status_code(),"message": "server_error",'result':{}})
         response.status_code = 500
         return response
 
