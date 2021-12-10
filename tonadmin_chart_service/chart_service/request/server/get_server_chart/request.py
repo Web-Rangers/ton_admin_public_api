@@ -1,28 +1,39 @@
 from datetime import datetime
-
 from chart_service.db import get_database, get_client
+from chart_service.exception import NotFoundException
 from numpy import array
+from chart_service.request import time_parts_values
+from .validator import validate
 
-from .. import time_parts_values
 
+def get_server_chart(ip, port: int, time_period, time_value: int):
+    validate(ip, port, time_period, time_value)
 
-def get_server_chart(ip, port, time_period, time_value):
     tpv = time_parts_values.get(time_period)
+    port = int(port)
+    time_value = int(time_value)
+
     if tpv:
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')
     else:
         tpv = time_parts_values.get('h')
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')
+
     db_s = [j.get('name') for j in get_client().list_databases() if not j.get('name').find('tonstatus')]
     now = datetime.now()
+
     db_s = [i for i in db_s
             if ((now.timestamp() - datetime.strptime(str(i).replace('tonstatus', ''), '%Y-%m-%d').timestamp()) / (
             t_value)) <= (t_index * time_value)]
+
     result = {}
+
     for db_name in db_s:
         print(db_name)
         db = get_database(db_name)
         server = db.get_collection('servers').find_one({'ip': ip, 'port': port})
+        if not server:
+            raise NotFoundException({'message': 'not found', 'content': 'server with this ip and port was not found'})
 
         data_s = array(list(db.get_collection('serverdatas').find({"server": server.get('_id'), "$where": """
         function(){

@@ -1,12 +1,13 @@
 from datetime import datetime
-
 from chart_service.db import get_database, get_client
 from numpy import array
-
-from .. import time_parts_values
+from chart_service.request import time_parts_values
+from .validator import validate
 
 
 def get_service_chart(service_name, time_period, time_value):
+    validate(service_name, time_period, time_value)
+    time_value = int(time_value)
     tpv = time_parts_values.get(time_period)
     if tpv:
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')

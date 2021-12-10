@@ -3,10 +3,14 @@ from datetime import datetime
 from chart_service.db import get_database, get_client
 from numpy import array
 
-from .. import time_parts_values
+from chart_service.exception import NotFoundException
+from chart_service.request import time_parts_values
+from .validator import validate
 
 
-def get_chart_by_page(service_name, page_name, time_period, time_value):
+def get_chart_by_page(service_name, page_name, time_period, time_value: int):
+    validate(service_name, page_name, time_period, time_value)
+    time_value = int(time_value)
     tpv = time_parts_values.get(time_period)
     if tpv:
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')
@@ -22,7 +26,13 @@ def get_chart_by_page(service_name, page_name, time_period, time_value):
 
         db = get_database(db_name)
         service = db.get_collection('services').find_one({'name': service_name})
+        if not service:
+            raise NotFoundException({'message': 'not found', 'content': 'service with this name was not found'})
+
         page = [i for i in service.get('pages') if i.get('name') == page_name][0]
+
+        if not page:
+            raise NotFoundException({'message': 'not found', 'content': 'page with this name was not found'})
 
         if page:
             data_s = array(list(db.get_collection('servicedatas').find({"service": service.get('_id'), 'page_name': page.get('name'), "$where": """

@@ -2,8 +2,13 @@ from chart_service.exception import BadRequestException
 
 
 def validate(time_period, time_value):
-    if not(time_period and time_value and time_value.is_integer()):
+    try:
+        if not (time_value or time_period) or (time_value is None or time_period is None):
+            raise ''
+        int(time_value)
+        str(time_period)
+    except:
         raise BadRequestException({
             'message': "validation error",
-            'content': 'request args must be contain:\n -time_period(str)\n -time_value'
+            'content': 'request args must be contain: -time_period(str) | -time_value(int)'
         })

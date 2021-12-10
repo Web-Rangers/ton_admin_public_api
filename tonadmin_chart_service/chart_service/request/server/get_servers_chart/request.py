@@ -6,8 +6,9 @@ from .validator import validate
 from chart_service.request import time_parts_values
 
 
-def get_fullchart(time_period, time_value):
+def get_fullchart(time_period, time_value: int):
     validate(time_period, time_value)
+    time_value = int(time_value)
 
     tpv = time_parts_values.get(time_period)
     if tpv:

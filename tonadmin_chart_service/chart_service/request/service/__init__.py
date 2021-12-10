@@ -1,2 +1,2 @@
-from .get_chart_by_service import get_chart_by_page
-from .get_chart import get_service_chart
+from chart_service.request.service.get_servicepage_chart.get_chart_by_service import get_chart_by_page
+from chart_service.request.service.get_service_chart.get_chart import get_service_chart
