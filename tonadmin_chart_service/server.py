@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from dotenv import load_dotenv
-from routes.chart_parser import chart_router
+from chart_service.routes.chart_parser import chart_router
 
 load_dotenv()
 
