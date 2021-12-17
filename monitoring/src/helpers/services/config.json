@@ -136,7 +136,7 @@
         ]
     },
     {
-        "service_name":"wallet.ton.org",
+        "service_name":"tonwallet.me",
         "pages":[
             {
                 "name": "home",
