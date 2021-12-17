@@ -136,11 +136,11 @@
         ]
     },
     {
-        "service_name":"tonwallet.me",
+        "service_name":"wallet.ton.org",
         "pages":[
             {
                 "name": "home",
-                "url":"https://tonwallet.me",
+                "url":"https://wallet.ton.org/",
                 "type":"page"
             }               
         ]
