@@ -16,6 +16,7 @@ def get_service_chart(service_name, time_period, time_value):
         t_index, t_value = tpv.get('iarg'), tpv.get('targ')
     db_s = [j.get('name') for j in get_client().list_databases() if not j.get('name').find('tonstatus')]
     now = datetime.now()
+    print(db_s)
     db_s = [i for i in db_s
             if ((now.timestamp()-datetime.strptime(str(i).replace('tonstatus', ''), '%Y-%m-%d').timestamp())/(t_value)) <= (t_index*time_value)]
     result = {}
