@@ -2,6 +2,7 @@ import axios from 'axios'
 import config from './config.json'
 import {status} from '../../data/json_rpc_status'
 import {update_service} from '../../db/operations/service'
+
 class ServicesObserver {
     constructor() {
       this.services = config;
@@ -46,8 +47,6 @@ class ServicesObserver {
                 page.response_status = response.status
                 page.response_time = response.duration
                 await update_service(service.service_name,page);
-                status.update_status({services:result_services})
-
             }
         }
        

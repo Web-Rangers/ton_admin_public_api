@@ -6,7 +6,6 @@ let config = {
     TOKEN:'',
     DATABASE:'',
     PASSWRD: process.env.PASSWRD,
-    DM_DB_URI:process.env.DM_DB_URI,
     PORT:process.env.WS_PORT
 };
 

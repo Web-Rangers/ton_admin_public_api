@@ -1,6 +1,5 @@
 import axios from 'axios'
 import tcpp from 'tcp-ping'
-import {status} from '../../../data/json_rpc_status'
 import {update_server} from '../../../db/operations/server'
 
 class LiteServerObserver {
@@ -49,7 +48,6 @@ class LiteServerObserver {
             tcpp.ping({ address: server.ip, port:server.port, attempts:5}, function(err, data) {
                 server.time = data.avg
                 servers.push(server)
-                status.update_status({liteservers:servers})
                 update_server(server.ip, server.port, server.time)
             });
         }
