@@ -56,7 +56,6 @@ class BlocksStorageImpl_ {
         }
         catch (e){
             console.log(insert_str);
-            throw e
         }
         emitter.emit('data_change',{'last_block':mcBlockNumber})
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)

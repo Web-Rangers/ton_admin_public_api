@@ -14,7 +14,7 @@ async function main(){
         await service_monitor.checkServices()
         await servers_monitor.fetch_data()
         await status_requester.fetch_data()  
-    }, 60000);
+    }, 10000);
     start_wsserver()
 }
 main()
