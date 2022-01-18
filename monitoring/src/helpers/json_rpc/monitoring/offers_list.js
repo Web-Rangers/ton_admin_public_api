@@ -1,22 +1,33 @@
 import {sendJRPC} from '../send_jrpc'
-import {database_config} from '../../../db/dbaccess'
+import db_connection from '../../../db/dbaccess/db_connection'
 
 import {emitter} from '../../../data/json_rpc_status'
 
 async function get_offers_list() {
     let result = await sendJRPC('/','ol') 
     if (result&&!result.data.error){
-        let status = await database_config.status_conn.models.Status.findOne({})
-        if (!status){
-            status = new database_config.status_conn.models.Status()
+        result = result.data.result
+        db_connection.connection.execute('truncate status_offers;')
+       
+        if (result.length>0){
+            let insert_str=``
+            for (let offer of result) {
+                if (insert_str==''){
+                    insert_str+=`(${offer.approvedPercent},${offer.isPassed},${offer.endTime},${offer.roundsRemaining})`
+                    continue
+                }
+                insert_str+=`,(${offer.approvedPercent},${offer.isPassed},${offer.endTime},${offer.roundsRemaining})`
+            }
+            
+            if (insert_str.length>0){
+                db_connection.connection.execute(`INSERT INTO status_offers (approvedPercent,isPassed,endTime,roundsRemaining) VALUES ${insert_str}`)
+            }
+            
         }
-        emitter.emit('data_change',status)
-        status.offers=result.data.result
-        await status.save()
-        return result.data.result
+        emitter.emit('data_change',{offers:result})
+        return result
     }
     return undefined
-    //{'validators': result.data.result}
 }
 
 export {get_offers_list}

@@ -1,8 +1,8 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 async function get_offers() {
-    let status = await Status.findOne({}) 
-    return {'offers': status.offers}
+    let [rows] = await db_connection.connection.execute('SELECT * from status_offers')
+    return {'offers': rows}
 }
     
 export {get_offers}

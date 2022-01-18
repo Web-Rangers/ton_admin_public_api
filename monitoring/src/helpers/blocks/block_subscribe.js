@@ -1,8 +1,7 @@
 import {emitter} from '../../data/json_rpc_status'
-import {database_config} from '../../db/dbaccess'
-
 import TonWeb from 'tonweb'
 import {known_accounts} from '../../data/known_accounts'
+import db_connection from '../../db/dbaccess/db_connection';
 
 class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
@@ -38,19 +37,28 @@ class BlocksStorageImpl_ {
      */
     async insertBlocks(mcBlockNumber, shardBlockNumbers) {
         // this.day_blocks.push(mcBlockNumber)
+
+        let time = Math.round(new Date().getTime()/1000)
+        let insert_str = ``
         
-        let block = new database_config.status_conn.models.Block({
-            height:mcBlockNumber,
-            transactions:this.transactions,
-            timestamps:new Date().getTime()
-        })
+        for (let transaction of this.transactions) {
+            if (insert_str==''){
+                insert_str+=`('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},'${transaction.message}',${time})`
+                continue
+            }
+            insert_str+=`,('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},'${transaction.message}',${time})`    
+        }
         this.transactions = []
-        await block.save()
-        // console.log("insertBlocks",mcBlockNumber, shardBlockNumbers);
-        let status = await database_config.status_conn.models.Status.findOne({})
-        status.last_block=mcBlockNumber
-        await status.save()
-        emitter.emit('data_change',status)
+        
+        db_connection.connection.execute(`UPDATE status SET last_block = ${mcBlockNumber}`)
+        try{
+            db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,message ,time) VALUES ${insert_str}`)
+        }
+        catch (e){
+            console.log(insert_str);
+            throw e
+        }
+        emitter.emit('data_change',{'last_block':mcBlockNumber})
         // INSERT INTO masterchainBlocks VALUES (blockNumber, TRUE)
         if (this.masterchainBlocks[mcBlockNumber] !== undefined) throw new Error('mc already exists ' + mcBlockNumber);
         this.masterchainBlocks[mcBlockNumber] = true;
@@ -65,49 +73,50 @@ class BlocksStorageImpl_ {
         let hash = undefined
         let limit = 20
         let to_lt = undefined
+        let timestamp = Math.round(new Date().getTime()/1000)
         const txs = await this.ton_web.provider.send("getTransactions", {address, limit, lt, hash, to_lt});
         const tx = txs[0];
         
         if (tx&&tx.in_msg) {
             let type = ''
             let direction = ''
-             
-            if (known_accounts[bounceble]){
-                if(known_accounts[bounceble] != 'nevermind'){
+            if (tx.in_msg.value!=0){
+                if (known_accounts[bounceble]){
                     type = known_accounts[bounceble]
                 }
-            }
-            else if(known_accounts[tx.in_msg.source]) {
-                if(known_accounts[tx.in_msg.source] != 'nevermind'){
+                else if(known_accounts[tx.in_msg.source]) {
                     type = known_accounts[tx.in_msg.source]
                 }
-            }
-            else{
-                type = 'between accounts'
-
-            }
-            if (type){
-                if (tx.in_msg.destination == bounceble)
-                {
-                    direction = 'in'
-                    // mean - money in
-                }
                 else{
-                    direction = 'out'
-                    //mean - moneu out
-                    
+                    type = 'between_accounts'
+    
                 }
-                
-                this.transactions.push({
-                    hash:shortTx.hash,
-                    from: tx.in_msg.source,
-                    to: tx.in_msg.destination,
-                    type:type,
-                    value:tx.in_msg.value,
-                    direction:direction,
-                    message:tx.in_msg.message
-                })
-            }
+                if (type == 'between_accounts'){
+                    db_connection.connection.execute(`INSERT INTO status_account_activity (account,time) values ('${bounceble}',${timestamp}) ON DUPLICATE KEY UPDATE time=${timestamp}`)
+                    db_connection.connection.execute(`DELETE FROM status_account_activity WHERE time<${timestamp-60*60*24}`)
+                }
+                if (type){
+                    if (tx.in_msg.destination == bounceble)
+                    {
+                        direction = 'out'
+                        // mean - money out
+                    }
+                    else{
+                        direction = 'in'
+                        //mean - moneu in  
+                    }
+                    
+                    this.transactions.push({
+                        hash:shortTx.hash,
+                        from: tx.in_msg.source,
+                        to: tx.in_msg.destination,
+                        type:type,
+                        value:tx.in_msg.value,
+                        direction:direction,
+                        message:tx.in_msg.message
+                    })
+                }
+            }  
         }          
     }
     /**

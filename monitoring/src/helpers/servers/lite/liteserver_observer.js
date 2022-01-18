@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { emitter } from '../../../data/json_rpc_status';
 import tcpp from 'tcp-ping'
 import {update_server} from '../../../db/operations/server'
 
@@ -45,10 +46,14 @@ class LiteServerObserver {
         let servers = []
         for (const server of this.liteservers) 
         {
-            tcpp.ping({ address: server.ip, port:server.port, attempts:5}, function(err, data) {
+            tcpp.ping({ address: server.ip, port:server.port, attempts:5},(err, data)=> {
                 server.time = data.avg
                 servers.push(server)
                 update_server(server.ip, server.port, server.time)
+                if (servers.length == this.liteservers.length){
+                    emitter.emit('data_change',{liteservers:servers})
+                    servers = []
+                }
             });
         }
     }

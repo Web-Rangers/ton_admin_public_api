@@ -26,7 +26,10 @@ export default async function start_wsserver()
         });
     });
     emitter.on('data_change',(data)=>{
-        lastData = data
+        
+        Object.keys(data).forEach(key=>{
+            lastData[key] = data[key]
+        })
         for (const wsClient of wsServer.clients) {
             wsClient.send(JSON.stringify(data)) 
         }

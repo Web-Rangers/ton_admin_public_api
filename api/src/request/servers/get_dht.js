@@ -1,9 +1,10 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 
 async function get_dhtservers() {
-    let status = await Status.findOne({})
-    return status.dhtservers
+    
+    
+    return {}
 }
 
 export {get_dhtservers}

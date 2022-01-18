@@ -1,7 +1,9 @@
+import db_connection from '../../db/dbaccess/db_connection'
 
 
 async function get_accounts_data() {
-    return {}
+    let [rows] = await db_connection.connection.execute('SELECT count(*)as c_accounts from status_account_activity')
+    return rows[0].c_accounts
 }
     
 export {get_accounts_data}

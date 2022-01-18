@@ -1,9 +1,8 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 async function get_eth_status() {
-    let status = await Status.findOne({})
-    let eth = status.bridge['eth']
-    return eth
+    let [rows] = await db_connection.connection.execute('SELECT eth_bridge from status limit 1')
+    return rows[0].eth_bridge
 }
 
 export {get_eth_status}

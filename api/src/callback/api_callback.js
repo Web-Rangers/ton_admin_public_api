@@ -14,7 +14,6 @@ let api_callback= (controller)=>{
         if (httpResponse.headers) {
           res.set(httpResponse.headers)
         }
-        console.log(httpResponse);
         return res.status(httpResponse.status).send({status:httpResponse.status,message:httpResponse.message,result:httpResponse.result})
       })
       .catch(async (err) => {

@@ -1,8 +1,8 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 async function get_tps() {
-    let status = await Status.findOne({})
-    return status.tpsAvg
+    let [rows] = await db_connection.connection.execute('SELECT tpsAvg from status limit 1')
+    return rows[0].tpsAvg
 }
 
 export {get_tps}

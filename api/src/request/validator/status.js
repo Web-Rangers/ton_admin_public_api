@@ -1,8 +1,9 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 async function get_validators() {
-    let status = await Status.findOne({})
-    return {'total':status.totalValidators,'active':status.onlineValidators}
+    // let status = await Status.findOne({})
+    let [rows] = await db_connection.connection.execute('SELECT * from status LIMIT 1')
+    return {'total':rows[0].totalValidators,'active':rows[0].onlineValidators}
 }
 
 export {get_validators}

@@ -1,10 +1,10 @@
-import {Status} from '../../db/models'
+import db_connection from '../../db/dbaccess/db_connection'
 
 
 async function get_elections_data() {
-    let status = await Status.findOne({}) 
-    return {'id': status.electionId,'start':status.startElection,
-            'end': status.endElection, 'next': status.startNextElection}
+    let [rows] = await db_connection.connection.execute('SELECT * from status LIMIT 1')
+    return {'id': rows[0].electionId,'start':rows[0].startElection,
+            'end': rows[0].endElection, 'next': rows[0].startNextElection}
 }
 
 export {get_elections_data}

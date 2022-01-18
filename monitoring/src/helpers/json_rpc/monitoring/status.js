@@ -1,26 +1,16 @@
 import {sendJRPC} from '../send_jrpc'
-import {database_config} from '../../../db/dbaccess'
+import db_connection from '../../../db/dbaccess/db_connection'
 import {emitter} from '../../../data/json_rpc_status'
 
 async function get_status() {
+   
     let result = await sendJRPC('/','status') 
     if (result&&!result.data.error){
-        let status = await database_config.status_conn.models.Status.findOne({})
-        if (!status){
-            status = new database_config.status_conn.models.Status()
-        }
         let res = result.data.result
-        status.tpsAvg = res.tpsAvg
-        status.endElection = res.endElection
-        status.startElection = res.startElection
-        status.startNextElection = res.startNextElection
-        status.endValidation = res.endValidation
-        status.electionId = res.electionId
-        status.totalValidators = res.totalValidators
-        status.onlineValidators = res.onlineValidators
-        status.startValidation = res.startValidation
-        await status.save()
-        emitter.emit('data_change',status)
+        db_connection.connection.execute(`INSERT INTO status (electionId,totalValidators,onlineValidators,startValidation,endValidation,startNextElection,endElection,tpsAvg,startElection,id) values`+
+        `(${res.electionId},${res.totalValidators},${res.onlineValidators},${res.startValidation},${res.endValidation},${res.startNextElection},${res.endElection},${res.tpsAvg[0]},${res.startElection},1)`+
+        ` ON DUPLICATE KEY UPDATE electionId=${res.electionId},totalValidators=${res.totalValidators},onlineValidators=${res.onlineValidators},startValidation=${res.startValidation},endValidation=${res.endValidation},startNextElection=${res.startNextElection},endElection=${res.endElection},startElection=${res.startElection},tpsAvg=${res.tpsAvg[0]}`)
+        emitter.emit('data_change',{electionId:res.electionId,totalValidators:res.totalValidators,onlineValidators:res.onlineValidators,startValidation:res.startValidation,endValidation:res.endValidation,startNextElection:res.startNextElection,endElection:res.endElection,tpsAvg:res.tpsAvg[0],startElection:res.startElection})
         return res
     }
     return undefined
