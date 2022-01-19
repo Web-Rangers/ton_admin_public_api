@@ -4,13 +4,13 @@ import start_wsserver from'./wsserver'
 import db_connection from './db/dbaccess/db_connection'; 
 import {login} from './helpers/json_rpc/auth/login'
 async function fetch(){
-    await servers_monitor.create_observers()
     await service_monitor.checkServices()
     await servers_monitor.fetch_data()
     await status_requester.fetch_data() 
 }
 async function main(){
     await login()
+    await servers_monitor.create_observers()
     await block_monitor.start_fetching()
     setInterval(async () => {
         //await bridges_monitor.fetch_data()
