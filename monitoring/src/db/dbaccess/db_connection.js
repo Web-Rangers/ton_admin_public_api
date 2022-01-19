@@ -26,7 +26,7 @@ function connect(){
             //
             this.connection.execute("CREATE TABLE IF NOT EXISTS status_account_activity (account VARCHAR(200),time BIGINT,PRIMARY KEY (account));")
             
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_complains (electionId BIGINT,suggestedFine INT,approvedPercent INT,isPassed BOOLEAN);")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_complains (electionId BIGINT,suggestedFine INT,approvedPercent INT,isPassed BOOLEAN,createdTime BIGINT);")
             //
             this.connection.execute("CREATE TABLE IF NOT EXISTS status_validators (address VARCHAR(200) NOT NULL,wallet VARCHAR(200),day_increase VARCHAR(200),date BIGINT,balance DOUBLE,PRIMARY KEY (address));")
         }
