@@ -23,7 +23,7 @@ async function get_complaints_list() {
                 
             }
             result = result.map(element => element={'electionId': element.electionId, 'suggestedFine': element.suggestedFine, 
-            'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed}) 
+            'approvedPercent': element.approvedPercent, 'isPassed': element.isPassed,'createdTime':element.createdTime}) 
             emitter.emit('data_change',{complaints:result})
         }
         emitter.emit('data_change',{complaints:result})

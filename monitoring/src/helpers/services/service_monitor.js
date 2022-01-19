@@ -33,6 +33,7 @@ class ServicesObserver {
               let response = {};
               try {
                 response = await axios.get(page.url, {
+                  headers:{'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'},
                   validateStatus: async function (stat) {
                     return stat<1000
                   }
@@ -40,7 +41,6 @@ class ServicesObserver {
               } catch (error) {
                 console.log(error);
               }
-
               //console.log(response.duration);
               page.response_status = response.status
               page.response_time = response.duration
