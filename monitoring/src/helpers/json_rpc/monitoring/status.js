@@ -15,6 +15,7 @@ async function get_status() {
         if (start_validation==0&&end_validation==0){
             start_validation = res.startValidation
             end_validation = res.endValidation
+            emitter.emit('calc_vl_profit',[end_validation,start_validation])
         }
         if (res.endValidation>end_validation){
             emitter.emit('calc_vl_profit',[end_validation,start_validation])

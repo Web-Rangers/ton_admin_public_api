@@ -51,8 +51,11 @@ class BlocksStorageImpl_ {
         this.transactions = []
         
         db_connection.connection.execute(`UPDATE status SET last_block = ${mcBlockNumber}`)
+        
         try{
-            db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,message ,time) VALUES ${insert_str}`)
+            if (insert_str.length>0){
+                db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,message ,time) VALUES ${insert_str}`)
+            }
         }
         catch (e){
             console.log(insert_str);
