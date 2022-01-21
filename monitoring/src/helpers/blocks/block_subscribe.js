@@ -43,10 +43,10 @@ class BlocksStorageImpl_ {
         
         for (let transaction of this.transactions) {
             if (insert_str==''){
-                insert_str+=`('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},'${transaction.message}',${time})`
+                insert_str+=`('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},${time})`
                 continue
             }
-            insert_str+=`,('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},'${transaction.message}',${time})`    
+            insert_str+=`,('${transaction.from}','${transaction.hash}','${transaction.to}','${transaction.type}','${transaction.direction}',${mcBlockNumber},${transaction.value},${time})`    
         }
         this.transactions = []
         
@@ -54,7 +54,7 @@ class BlocksStorageImpl_ {
         
         try{
             if (insert_str.length>0){
-                db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,message ,time) VALUES ${insert_str}`)
+                db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,time) VALUES ${insert_str}`)
             }
         }
         catch (e){
