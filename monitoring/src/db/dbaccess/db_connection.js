@@ -1,6 +1,7 @@
 import mysql from 'mysql2'
+
 function connect(){
-    let connection =undefined;
+    let connection = undefined;
     class DbConnection{
         constructor(){
             this.connection = mysql.createConnection({

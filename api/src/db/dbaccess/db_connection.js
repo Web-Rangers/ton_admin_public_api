@@ -9,8 +9,12 @@ function connect(){
                 port : process.env.DB_PORT,
                 database: process.env.DB_NAME,
                 password : process.env.DB_PASSWRD,
-            }).then(val=>{
+            }).then(async(val)=>{
                 this.connection = val
+                this.connetion_interval = setInterval(async ()=>{
+                    await this.connection.connect()
+                },1000*60*60*2)
+               
             })
             
         }
