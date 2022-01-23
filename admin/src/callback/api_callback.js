@@ -11,6 +11,7 @@ let api_callback= (controller)=>{
       }
       controller(httpRequest)
       .then((httpResponse) => {
+        console.log('error')
         if(httpResponse.result.data && httpResponse.result.data.args && httpResponse.result.data.args[0] == 403){
           return res.status(403).send({ error: httpResponse.result.data.args[1] })
         }
