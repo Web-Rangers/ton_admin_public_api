@@ -11,10 +11,6 @@ function connect(){
                 password : process.env.DB_PASSWRD,
             }).then(async(val)=>{
                 this.connection = val
-                this.connetion_interval = setInterval(async ()=>{
-                    await this.connection.connect()
-                },1000*60*60*2)
-               
             })
             
         }

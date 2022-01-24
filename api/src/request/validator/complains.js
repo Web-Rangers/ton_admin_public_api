@@ -1,7 +1,7 @@
 import db_connection from '../../db/dbaccess/db_connection'
 
 async function get_complaints() {
-    let [rows] = await db_connection.connection.execute('SELECT * from status_complains')
+    let [rows] = await db_connection.connection.query('SELECT * from status_complains')
     return {complains:rows}
 }
     
