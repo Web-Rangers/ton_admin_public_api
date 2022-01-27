@@ -1,18 +1,20 @@
+import axios from "axios";
 import TonWeb from "tonweb";
 
 
 const analyze_validator = async (validatorAddress,strt_validation,end_validation) => {
-    let tonweb = new TonWeb(new TonWeb.HttpProvider('https://tonchain.co/api/v2/jsonRPC'))
+    // let tonweb = new TonWeb(new TonWeb.HttpProvider('https://wallet.toncenter.com/api/v2/'))
     let txs = [];
-    let transactions = await tonweb.getTransactions(validatorAddress, 100, undefined, undefined,undefined)
-
-    txs = txs.concat(transactions)  
+    console.log(strt_validation,end_validation);
+    let transactions = await axios.get(`https://wallet.toncenter.com/api/v2/getTransactions?address=${validatorAddress}&limit=200&lo_lt=0&archival=true`)
+    txs = txs.concat(transactions.data.result)  
     // console.log(txs);
     if(txs.length > 0){
-      txs = txs.filter(tx=>tx.utime>=strt_validation && tx.utime <=end_validation)
-              .filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.out_msgs[0].value/10**9 > 15) || (tx && tx.in_msg.source == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.in_msg.value/10**9 > 15))
-      console.log(txs);
+      // txs = txs.filter(x=>x.utime>=strt_validation && x.utime<=end_validation)
       let profit = 0;
+      // console.log(txs);
+      txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.out_msgs[0].value/10**9 > 15) || (tx && tx.in_msg.source == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.in_msg.value/10**9 > 15))
+      // console.log(txs);
       let i = 0;
       for(let txrow in txs){
         let tx = txs[txrow];
@@ -20,7 +22,8 @@ const analyze_validator = async (validatorAddress,strt_validation,end_validation
         if(tx.in_msg.source == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"){
           profit -= tx.in_msg.value/10**9;
         }
-        if(tx.out_msgs[0].destination == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"){
+        else 
+        if(tx.out_msgs && tx.out_msgs[0].destination == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"){
           profit += tx.out_msgs[0].value/10**9
         }
       }

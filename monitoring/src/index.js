@@ -18,7 +18,7 @@ async function main(){
                await block_monitor.start_fetching()  
         } 
         await fetch()  
-    }, 60000);
+    }, 10000);
     start_wsserver()
 }
 main()

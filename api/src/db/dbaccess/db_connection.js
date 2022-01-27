@@ -3,16 +3,13 @@ function connect(){
     let connection =undefined;
     class DbConnection{
         constructor(){
-            mysql.createConnection({
+            this.connection = mysql.createPool({
                 host : process.env.DB_HOST,
                 user : process.env.DB_USER,
                 port : process.env.DB_PORT,
                 database: process.env.DB_NAME,
                 password : process.env.DB_PASSWRD,
-            }).then(async(val)=>{
-                this.connection = val
-            })
-            
+            })  
         }
     }
     if (!connection){

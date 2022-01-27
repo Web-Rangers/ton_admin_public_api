@@ -13,7 +13,6 @@ export default function MakeCallBack(){
                
         try {
             let response_ = await fetch(url,options)
-            console.log(response_.status);
             if (response_.status==200){
                 let json = await response_.json() 
                 res.status(response_.status)
