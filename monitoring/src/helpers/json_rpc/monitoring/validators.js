@@ -24,8 +24,8 @@ async function get_validators_list() {
     return undefined
 }
 emitter.on('calc_vl_profit',async (data)=>{
-    for (let validator of validators) {
-        await analyze_validator(validator.walletAddr) 
-    }
+    // for (let validator of validators) {
+    //    await analyze_validator(validator.walletAddr) 
+    // }
 })
 export {get_validators_list}

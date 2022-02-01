@@ -19,7 +19,7 @@ async function main(){
         if(!block_monitor.started){
                await block_monitor.start_fetching()  
         } 
-        await fetch()  
+        // await fetch()  
     }, 60000);
     setInterval(async()=>{
         archive_server()

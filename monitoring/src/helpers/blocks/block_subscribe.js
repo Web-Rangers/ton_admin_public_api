@@ -1,7 +1,7 @@
 import {emitter} from '../../data/json_rpc_status'
-import TonWeb from 'tonweb'
 import {known_accounts} from '../../data/known_accounts'
 import db_connection from '../../db/dbaccess/db_connection';
+import axios from "axios";
 
 class BlocksStorageImpl_ {
     masterchainBlocks = {}; // mcBlockNumber {number} -> isProcessed {boolean}
@@ -9,7 +9,6 @@ class BlocksStorageImpl_ {
 
     constructor() {
         this.day_accounts = {}
-        this.ton_web = new TonWeb()
         this.onTransaction = this.onTransaction.bind(this)
         this.insertBlocks = this.insertBlocks.bind(this)
         this.transactions = []
@@ -70,16 +69,21 @@ class BlocksStorageImpl_ {
     
     async onTransaction(shortTx){
         let address = shortTx.account;
-        let bounceble = new this.ton_web.Address(address).toString(true,true,true,false)
-        let lt = shortTx.lt 
-        let hash = undefined
-        let limit = 20
-        let to_lt = undefined
+        
+        let bounceble = new TonWeb.Address(address).toString(true,true,true,false)
         let timestamp = Math.round(new Date().getTime()/1000)
-        const txs = await this.ton_web.provider.send("getTransactions", {address, limit, lt, hash, to_lt});
+        let headers = {
+            'Accept':'*/*',
+            'Accept-Encoding':'gzip, deflate, br',
+            'Connection':'keep-alive',
+            'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+          }
+        let txs = await axios.get(`https://wallet.toncenter.com/api/v2/getTransactions?address=${bounceble}&limit=4&lo_lt=0&archival=false`,{headers:headers})
+          
         const tx = txs[0];
         
         if (tx&&tx.in_msg) {
+            console.log(tx);
             let type = ''
             let direction = ''
             if (tx.in_msg.value!=0){
