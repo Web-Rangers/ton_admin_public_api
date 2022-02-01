@@ -29,7 +29,15 @@ function connect(){
             
             this.connection.execute("CREATE TABLE IF NOT EXISTS status_complains (electionId BIGINT,suggestedFine INT,approvedPercent INT,isPassed BOOLEAN,createdTime BIGINT);")
             //
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_validators (address VARCHAR(200) NOT NULL,wallet VARCHAR(200),day_increase VARCHAR(200),date BIGINT,balance DOUBLE,PRIMARY KEY (address));")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_validators (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(200),efficiency DOUBLE,online BOOLEAN,PRIMARY KEY (adnlAddr));")
+            //
+            this.connection.execute("CREATE TABLE IF NOT EXISTS validators_history (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(200), date BIGINT,increase DOUBLE,PRIMARY KEY (adnlAddr,walletAddr,date));")
+
+            this.connection.execute("CREATE TABLE IF NOT EXISTS validators_cycle_history (date_start BIGINT NOT NULL,date_end BIGINT,  PRIMARY KEY (date_start));")
+            
+            this.connection.execute("alter table server_ping add column archival BOOLEAN default (0)",(err,res)=>{})
+            
+            this.connection.execute("alter table service_ping add column archival BOOLEAN default (0)",(err,res)=>{})
         }
     }
     if (!connection){

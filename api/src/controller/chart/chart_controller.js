@@ -5,7 +5,9 @@ const build_chart_controller = function() {
         get_service_chart,
         get_page_chart,
         get_server_chart,
-        get_servers_chart
+        get_servers_chart,
+        get_validator_chart,
+        get_validator_period_chart
     })
     async function get_service_chart(request) {
         let {service_name,time_value,time_period} = request.query
@@ -22,6 +24,14 @@ const build_chart_controller = function() {
     async function get_servers_chart(request) {
         let {time_value,time_period} = request.query
         return {status:200,result:await chart_service.get_servers_chart(time_period,time_value)}
+    }
+    async function get_validator_chart(request) {
+        let {wallet,time_value,time_period} = request.query
+        return {status:200,result:await chart_service.get_validator_chart(wallet,time_period,time_value)}
+    }
+    async function get_validator_period_chart(request) {
+        let {wallet,time_value,time_period} = request.query
+        return {status:200,result:await chart_service.get_validator_period_chart(wallet,time_period,time_value)}
     }
 }
 

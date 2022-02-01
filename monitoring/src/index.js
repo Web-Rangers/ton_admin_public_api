@@ -1,4 +1,4 @@
-import {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor} from'./helpers'
+import {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor,archive_server,archive_service} from'./helpers'
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 import start_wsserver from'./wsserver'
 import db_connection from './db/dbaccess/db_connection'; 
@@ -9,6 +9,8 @@ async function fetch(){
     await status_requester.fetch_data() 
 }
 async function main(){
+    archive_server()
+    archive_service()
     await login()
     await servers_monitor.create_observers()
     await block_monitor.start_fetching()
@@ -19,6 +21,10 @@ async function main(){
         } 
         await fetch()  
     }, 10000);
+    setInterval(()=>{
+        archive_server()
+        archive_service()
+    },10000*60*60*24*2)
     start_wsserver()
 }
 main()

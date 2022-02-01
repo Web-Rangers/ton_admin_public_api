@@ -5,12 +5,9 @@ import {config} from'./config'
 import {moongo} from './db/dbaccess/index'
 
 export default function start_server() {
-    
     let app = express()
     build_uses(app)
     build_routes(app)
     app.listen(config.PORT || 4000,()=>{
-
     }) 
-
 }
