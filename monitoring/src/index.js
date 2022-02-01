@@ -20,11 +20,11 @@ async function main(){
                await block_monitor.start_fetching()  
         } 
         await fetch()  
-    }, 10000);
-    setInterval(()=>{
+    }, 60000);
+    setInterval(async()=>{
         archive_server()
         archive_service()
-    },10000*60*60*24*2)
+    },1000*60*60*24*2)
     start_wsserver()
 }
 main()
