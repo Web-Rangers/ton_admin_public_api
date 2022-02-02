@@ -36,12 +36,12 @@ const analyze_validator = async () => {
                     console.log(validator.walletAddr);
                     lt  = Number(txs[txs.length-1].transaction_id.lt)
                     hash = tonweb.utils.bytesToHex(tonweb.utils.base64ToBytes(txs[txs.length-1].transaction_id.hash))
-                    console.log(new Date(txs[txs.length-1].utime*1000));
+                    // console.log(new Date(txs[txs.length-1].utime*1000));
                     // console.log(validator.walletAddr);
                     txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.out_msgs[0].value/10**9 > 15) || (tx && tx.in_msg.source == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF" && tx.in_msg.value/10**9 > 15))
                     // console.log(txs);
                     if (txs.length==0){
-                        break
+                        continue
                     } 
                     for (tx of txs){
                         if (tx.in_msg.source == "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"){
