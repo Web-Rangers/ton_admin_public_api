@@ -3,6 +3,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 import start_wsserver from'./wsserver'
 import db_connection from './db/dbaccess/db_connection'; 
 import {login} from './helpers/json_rpc/auth/login'
+
 async function fetch(){
     await service_monitor.checkServices()
     await servers_monitor.fetch_data()

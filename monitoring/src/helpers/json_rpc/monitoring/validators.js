@@ -5,6 +5,7 @@ import analyze_validator from './analyze_validators'
 
 let validators = []
 async function get_validators_list() {
+    
     let result = await sendJRPC('/','vl') 
     if (result&&!result.data.error){
         validators = result.data.result
