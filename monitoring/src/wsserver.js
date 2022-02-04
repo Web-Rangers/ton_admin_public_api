@@ -2,11 +2,12 @@
 import WebSocket from 'ws';
 import {emitter} from './data/json_rpc_status'
 import {config} from './config'
+import get_last_data from './helpers/status/get_slast_data'
 
 export default async function start_wsserver()
 {
     const wsServer = new WebSocket.Server({ port: config.PORT || 3000 });
-    let lastData = {}
+    let lastData = await get_last_data()
     wsServer.on('connection', function(ws) {
 
         console.log("New connection!");

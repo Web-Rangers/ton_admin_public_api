@@ -1,6 +1,7 @@
 import db_connection from '../../db/dbaccess/db_connection'
 
 function archive_server(){
+    db_connection.connection.execute(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`)
     let timestamp = new Date()
     timestamp.setDate(timestamp.getDay()-2)
     timestamp = Math.round(timestamp.getTime()/1000)

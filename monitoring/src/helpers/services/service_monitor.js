@@ -47,6 +47,7 @@ class ServicesObserver {
               await update_service(service.service_name,page);
           }
       }
+      console.log(result_services);
       emitter.emit('data_change',{services:result_services})
     }
   }
