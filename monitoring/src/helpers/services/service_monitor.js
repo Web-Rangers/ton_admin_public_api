@@ -38,13 +38,15 @@ class ServicesObserver {
                     return stat<1000
                   }
                 })
+                page.response_status = response.status
+                page.response_time = response.duration
+                await update_service(service.service_name,page);
               } catch (error) {
-                console.log(error);
+                page.response_status = 500
+                page.response_time = 0
+                await update_service(service.service_name,page);
               }
-              //console.log(response.duration);
-              page.response_status = response.status
-              page.response_time = response.duration
-              await update_service(service.service_name,page);
+              //console.log(response.duration);  
           }
       }
       emitter.emit('data_change',{services:result_services})
