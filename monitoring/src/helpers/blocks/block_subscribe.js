@@ -53,7 +53,7 @@ class BlocksStorageImpl_ {
         
         try{
             if (insert_str.length>0){
-                db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,time) VALUES ${insert_str}`)
+                db_connection.connection.execute(`INSERT INTO status_transactions (from_ ,hash ,to_ ,type ,direction ,block_height,value ,time) VALUES ${insert_str}`,(err,res)=>{if(err)console.log(err);})
             }
         }
         catch (e){
@@ -81,7 +81,7 @@ class BlocksStorageImpl_ {
         let txs = await axios.get(`https://wallet.toncenter.com/api/v2/getTransactions?address=${bounceble}&limit=4&lo_lt=0&archival=false`,{headers:headers})
           
         const tx = txs[0];
-        
+        //need to fix
         if (tx&&tx.in_msg) {
             console.log(tx);
             let type = ''

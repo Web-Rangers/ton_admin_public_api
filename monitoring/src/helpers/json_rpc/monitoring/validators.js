@@ -18,7 +18,7 @@ async function get_validators_list() {
             }
             insert_str+=`,('${validator.adnlAddr}','${validator.walletAddr}',${validator.efficiency},${validator.online})`
         }
-        db_connection.connection.execute(`INSERT INTO status_validators (adnlAddr,walletAddr,efficiency,online) VALUES ${insert_str} as new(a,w,e,o) on duplicate key update walletAddr=w,efficiency=e,online=o;`)
+        db_connection.connection.execute(`INSERT INTO status_validators (adnlAddr,walletAddr,efficiency,online) VALUES ${insert_str} as new(a,w,e,o) on duplicate key update walletAddr=w,efficiency=e,online=o;`,(err,res)=>{if(err)console.log(err);})
         emitter.emit('data_change',{validators:result.data.result})
         return result.data.result
     }

@@ -18,7 +18,7 @@ async function get_complaints_list() {
                     insert_str+=`,(${complain.electionId},${complain.suggestedFine},${complain.approvedPercent},${complain.isPassed},${complain.createdTime})`
                 }
                 if (insert_str.length>0){
-                    db_connection.connection.execute(`INSERT INTO status_complains (electionId,suggestedFine,approvedPercent,isPassed,createdTime) VALUES ${insert_str}`)
+                    db_connection.connection.execute(`INSERT INTO status_complains (electionId,suggestedFine,approvedPercent,isPassed,createdTime) VALUES ${insert_str}`,(err,res)=>{if(err)console.log(err);})
                 }
                 
             }

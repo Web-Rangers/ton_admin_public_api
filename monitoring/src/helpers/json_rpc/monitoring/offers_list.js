@@ -20,7 +20,7 @@ async function get_offers_list() {
             }
             
             if (insert_str.length>0){
-                db_connection.connection.execute(`INSERT INTO status_offers (approvedPercent,isPassed,endTime,roundsRemaining) VALUES ${insert_str}`)
+                db_connection.connection.execute(`INSERT INTO status_offers (approvedPercent,isPassed,endTime,roundsRemaining) VALUES ${insert_str}`,(err,res)=>{if(err)console.log(err);})
             }
             
         }
