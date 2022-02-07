@@ -16,12 +16,12 @@ class BlocksMonitor{
     async start_fetching(){
         this.started = true
        
-        //try {
+        try {
             await this.blockSubscribe.start(); 
-        // } catch (error) {
-        //     console.log(error);
+        } catch (error) {
+            console.log(error);
         //     this.started = false
-        // }   
+        }   
     }
     get_last_block(){
         return BlocksStorageImpl.last_block
