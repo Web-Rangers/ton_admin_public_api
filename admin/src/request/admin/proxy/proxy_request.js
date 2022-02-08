@@ -11,7 +11,7 @@ async function tonadmin_proxy(request_params){
     }
     return axios.post(
         url+'/',
-        JSON.stringify({jsonrpc: jsonrpc, id: id, method: method, params: params}),{headers:headers,timeout:10000}
+        JSON.stringify({jsonrpc: jsonrpc, id: id, method: method, params: params}),{headers:headers,timeout:15000}
     )
 }
 
