@@ -9,7 +9,7 @@ async function get_status() {
         let res = result.data.result
         let start_end = db_connection.connection.execute('SELECT startValidation,endValidation from status',(err,result)=>{
             if (result.length>0&&res.endValidation>result[0].endValidation){
-                exec(`sudo node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
+                exec(`node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
                     console.log(err,s,se);
                 })
                 db_connection.connection.execute(`INSERT IGNORE INTO validators_cycle_history (date_start,date_end) VALUES(${result[0].startValidation},${result[0].endValidation})`)
