@@ -21,11 +21,14 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "tcp-ping": "^0.1.1",
     "telegraf": "^4.4.2",
     "tonweb": "0.0.22",
     "uuidv4": "^6.2.12",
     "web3": "^1.6.0",
+    "worker-farm": "^1.7.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {

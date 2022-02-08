@@ -1,7 +1,18 @@
-import axios from "axios";
-import db_connection from '../../../db/dbaccess/db_connection'
+const axios = require('axios')
+const mysql  = require('mysql2')
+const dotenv = require('dotenv')
+dotenv.config();
+const db_connection = mysql.createConnection({
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    port : process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    password : process.env.DB_PASSWRD
+})
 
-const analyze_validator = async (validatorAddress) => {
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const elector_contract = "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"
+const analyze_validator = async (callback) => {
     let txs = [];
     let headers = {
       'Accept':'*/*',
@@ -9,36 +20,45 @@ const analyze_validator = async (validatorAddress) => {
       'Connection':'keep-alive',
       'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
     }
-    let transactions = await axios.get(`https://wallet.toncenter.com/api/v2/getTransactions?address=${validatorAddress}&limit=150&archival=false`,{headers:headers})
-    txs = transactions.data.result
-    if(txs.length > 0){
-        txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == elector_contract && tx.out_msgs[0].value/10**9 > 15) || (tx && tx.in_msg.source == elector_contract && tx.in_msg.value/10**9 > 15))
-       
-        for (tx of txs){
-            if (tx.in_msg.source == elector_contract){
-                console.log(tx.utime,tx.in_msg.value/(10**9));
-                if (last_action != 'IN'){
-                    last_action='IN'
-                    if (in_.length>1){
-                        let dv = in_.shift()  
-                        if (dv.val<10000){ 
-                            try {
-                                db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`,(err,res)=>{if(err)console.log(err);})      
-                            } catch (error) {
-                                break
+
+    db_connection.execute('SELECT * FROM status_validators',async(err,res)=>{
+        for (let validator of res) {
+            await delay(1000)
+            let transactions = await axios.get(`https://wallet.toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&limit=100&archival=false`,{headers:headers})
+            txs = transactions.data.result
+            let in_ = []
+            let last_action = undefined
+            if(txs.length > 0){
+                txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == elector_contract && tx.out_msgs[0].value/10**9 > 15) || (tx && tx.in_msg.source == elector_contract && tx.in_msg.value/10**9 > 15))
+            
+                for (let tx of txs){
+                    if (tx.in_msg.source == elector_contract){
+                        if (last_action != 'IN'){
+                            last_action='IN'
+                            if (in_.length>1){
+                                let dv = in_.shift()  
+                                if (dv.val<10000){ 
+                                    try {
+                                        db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
+                                    } catch (error) {
+                                        console.log('continueeeeeeeee');
+                                        break
+                                    }
+                                }   
                             }
-                        }   
+                            in_.push({date:tx.utime,val:tx.in_msg.value/(10**9)})
+                        }
                     }
-                    in_.push({date:tx.utime,val:tx.in_msg.value/(10**9)})
-                }
-            }
-            else if (tx.out_msgs&&tx.out_msgs[0]&&tx.out_msgs[0].destination == elector_contract){
-                last_action='OUT'
-                if (in_.length>1){ 
-                    in_[0].val-= tx.out_msgs[0].value/(10**9)
-                }               
-            }
-        }      
-    } 
+                    else if (tx.out_msgs&&tx.out_msgs[0]&&tx.out_msgs[0].destination == elector_contract){
+                        last_action='OUT'
+                        if (in_.length>1){ 
+                            in_[0].val-= tx.out_msgs[0].value/(10**9)
+                        }               
+                    }
+                }      
+            } 
+        }
+        callback(null,'sucess')
+    })
 }
-export default analyze_validator
+module.exports = analyze_validator

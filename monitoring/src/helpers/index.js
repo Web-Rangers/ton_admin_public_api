@@ -5,6 +5,7 @@ import {servers_monitor} from './servers/server_monitor'
 import {service_monitor} from './services/service_monitor'
 import archive_server from './archiver/archive_server_ping'
 import archive_service from './archiver/archive_service_ping'
+import pools_observer from './miner/pools_monitor'
 
-export {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor,archive_server,archive_service}
+export {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor,archive_server,archive_service,pools_observer}
 

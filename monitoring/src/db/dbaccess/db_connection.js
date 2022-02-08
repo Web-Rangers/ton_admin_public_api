@@ -36,7 +36,9 @@ function connect(){
             this.connection.execute("CREATE TABLE IF NOT EXISTS validators_cycle_history (date_start BIGINT NOT NULL,date_end BIGINT,  PRIMARY KEY (date_start));")
             
             this.connection.execute("alter table server_ping add column archival BOOLEAN default (0)",(err,res)=>{})
-            
+
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_pool (address VARCHAR(200),name VARCHAR(50),hashrate DOUBLE,miners BIGINT, dmined BIGINT,ppGH DOUBLE,PRIMARY KEY (address));")
+
             this.connection.execute("alter table service_ping add column archival BOOLEAN default (0)",(err,res)=>{})
         }
     }

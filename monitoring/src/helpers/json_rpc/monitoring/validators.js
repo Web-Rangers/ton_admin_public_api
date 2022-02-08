@@ -1,7 +1,8 @@
 import {sendJRPC} from '../send_jrpc'
 import {emitter} from '../../../data/json_rpc_status'
 import db_connection from '../../../db/dbaccess/db_connection'
-import analyze_validator from './analyze_validators' 
+var workerFarm = require('worker-farm')
+let worker = workerFarm(require.resolve('./analyze_validators'))
 
 let validators = []
 async function get_validators_list() {
@@ -24,9 +25,4 @@ async function get_validators_list() {
     }
     return undefined
 }
-emitter.on('calc_vl_profit',async (data)=>{
-    // for (let validator of validators) {
-    //    await analyze_validator(validator.walletAddr) 
-    // }
-})
 export {get_validators_list}

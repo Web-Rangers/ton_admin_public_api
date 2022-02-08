@@ -1,4 +1,4 @@
-import {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor,archive_server,archive_service} from'./helpers'
+import {bridges_monitor,status_requester,block_monitor,servers_monitor,service_monitor,archive_server,archive_service,pools_observer} from'./helpers'
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 import start_wsserver from'./wsserver'
 import db_connection from './db/dbaccess/db_connection'; 
@@ -7,7 +7,8 @@ import {login} from './helpers/json_rpc/auth/login'
 async function fetch(){
     await service_monitor.checkServices()
     await servers_monitor.fetch_data()
-    await status_requester.fetch_data() 
+    await status_requester.fetch_data()
+    await pools_observer()
 }
 async function main(){
     archive_server()
