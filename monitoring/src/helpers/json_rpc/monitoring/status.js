@@ -1,7 +1,7 @@
 import {sendJRPC} from '../send_jrpc'
 import db_connection from '../../../db/dbaccess/db_connection'
 import {emitter} from '../../../data/json_rpc_status'
-const {execFile } = require('child_process')
+const {execFile,exec } = require('child_process')
 
 async function get_status() {
     let result = await sendJRPC('/','status') 
