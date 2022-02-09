@@ -38,7 +38,7 @@ const analyze_validator = async () => {
                                 let dv = in_.shift()  
                                 if (dv.val<10000){ 
                                     try {
-                                        db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
+                                        db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val}) ON DUPLICATE KEY UPDATE increase=${dv.val}`)      
                                     } catch (error) {
                                         console.log('continueeeeeeeee');
                                         break

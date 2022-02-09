@@ -1,1 +1,0 @@
-node .\analyze_validators.js
