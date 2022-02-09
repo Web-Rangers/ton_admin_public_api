@@ -24,7 +24,7 @@ const analyze_validator = async () => {
     db_connection.execute('SELECT * FROM status_validators',async(err,res)=>{
         for (let validator of res) {
             await delay(2000)
-            let transactions = await axios.get(`https://api.ton.cat/v2/explorer/transactions?address=${validator.walletAddr}&limit=100&archival=false`,{headers:headers})
+            let transactions = await axios.get(`https://api.ton.cat/v2/explorer/transactions?address=${validator.walletAddr}&limit=100&archival=false`,{headers:headers ,timeout: 3000})
 
             txs = transactions.data.result
             let in_ = []
