@@ -12,7 +12,7 @@ const db_connection = mysql.createConnection({
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 const elector_contract = "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"
-const analyze_validator = async (callback) => {
+const analyze_validator = async () => {
     let txs = [];
     let headers = {
       'Accept':'*/*',
@@ -59,7 +59,6 @@ const analyze_validator = async (callback) => {
                 }      
             } 
         }
-        callback(null,'sucess')
     })
 }
-module.exports = analyze_validator
+analyze_validator()
