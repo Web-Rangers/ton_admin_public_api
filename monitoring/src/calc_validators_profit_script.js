@@ -32,9 +32,9 @@ const analyze_validator = async () => {
             do{
                 let transactions
                 try {
-                    transactions = await axios.get(`https://api.ton.cat/v2/explorer/transactions?address=${validator.walletAddr}&limit=1000${lt==0?'':`&lt=${lt}`}&hash=${hash}&archival=false`,{timeout: 3000})
+                    transactions = await axios.get(`https://api.ton.cat/v2/explorer/getTransactions?address=${validator.walletAddr}&limit=1000${lt==0?'':`&lt=${lt}`}&hash=${hash}&archival=false`,{timeout: 3000})
                 } catch (error) {
-                    console.log('errrrr');
+                    console.log(error);
                     await delay(1000)
                     len = 2
                     continue

@@ -14,17 +14,15 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 const elector_contract = "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"
 const analyze_validator = async () => {
     let txs = [];
-    let headers = {
-      'Accept':'*/*',
-      'Accept-Encoding':'gzip, deflate, br',
-      'Connection':'keep-alive',
-      'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
-    }
+    axios.default.defaults.headers['Accept']='*/*'
+    axios.default.defaults.headers['Accept-Encoding']='gzip, deflate, br'
+    axios.default.defaults.headers['Connection']='keep-alive'
+    axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
 
     db_connection.execute('SELECT * FROM status_validators',async(err,res)=>{
         for (let validator of res) {
             await delay(2000)
-            let transactions = await axios.get(`https://api.ton.cat/v2/explorer/transactions?address=${validator.walletAddr}&limit=100&archival=false`,{headers:headers ,timeout: 3000})
+            let transactions = await axios.get(`https://api.ton.cat/v2/explorer/getTransactions?address=${validator.walletAddr}&limit=100&archival=false`,{timeout: 3000})
 
             txs = transactions.data.result
             let in_ = []
