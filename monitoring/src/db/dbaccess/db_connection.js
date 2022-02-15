@@ -23,23 +23,25 @@ function connect(){
             
             this.connection.execute("CREATE TABLE IF NOT EXISTS status_services (service_name VARCHAR(20),page_name VARCHAR(20),time BIGINT NOT NULL,latency INT NOT NULL,status_code INT NOT NULL,INDEX id_server(service_name, page_name), PRIMARY KEY (service_name, page_name));")
             
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_transactions (from_ VARCHAR(200),hash VARCHAR(200),to_ VARCHAR(200),type VARCHAR(20),direction VARCHAR(20),block_height BIGINT,value BIGINT,message VARCHAR(200),time BIGINT);")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_transactions (from_ VARCHAR(64),hash VARCHAR(64),to_ VARCHAR(64),type VARCHAR(20),direction VARCHAR(20),block_height BIGINT,value BIGINT,message VARCHAR(200),time BIGINT);")
             //
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_account_activity (account VARCHAR(200),time BIGINT,PRIMARY KEY (account));")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_account_activity (account VARCHAR(64),time BIGINT,PRIMARY KEY (account));")
             
             this.connection.execute("CREATE TABLE IF NOT EXISTS status_complains (electionId BIGINT,suggestedFine INT,approvedPercent INT,isPassed BOOLEAN,createdTime BIGINT);")
             //
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_validators (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(200),efficiency DOUBLE,online BOOLEAN,PRIMARY KEY (adnlAddr));")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_validators (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(64),efficiency DOUBLE,online BOOLEAN,PRIMARY KEY (adnlAddr));")
             //
-            this.connection.execute("CREATE TABLE IF NOT EXISTS validators_history (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(200), date BIGINT,increase DOUBLE,PRIMARY KEY (adnlAddr,walletAddr,date));")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS validators_history (adnlAddr VARCHAR(200) NOT NULL,walletAddr VARCHAR(64), date BIGINT,increase DOUBLE,PRIMARY KEY (adnlAddr,walletAddr,date));")
 
             this.connection.execute("CREATE TABLE IF NOT EXISTS validators_cycle_history (date_start BIGINT NOT NULL,date_end BIGINT,  PRIMARY KEY (date_start));")
             
             this.connection.execute("alter table server_ping add column archival BOOLEAN default (0)",(err,res)=>{})
 
-            this.connection.execute("CREATE TABLE IF NOT EXISTS status_pool (address VARCHAR(200),name VARCHAR(50),hashrate DOUBLE,miners BIGINT, dmined BIGINT,ppGH DOUBLE,PRIMARY KEY (address));")
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_pool (address VARCHAR(64),name VARCHAR(50),hashrate DOUBLE,miners BIGINT, dmined BIGINT,ppGH DOUBLE,PRIMARY KEY (address));")
 
             this.connection.execute("alter table service_ping add column archival BOOLEAN default (0)",(err,res)=>{})
+
+            this.connection.execute("CREATE TABLE IF NOT EXISTS status_bridge (address VARCHAR(64),addr_from VARCHAR(66),addr_to VARCHAR(66), value DOUBLE,time BIGINT,bridge_name VARCHAR(8), direction VARCHAR(3), status VARCHAR(20),PRIMARY KEY (addr_from,time));")
         }
     }
     if (!connection){

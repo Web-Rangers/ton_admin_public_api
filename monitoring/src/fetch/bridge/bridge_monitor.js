@@ -11,11 +11,12 @@ class BridgesMonitor{
     }
 
     async fetch_data(){
+        console.log('aaaaaaaaa');
         await this.bsc_bridge.calc_bsc_network_transactions();
         await this.bsc_bridge.calc_ton_network_transactions();
         await this.eth_bridge.calc_eth_network_transactions();
         await this.eth_bridge.calc_ton_network_transactions();
-        status.update_status({bridge:{bsc:this.bsc_bridge.is_alive(),eth:this.eth_bridge.is_alive()}}) 
+        // status.update_status({bridge:{bsc:this.bsc_bridge.is_alive(),eth:this.eth_bridge.is_alive()}}) 
     }
     get_bsc_bridge_status(){
         if (this.bsc_bridge.is_alive()){

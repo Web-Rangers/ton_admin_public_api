@@ -13,11 +13,13 @@ async function get_validators_list() {
         let insert_str=``
         let update_str=``
         for (let validator of validators) {
-            if (insert_str==''){
-                insert_str+=`('${validator.adnlAddr}','${validator.walletAddr}',${validator.efficiency},${validator.online})`
-                continue
+            if (validator.walletAddr){
+                if (insert_str==''){
+                    insert_str+=`('${validator.adnlAddr}','${validator.walletAddr}',${validator.efficiency},${validator.online})`
+                    continue
+                }
+                insert_str+=`,('${validator.adnlAddr}','${validator.walletAddr}',${validator.efficiency},${validator.online})`
             }
-            insert_str+=`,('${validator.adnlAddr}','${validator.walletAddr}',${validator.efficiency},${validator.online})`
         }
         db_connection.connection.execute(`INSERT INTO status_validators (adnlAddr,walletAddr,efficiency,online) VALUES ${insert_str} as new(a,w,e,o) on duplicate key update walletAddr=w,efficiency=e,online=o;`,(err,res)=>{if(err)console.log(err);})
         emitter.emit('data_change',{validators:result.data.result})
