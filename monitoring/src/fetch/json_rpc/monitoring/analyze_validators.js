@@ -57,6 +57,7 @@ const analyze_validator = async () => {
                     }      
                 } 
             } catch (error) {
+                console.log(error);
                 continue
             }
         }
