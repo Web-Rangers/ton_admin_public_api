@@ -37,7 +37,7 @@ const analyze_validator = async () => {
                     for (let i = 0; i < txs.length; i++) {
                         let tx = txs[i];
                         if (tx.in_msg.source == elector_contract){
-                            console.log(tx.in_msg.value/(10**9), tx.utime);
+                            // console.log(tx.in_msg.value/(10**9), tx.utime);
                             if (last_action != 'IN'){
                                 last_action='IN'
                                 insert(in_,validator)
@@ -77,7 +77,7 @@ const analyze_validator = async () => {
                                 in_[0].val-= tx.out_msgs[0].value/(10**9)
                             }
                             else if(in_[0]){
-                                console.log((in_[0].date-tx.utime)/(60*60));
+                                //console.log((in_[0].date-tx.utime)/(60*60));
                                 if(((in_[0].date-tx.utime)/(60*60))>=36){
                                     in_[0].val-= tx.out_msgs[0].value/(10**9)
                                     if ((in_[0].val<0)&&(elector_pre_stake.length>0)){
