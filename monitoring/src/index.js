@@ -28,8 +28,8 @@ async function main(){
         await fetch()  
     }, 60000);
     setInterval(async()=>{
-        archive_server()
-        archive_service()
+        await archive_server()
+        await archive_service()
     },1000*60*60*24*2)
     start_wsserver()
 }
