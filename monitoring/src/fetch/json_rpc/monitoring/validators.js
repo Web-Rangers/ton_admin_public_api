@@ -1,6 +1,6 @@
 import {sendJRPC} from '../send_jrpc'
 import {emitter} from '../../../data/json_rpc_status'
-import db_connection from '../../../db/dbaccess/db_connection'
+import db_connection from '../../../db/dbaccess/async_connection'
 var workerFarm = require('worker-farm')
 let worker = workerFarm(require.resolve('./analyze_validators'))
 
