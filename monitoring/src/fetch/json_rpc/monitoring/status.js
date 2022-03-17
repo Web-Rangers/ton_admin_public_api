@@ -7,7 +7,7 @@ async function get_status() {
     let result = await sendJRPC('/','status') 
     if (result&&!result.data.error){
         let res = result.data.result
-        db_connection.connection.execute('SELECT startValidation,endValidation from status').then(async(err)=>{
+        db_connection.connection.execute('SELECT startValidation,endValidation from status').then(async(result)=>{
             if (result&&result.length>0&&res.endValidation>result[0].endValidation){
                 exec(`node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
                     console.log(err,s,se);
