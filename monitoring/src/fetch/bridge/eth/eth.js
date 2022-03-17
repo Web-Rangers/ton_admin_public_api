@@ -2,8 +2,7 @@ import TonWeb from 'tonweb'
 import Web3 from 'web3'
 const web3 = new Web3(Web3.givenProvider || 'ws://81.30.157.98:8546');
 import axios from 'axios'
-import db_connection from '../../../db/dbaccess/db_connection'
-import async_connection from '../../../db/dbaccess/async_connection'
+import db_connection from '../../../db/dbaccess/async_connection'
 import InputDataDecoder from 'ethereum-input-data-decoder'
 //in minutes
 const CHECKEDPERIOD = 15
@@ -37,10 +36,10 @@ class ETHBridge{
             transactions = transactions.data.result
             for (let iterator of transactions) {
                 if (iterator.in_msg.message.includes('swapTo#')){
-                    db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${iterator.in_msg.source}','${iterator.in_msg.message.slice(7).toLowerCase()}',${iterator.in_msg.value/10**9},${iterator.utime},'${bridge_ton_name}','OUT','pending')`,(err,res)=>{if(err)return})
+                    await db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${iterator.in_msg.source}','${iterator.in_msg.message.slice(7).toLowerCase()}',${iterator.in_msg.value/10**9},${iterator.utime},'${bridge_ton_name}','OUT','pending')`)
                 }
                 else if(iterator.in_msg.message.includes('swapTo%')){
-                    db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${iterator.in_msg.source}','${iterator.in_msg.message.slice(7).toLowerCase()}',${iterator.in_msg.value/10**9},${iterator.utime},'${bridge_ton_name}','OUT','reject')`,(err,res)=>{if(err)return})
+                    await db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${iterator.in_msg.source}','${iterator.in_msg.message.slice(7).toLowerCase()}',${iterator.in_msg.value/10**9},${iterator.utime},'${bridge_ton_name}','OUT','reject')`)
                 }
                 else{
                     if(iterator.out_msgs.length>0){
@@ -49,9 +48,10 @@ class ETHBridge{
                         if (bsc_addr_transactions[0].length>0){
                             let transaction = bsc_addr_transactions[0][bsc_addr_transactions[0].length-1]
                             console.log(transaction);
-                            db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${transaction.addr_from}','${transaction.addr_to}',${iterator.out_msgs[0].value/10**9},${iterator.utime},'${bridge_ton_name}','IN','')`,(err,res)=>{
-                                if (err) return
-                                db_connection.connection.execute(`update status_bridge set status ='sucess' where bridge_name='${bridge_noton_name}' and addr_to='${adress}' and status = 'pending' and time=${transaction.time}`)
+                            db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${transaction.addr_from}','${transaction.addr_to}',${iterator.out_msgs[0].value/10**9},${iterator.utime},'${bridge_ton_name}','IN','')`)
+                            .then(async(res)=>{
+            
+                                await db_connection.connection.execute(`update status_bridge set status ='sucess' where bridge_name='${bridge_noton_name}' and addr_to='${adress}' and status = 'pending' and time=${transaction.time}`)
                             })
                         }   
                     }  
@@ -86,9 +86,9 @@ class ETHBridge{
                 let ton_addr_transactions = await async_connection.connection.execute(`select * from status_bridge where bridge_name='${bridge_ton_name}' and addr_to='${trans.from.toLowerCase()}' and status = 'pending'`)
                 if (ton_addr_transactions[0].length>0){
                     let transaction = ton_addr_transactions[0][ton_addr_transactions[0].length-1]
-                    db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${transaction.addr_from}','${transaction.addr_to}',${value},${trans.timeStamp},'${bridge_noton_name}','IN','')`,(err,res)=>{
-                        if (err) return
-                        db_connection.connection.execute(`update status_bridge set status ='sucess' where bridge_name='${bridge_ton_name}' and addr_to='${transaction.addr_to}' and status = 'pending' and time=${transaction.time}`)
+                    db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${transaction.addr_from}','${transaction.addr_to}',${value},${trans.timeStamp},'${bridge_noton_name}','IN','')`)
+                    .then(async(res)=>{
+                        await db_connection.connection.execute(`update status_bridge set status ='sucess' where bridge_name='${bridge_ton_name}' and addr_to='${transaction.addr_to}' and status = 'pending' and time=${transaction.time}`)
                     })
                 }    
             }
@@ -98,7 +98,7 @@ class ETHBridge{
                 let value = Number(input.inputs[0]._hex)/10**9;
                 let addr = new this.ton_web.Address('-1:'+input.inputs[1][1].slice(2)).toString(true, true, true, false)
                 console.log(addr);
-                db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${trans.from.toLowerCase()}','${addr}',${value},${trans.timeStamp},'${bridge_noton_name}','OUT','pending')`,(err,res)=>{if(err)return})
+                await db_connection.connection.execute(`insert into status_bridge (addr_from,addr_to,value,time,bridge_name,direction,status) values('${trans.from.toLowerCase()}','${addr}',${value},${trans.timeStamp},'${bridge_noton_name}','OUT','pending')`)
             
             }
         } catch (error) {

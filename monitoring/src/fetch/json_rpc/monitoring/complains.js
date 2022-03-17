@@ -1,13 +1,13 @@
 import {sendJRPC} from '../send_jrpc'
 import {emitter} from '../../../data/json_rpc_status'
-import db_connection from '../../../db/dbaccess/db_connection'
+import db_connection from '../../../db/dbaccess/async_connection'
 async function get_complaints_list() {
     let response = await sendJRPC('/','cl')
     if (response&&!response.data.error){
         let result = Object.values(response.data.result)
         if (result){
            
-            db_connection.connection.execute('truncate status_complains;')
+            await db_connection.connection.execute('truncate status_complains;');
             if (result.length>0){
                 let insert_str = ``
                 for (let complain of result) {
@@ -18,7 +18,7 @@ async function get_complaints_list() {
                     insert_str+=`,(${complain.electionId},${complain.suggestedFine},${complain.approvedPercent},${complain.isPassed},${complain.createdTime})`
                 }
                 if (insert_str.length>0){
-                    db_connection.connection.execute(`INSERT INTO status_complains (electionId,suggestedFine,approvedPercent,isPassed,createdTime) VALUES ${insert_str}`,(err,res)=>{if(err)console.log(err);})
+                    db_connection.connection.execute(`INSERT INTO status_complains (electionId,suggestedFine,approvedPercent,isPassed,createdTime) VALUES ${insert_str}`).catch(e=>{console.log(e);});
                 }
                 
             }
