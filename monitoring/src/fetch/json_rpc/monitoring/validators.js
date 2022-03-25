@@ -12,6 +12,7 @@ async function get_validators_list() {
         validators = result.data.result
         let insert_str=``
         let update_str=``
+        await db_connection.connection.execute('truncate status_validators;')
         for (let validator of validators) {
             if (validator.walletAddr){
                 if (insert_str==''){
