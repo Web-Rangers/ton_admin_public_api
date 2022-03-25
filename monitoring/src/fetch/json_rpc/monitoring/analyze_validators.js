@@ -1,5 +1,5 @@
 const axios = require('axios')
-const mysql  = require('mysql2')
+const mysql  = require('mysql2/promise')
 const dotenv = require('dotenv')
 dotenv.config();
 const db_connection = mysql.createPool({
@@ -40,7 +40,7 @@ const analyze_validator = async () => {
                             // console.log(tx.in_msg.value/(10**9), tx.utime);
                             if (last_action != 'IN'){
                                 last_action='IN'
-                                insert(in_,validator)
+                                await insert(in_,validator)
                                 in_.push({date:tx.utime,val:tx.in_msg.value/(10**9)})
                             }
                             else{
@@ -61,17 +61,17 @@ const analyze_validator = async () => {
                                         if((in_[0].val+elector_pre_stake[0]-tx.out_msgs[0].value/(10**9))>-1000){
                                             in_[0].val-= tx.out_msgs[0].value/(10**9)
                                             in_[0].val+=elector_pre_stake.pop()
-                                            insert(in_,validator)
+                                            await insert(in_,validator)
                                         }
                                         else{
                                             in_[1].val-= tx.out_msgs[0].value/(10**9)
                                             in_[1].val+=elector_pre_stake.pop()
-                                            insert(in_,validator) 
+                                            await insert(in_,validator) 
                                         } 
                                         continue
                                     }
                                     in_[1].val-= tx.out_msgs[0].value/(10**9)
-                                    insert(in_,validator)     
+                                    await insert(in_,validator)     
                                     continue
                                 }
                                 in_[0].val-= tx.out_msgs[0].value/(10**9)
@@ -96,13 +96,13 @@ const analyze_validator = async () => {
     })
 }
 
-function insert(in_,validator){
+async function insert(in_,validator){
     if ((in_.length>1)){
         let dv = in_.shift() 
         if (last_in&&(Math.abs(dv.val)/Math.abs(last_in_))>9)return
         if (!last_in){last_in=Math.abs(dv.val)}
         
-        db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
+        await db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
         
     }
 }
