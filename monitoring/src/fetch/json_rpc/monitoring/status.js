@@ -4,8 +4,7 @@ import {emitter} from '../../../data/json_rpc_status'
 const {execFile,exec } = require('child_process')
 
 async function get_status() {
-    let result = await sendJRPC('/','status') 
-    console.log(result.data);
+    let result = await sendJRPC('/','status');
     if (result&&!result.data.error){
         let res = result.data.result
         exec(`node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
