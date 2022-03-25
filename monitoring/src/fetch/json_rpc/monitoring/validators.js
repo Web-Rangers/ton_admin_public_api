@@ -8,12 +8,13 @@ let validators = []
 async function get_validators_list() {
     
     let result = await sendJRPC('/','vl') 
+    console.log(result);
     if (result&&!result.data.error){
         validators = result.data.result
         let insert_str=``
         let update_str=``
         await db_connection.connection.execute('truncate status_validators;')
-        console.log(validators);
+        
         for (let validator of validators) {
             if (validator.walletAddr){
                 if (insert_str==''){
