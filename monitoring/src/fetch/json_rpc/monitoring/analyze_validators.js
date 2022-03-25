@@ -19,7 +19,7 @@ const analyze_validator = async () => {
     // axios.default.defaults.headers['Accept-Encoding']='gzip, deflate, br'
     // axios.default.defaults.headers['Connection']='keep-alive'
     // axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 OPR/83.0.4254.70'
-    axios.default.defaults.headers['X-API-Key'] = 'd0996ed62fd36cfed14e2fb2341a39aa3e6b3f5a837e86c76b38e7401bd48385'
+    // axios.default.defaults.headers['X-API-Key'] = 'd0996ed62fd36cfed14e2fb2341a39aa3e6b3f5a837e86c76b38e7401bd48385'
     
     db_connection.execute('SELECT * FROM status_validators').then(async(res)=>{
         for (let validator of res[0]) {
@@ -55,7 +55,6 @@ const analyze_validator = async () => {
                         }
                         else if (tx.out_msgs&&tx.out_msgs[0]&&tx.out_msgs[0].destination == elector_contract){
                             last_action='OUT'
-                            console.log(tx.out_msgs[0].value/(10**9));
                             if (in_[1]) { 
                                 if (in_[0].val-tx.out_msgs[0].value/(10**9)<-1000){
                                     if(elector_pre_stake.length>0){
@@ -90,8 +89,7 @@ const analyze_validator = async () => {
                     }      
                 } 
             } catch (error) {
-                
-                continue
+                console.log(error);
             }
         }
     })
@@ -102,9 +100,11 @@ async function insert(in_,validator){
         let dv = in_.shift() 
         if (last_in&&(Math.abs(dv.val)/Math.abs(last_in))>9)return
         if (!last_in){last_in=Math.abs(dv.val)}
-        
-        await db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
-        
+        try {
+            await db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)
+        } catch (error) {
+            
+        }
     }
 }
 analyze_validator()
