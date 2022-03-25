@@ -25,7 +25,7 @@ const analyze_validator = async () => {
         for (let validator of res[0]) {
             await delay(100)
             try {
-                let transactions = await axios.get(`https://toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&to_lt=0&limit=400&archival=true`,{timeout: 3000})
+                let transactions = await axios.get(`https://toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&to_lt=0&limit=70&archival=true`,{timeout: 3000})
                 txs = transactions.data.result
                 txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == elector_contract && tx.out_msgs[0].value/10**9 > 1000) || (tx && tx.in_msg.source == elector_contract && tx.in_msg.value/10**9 > 1000))
                 let in_ = []
