@@ -26,7 +26,7 @@ async function main(){
         //        await block_monitor.start_fetching()  
         // } 
         await fetch()  
-    }, 60000);
+    }, 120000);
     setInterval(async()=>{
         await archive_server()
         await archive_service()
