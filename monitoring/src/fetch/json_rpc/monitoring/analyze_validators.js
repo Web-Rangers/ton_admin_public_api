@@ -19,11 +19,11 @@ const analyze_validator = async () => {
     // axios.default.defaults.headers['Accept-Encoding']='gzip, deflate, br'
     // axios.default.defaults.headers['Connection']='keep-alive'
     // axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 OPR/83.0.4254.70'
-    // axios.default.defaults.headers['X-API-Key'] = 'd0996ed62fd36cfed14e2fb2341a39aa3e6b3f5a837e86c76b38e7401bd48385'
+    axios.default.defaults.headers['X-API-Key'] = 'd0996ed62fd36cfed14e2fb2341a39aa3e6b3f5a837e86c76b38e7401bd48385'
     
     db_connection.execute('SELECT * FROM status_validators').then(async(res)=>{
         for (let validator of res[0]) {
-            await delay(1000)
+            await delay(100)
             try {
                 let transactions = await axios.get(`https://toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&to_lt=0&limit=400&archival=true`,{timeout: 3000})
                 txs = transactions.data.result
