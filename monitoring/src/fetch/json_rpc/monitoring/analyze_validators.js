@@ -101,7 +101,7 @@ const analyze_validator = async () => {
 async function insert(in_,validator){
     if ((in_.length>1)){
         let dv = in_.shift() 
-        if (last_in&&(Math.abs(dv.val)/Math.abs(last_in_))>9)return
+        if (last_in&&(Math.abs(dv.val)/Math.abs(last_in))>9)return
         if (!last_in){last_in=Math.abs(dv.val)}
         
         await db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
