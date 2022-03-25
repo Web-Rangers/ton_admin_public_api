@@ -15,17 +15,17 @@ const elector_contract = "Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF"
 let last_in = undefined
 const analyze_validator = async () => {
     let txs = [];
-    axios.default.defaults.headers['Accept']='*/*'
-    axios.default.defaults.headers['Accept-Encoding']='gzip, deflate, br'
-    axios.default.defaults.headers['Connection']='keep-alive'
-    axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+    // axios.default.defaults.headers['Accept']='application/json'
+    // axios.default.defaults.headers['Accept-Encoding']='gzip, deflate, br'
+    // axios.default.defaults.headers['Connection']='keep-alive'
+    // axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 OPR/83.0.4254.70'
     axios.default.defaults.headers['X-API-Key'] = 'd0996ed62fd36cfed14e2fb2341a39aa3e6b3f5a837e86c76b38e7401bd48385'
     
     db_connection.execute('SELECT * FROM status_validators').then(async(res)=>{
         for (let validator of res[0]) {
             await delay(1000)
             try {
-                let transactions = await axios.get(`https://toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&limit=400&archival=false`,{timeout: 3000})
+                let transactions = await axios.get(`https://toncenter.com/api/v2/getTransactions?address=${validator.walletAddr}&to_lt=0&limit=400&archival=true`,{timeout: 3000})
                 txs = transactions.data.result
                 console.log(transactions);
                 txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == elector_contract && tx.out_msgs[0].value/10**9 > 1000) || (tx && tx.in_msg.source == elector_contract && tx.in_msg.value/10**9 > 1000))
