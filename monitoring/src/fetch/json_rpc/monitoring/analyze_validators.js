@@ -2,7 +2,7 @@ const axios = require('axios')
 const mysql  = require('mysql2')
 const dotenv = require('dotenv')
 dotenv.config();
-const db_connection = mysql.createConnection({
+const db_connection = mysql.createPool({
     host : process.env.DB_HOST,
     user : process.env.DB_USER,
     port : process.env.DB_PORT,
@@ -20,11 +20,11 @@ const analyze_validator = async () => {
     axios.default.defaults.headers['Connection']='keep-alive'
     axios.default.defaults.headers['User-Agent']= 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
 
-    db_connection.execute('SELECT * FROM status_validators',async(err,res)=>{
+    db_connection.execute('SELECT * FROM status_validators').then(async(res)=>{
         for (let validator of res) {
             await delay(1000)
             try {
-                let transactions = await axios.get(`https://api.ton.cat/v2/explorer/getTransactions?address=${validator.walletAddr}&limit=200&archival=false`,{timeout: 3000})
+                let transactions = await axios.get(`https://api.ton.cat/v2/explorer/getTransactions?address=${validator.walletAddr}&limit=400&archival=false`,{timeout: 3000})
                 txs = transactions.data.result
                 txs = txs.filter(tx=>(tx.out_msgs && tx.out_msgs[0] && tx.out_msgs[0].destination == elector_contract && tx.out_msgs[0].value/10**9 > 1000) || (tx && tx.in_msg.source == elector_contract && tx.in_msg.value/10**9 > 1000))
                 let in_ = []
@@ -101,11 +101,9 @@ function insert(in_,validator){
         let dv = in_.shift() 
         if (last_in&&(Math.abs(dv.val)/Math.abs(last_in_))>9)return
         if (!last_in){last_in=Math.abs(dv.val)}
-        try {
-            db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val}) ON DUPLICATE KEY UPDATE increase=${dv.val}`)      
-        } catch (error) {
-            console.log('continueeeeeeeee');
-        }  
+        
+        db_connection.execute(`INSERT INTO validators_history (adnlAddr,walletAddr,date,increase) VALUES('${validator.adnlAddr}','${validator.walletAddr}',${dv.date},${dv.val})`)      
+        
     }
 }
 analyze_validator()

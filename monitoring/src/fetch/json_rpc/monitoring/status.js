@@ -5,13 +5,14 @@ const {execFile,exec } = require('child_process')
 
 async function get_status() {
     let result = await sendJRPC('/','status') 
+    console.log(result);
     if (result&&!result.data.error){
         let res = result.data.result
+        exec(`node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
+            console.log(err,s,se);
+        })
         db_connection.connection.execute('SELECT startValidation,endValidation from status').then(async(result)=>{
-            if (result&&result.length>0&&res.endValidation>result[0].endValidation){
-                exec(`node ${__dirname}/analyze_validators.js`,(err,s,se)=>{
-                    console.log(err,s,se);
-                })
+            if (result&&result.length>0&&res.endValidation>result[0].endValidation){ 
                 await db_connection.connection.execute(`INSERT IGNORE INTO validators_cycle_history (date_start,date_end) VALUES(${result[0].startValidation},${result[0].endValidation})`)
                 await db_connection.connection.execute(`DELETE FROM validators_cycle_history WHERE date_start>${result[0].startValidation} and (date_start-${result[0].startValidation})/(60*60)<15`)
             }
