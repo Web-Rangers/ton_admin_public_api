@@ -26,6 +26,9 @@ async function get_validators_list() {
         emitter.emit('data_change',{validators:result.data.result})
         return result.data.result
     }
+    else{
+        console.log(result.data.error);
+    }
     return undefined
 }
 export {get_validators_list}
