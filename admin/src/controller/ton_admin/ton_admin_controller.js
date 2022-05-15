@@ -18,7 +18,7 @@ const build_admin_controller = function() {
             .then((response) => response.json())
             .then((data)=> {
                 valid = (data.success && data.score && data.action && data.score >= threshold && data.action === expectedAction);
-            });
+            })
             .then((data)=> {
                 valid = (data.success && data.score && data.action && data.score >= threshold && data.action === expectedAction);
             });
